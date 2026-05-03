@@ -1,0 +1,2721 @@
+local str = [=[
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2025-09-28 08:22:42
+-- Luau version 6, Types version 3
+-- Time taken: 0.247088 seconds
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local CONSTANTS_upvr = require(ReplicatedStorage.Modules.CONSTANTS)
+local ItemLibrary_upvr = require(ReplicatedStorage.Modules.ItemLibrary)
+local Utility_upvr = require(ReplicatedStorage.Modules.Utility)
+local module_3_upvr = {
+	IGNORE_TRANSPARENCY_WHITELIST = {
+		["Riot Shield"] = true;
+	};
+	RENAMED_COSMETICS = {
+		Hexxed = "Vexed";
+		["Hexxed Flare Gun"] = "Vexed Flare Gun";
+		["Hexxed Candle"] = "Vexed Candle";
+		Rivals = "RIVALS";
+	};
+	Rarities = {};
+	Types = {};
+	Cosmetics = {};
+	CosmeticsAlphabetized = {};
+	CosmeticNameToLootbox = {};
+	Rewards = {};
+	LootboxOrder = {};
+	OwnsCosmeticForWeapon = function(arg1, arg2, arg3, arg4) -- Line 24, Named "OwnsCosmeticForWeapon"
+		local var9 = arg2
+		if var9 then
+			var9 = arg2[arg3]
+			if var9 then
+				var9 = arg2[arg3][arg4]
+			end
+		end
+		return var9
+	end;
+	OwnsCosmeticUniversally = function(arg1, arg2, arg3) -- Line 28, Named "OwnsCosmeticUniversally"
+		local var10 = arg2
+		if var10 then
+			var10 = arg2[arg3]
+			if var10 then
+				var10 = arg2[arg3].IsUniversal
+			end
+		end
+		return var10
+	end;
+	OwnsCosmeticNormally = function(arg1, arg2, arg3) -- Line 32, Named "OwnsCosmeticNormally"
+		local var11 = arg2
+		if var11 then
+			if arg2[arg3] ~= true then
+				var11 = false
+			else
+				var11 = true
+			end
+		end
+		return var11
+	end;
+	OwnsCosmetic = function(arg1, arg2, arg3, arg4) -- Line 36, Named "OwnsCosmetic"
+		local any_OwnsCosmeticNormally_result1 = arg1:OwnsCosmeticNormally(arg2, arg3)
+		if not any_OwnsCosmeticNormally_result1 then
+			any_OwnsCosmeticNormally_result1 = arg1:OwnsCosmeticUniversally(arg2, arg3)
+			if not any_OwnsCosmeticNormally_result1 then
+				any_OwnsCosmeticNormally_result1 = arg1:OwnsCosmeticForWeapon(arg2, arg3, arg4)
+			end
+		end
+		return any_OwnsCosmeticNormally_result1
+	end;
+	OwnsCosmeticForSomething = function(arg1, arg2, arg3) -- Line 42, Named "OwnsCosmeticForSomething"
+		local var18
+		if arg1:OwnsCosmeticNormally(arg2, arg3) then
+			return true
+		end
+		local function INLINED() -- Internal function, doesn't exist in bytecode
+			var18 = arg2[arg3]
+			return var18
+		end
+		if not arg2 or not INLINED() then
+			var18 = {}
+		end
+		for _, v in pairs(var18) do
+			if v then
+				return true
+			end
+		end
+	end;
+	HasNotification = function(arg1, arg2, arg3, arg4) -- Line 54, Named "HasNotification"
+		if not arg2 or not arg2[arg3] then
+			return false
+		end
+		local var22 = true
+		if arg2[arg3] ~= true then
+			var22 = arg2[arg3][arg4]
+		end
+		return var22
+	end;
+	CountNotificationsByWeapon = function(arg1, arg2, arg3) -- Line 62, Named "CountNotificationsByWeapon"
+		local var32
+		for _, v_2 in pairs(arg2) do
+			if typeof(v_2) == "table" then
+				for i_3 in pairs(v_2) do
+					if i_3 == arg3 then
+						var32 += 1
+					end
+				end
+			end
+		end
+		return var32
+	end;
+	CountNotificationsByCosmeticType = function(arg1, arg2, arg3, arg4, arg5) -- Line 82, Named "CountNotificationsByCosmeticType"
+		local var45
+		for i_4, v_3 in pairs(arg2) do
+			local var46 = arg1.Cosmetics[i_4]
+			if var46 and var46.Type == arg3 then
+				if typeof(v_3) == "table" then
+					for i_5 in pairs(v_3) do
+						if not arg5 or arg5[i_5] or i_5 == arg4 then
+							var45 += 1
+						end
+					end
+				elseif v_3 == true then
+					var45 += 1
+				end
+			end
+		end
+		return var45
+	end;
+	CountNotifications = function(arg1, arg2, arg3, arg4) -- Line 110, Named "CountNotifications"
+		if not arg3 then
+			for _ in pairs(arg2) do
+				local var57
+			end
+			return var57
+		end
+		if not arg2 or not arg2[arg3] then
+			return 0
+		end
+		if arg2[arg3] == true then
+			return 1
+		end
+		for i_7 in pairs(arg2[arg3]) do
+			if not arg4 or arg4[i_7] then
+			end
+		end
+		return 0 + 1
+	end;
+}
+function module_3_upvr.ExternallySetCosmeticDescription(arg1, arg2, arg3) -- Line 142
+	--[[ Upvalues[1]:
+		[1]: module_3_upvr (readonly)
+	]]
+	if 8 <= #arg2 and string.sub(arg2, 1, 8) == "MISSING_" then
+	else
+		local Description = module_3_upvr.Cosmetics[arg2].Description
+		local var62 = not Description
+		if not var62 then
+			if Description ~= arg3 then
+				var62 = false
+			else
+				var62 = true
+			end
+		end
+		assert(var62, arg2)
+		module_3_upvr.Cosmetics[arg2].Description = arg3
+	end
+end
+local function _(arg1, arg2, arg3) -- Line 154, Named "add_cosmetic_rarity"
+	--[[ Upvalues[1]:
+		[1]: module_3_upvr (readonly)
+	]]
+	local tbl_7 = {}
+	tbl_7.Value = arg2
+	tbl_7.Color = arg3
+	module_3_upvr.Rarities[arg1] = tbl_7
+end
+module_3_upvr.Rarities.None = {
+	Value = 0;
+	Color = Color3.fromRGB(255, 255, 255);
+}
+module_3_upvr.Rarities.Unique = {
+	Value = 1;
+	Color = Color3.fromRGB(255, 140, 0);
+}
+module_3_upvr.Rarities.Common = {
+	Value = 2;
+	Color = Color3.fromRGB(123, 255, 0);
+}
+module_3_upvr.Rarities.Rare = {
+	Value = 3;
+	Color = Color3.fromRGB(0, 221, 255);
+}
+module_3_upvr.Rarities.Legendary = {
+	Value = 4;
+	Color = Color3.fromRGB(255, 0, 0);
+}
+module_3_upvr.Rarities.Mythical = {
+	Value = 5;
+	Color = Color3.fromRGB(64, 68, 186);
+}
+module_3_upvr.Rarities.Unobtainable = {
+	Value = 6;
+	Color = Color3.fromRGB(0, 0, 0);
+}
+local function _(arg1, arg2, arg3, arg4) -- Line 171, Named "add_cosmetic_type"
+	--[[ Upvalues[1]:
+		[1]: module_3_upvr (readonly)
+	]]
+	local tbl = {}
+	tbl.Value = arg2
+	tbl.IsWeaponCosmetic = arg3
+	tbl.NotCosmetic = arg4
+	module_3_upvr.Types[arg1] = tbl
+end
+module_3_upvr.Types.Reward = {
+	Value = 0;
+	IsWeaponCosmetic = nil;
+	NotCosmetic = true;
+}
+module_3_upvr.Types.Charm = {
+	Value = 1;
+	IsWeaponCosmetic = true;
+	NotCosmetic = nil;
+}
+module_3_upvr.Types.Wrap = {
+	Value = 2;
+	IsWeaponCosmetic = true;
+	NotCosmetic = nil;
+}
+module_3_upvr.Types.Finisher = {
+	Value = 3;
+	IsWeaponCosmetic = true;
+	NotCosmetic = nil;
+}
+module_3_upvr.Types.Skin = {
+	Value = 4;
+	IsWeaponCosmetic = true;
+	NotCosmetic = nil;
+}
+module_3_upvr.Types.Emote = {
+	Value = 5;
+	IsWeaponCosmetic = nil;
+	NotCosmetic = nil;
+}
+local tbl_14_upvr = {}
+local function add_cosmetic_upvr(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) -- Line 188, Named "add_cosmetic"
+	--[[ Upvalues[3]:
+		[1]: module_3_upvr (readonly)
+		[2]: CONSTANTS_upvr (readonly)
+		[3]: tbl_14_upvr (readonly)
+	]]
+	local var85
+	if module_3_upvr.Rarities[arg2] == nil then
+		var85 = false
+	else
+		var85 = true
+	end
+	assert(var85)
+	local tbl_12_upvr = {}
+	tbl_12_upvr.Rarity = arg2
+	tbl_12_upvr.Type = arg1
+	var85 = arg4 or ""
+	tbl_12_upvr.Image = var85
+	var85 = arg5 or 1
+	tbl_12_upvr.ImageScale = var85
+	tbl_12_upvr.Hidden = arg6
+	tbl_12_upvr.Description = arg7
+	tbl_12_upvr.DescriptionSpecific = arg8
+	var85 = nil
+	tbl_12_upvr.GetDescription = var85
+	function var85(arg1_2) -- Line 202
+		--[[ Upvalues[1]:
+			[1]: tbl_12_upvr (readonly)
+		]]
+		if not arg1_2 or not tbl_12_upvr.DescriptionSpecific then
+			local Description_2 = tbl_12_upvr.Description
+		end
+		if not Description_2 then
+			return nil
+		end
+		return tostring(Description_2)
+	end
+	tbl_12_upvr.GetDescription = var85
+	var85 = pairs
+	local var87 = arg9
+	if not var87 then
+		var87 = {}
+	end
+	var85 = var85(var87)
+	local var85_result1, var85_result2, var85_result3 = var85(var87)
+	for i_8, v_4 in var85_result1, var85_result2, var85_result3 do
+		tbl_12_upvr[i_8] = v_4
+		local var91
+	end
+	var85_result1 = module_3_upvr.Cosmetics
+	var85_result1[arg3] = var91
+	var85_result1 = CONSTANTS_upvr.IS_SERVER
+	if var85_result1 then
+		var85_result1 = tbl_14_upvr[arg3]
+		if var85_result1 then
+			var85_result1 = error
+			i_8 = arg3
+			var85_result1("[ITEM] Duplicate item name: "..i_8)
+			return
+		end
+		var85_result1 = tbl_14_upvr
+		var85_result1[arg3] = true
+	end
+end
+local function _(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 219, Named "add_skin"
+	--[[ Upvalues[2]:
+		[1]: ItemLibrary_upvr (readonly)
+		[2]: add_cosmetic_upvr (readonly)
+	]]
+	local var92 = ItemLibrary_upvr.ViewModels[arg3]
+	local tbl_4 = {}
+	tbl_4.ItemName = arg2
+	tbl_4.ImageHighResolution = var92.ImageHighResolution
+	add_cosmetic_upvr("Skin", arg1, arg3, var92.Image, 3, arg4, arg5, arg6, tbl_4)
+end
+local _0B_Visits = ItemLibrary_upvr.ViewModels["10B Visits"]
+add_cosmetic_upvr("Skin", "Unique", "10B Visits", _0B_Visits.Image, 3, nil, "Earned by redeeming a code when the game (RIVALS) reaches 10,000,000,000 visits", nil, {
+	ItemName = "Assault Rifle";
+	ImageHighResolution = _0B_Visits.ImageHighResolution;
+})
+local Compound_Bow = ItemLibrary_upvr.ViewModels["Compound Bow"]
+add_cosmetic_upvr("Skin", "Common", "Compound Bow", Compound_Bow.Image, 3, nil, nil, nil, {
+	ItemName = "Bow";
+	ImageHighResolution = Compound_Bow.ImageHighResolution;
+})
+local Goalpost = ItemLibrary_upvr.ViewModels.Goalpost
+add_cosmetic_upvr("Skin", "Common", "Goalpost", Goalpost.Image, 3, nil, nil, nil, {
+	ItemName = "Slingshot";
+	ImageHighResolution = Goalpost.ImageHighResolution;
+})
+local Stick = ItemLibrary_upvr.ViewModels.Stick
+add_cosmetic_upvr("Skin", "Common", "Stick", Stick.Image, 3, nil, nil, nil, {
+	ItemName = "Slingshot";
+	ImageHighResolution = Stick.ImageHighResolution;
+})
+local Chancla = ItemLibrary_upvr.ViewModels.Chancla
+add_cosmetic_upvr("Skin", "Common", "Chancla", Chancla.Image, 3, nil, nil, nil, {
+	ItemName = "Knife";
+	ImageHighResolution = Chancla.ImageHighResolution;
+})
+local Coffee = ItemLibrary_upvr.ViewModels.Coffee
+add_cosmetic_upvr("Skin", "Common", "Coffee", Coffee.Image, 3, nil, nil, nil, {
+	ItemName = "Molotov";
+	ImageHighResolution = Coffee.ImageHighResolution;
+})
+local Too_Shorty = ItemLibrary_upvr.ViewModels["Too Shorty"]
+add_cosmetic_upvr("Skin", "Common", "Too Shorty", Too_Shorty.Image, 3, nil, "Included in the Starter Bundle", nil, {
+	ItemName = "Shorty";
+	ImageHighResolution = Too_Shorty.ImageHighResolution;
+})
+local Not_So_Shorty = ItemLibrary_upvr.ViewModels["Not So Shorty"]
+add_cosmetic_upvr("Skin", "Common", "Not So Shorty", Not_So_Shorty.Image, 3, nil, nil, nil, {
+	ItemName = "Shorty";
+	ImageHighResolution = Not_So_Shorty.ImageHighResolution;
+})
+local Lovely_Shorty = ItemLibrary_upvr.ViewModels["Lovely Shorty"]
+add_cosmetic_upvr("Skin", "Common", "Lovely Shorty", Lovely_Shorty.Image, 3, nil, nil, nil, {
+	ItemName = "Shorty";
+	ImageHighResolution = Lovely_Shorty.ImageHighResolution;
+})
+local Lamethrower = ItemLibrary_upvr.ViewModels.Lamethrower
+add_cosmetic_upvr("Skin", "Common", "Lamethrower", Lamethrower.Image, 3, nil, nil, nil, {
+	ItemName = "Flamethrower";
+	ImageHighResolution = Lamethrower.ImageHighResolution;
+})
+local Brass_Knuckles = ItemLibrary_upvr.ViewModels["Brass Knuckles"]
+add_cosmetic_upvr("Skin", "Common", "Brass Knuckles", Brass_Knuckles.Image, 3, nil, nil, nil, {
+	ItemName = "Fists";
+	ImageHighResolution = Brass_Knuckles.ImageHighResolution;
+})
+local Balance = ItemLibrary_upvr.ViewModels.Balance
+add_cosmetic_upvr("Skin", "Common", "Balance", Balance.Image, 3, nil, nil, nil, {
+	ItemName = "Smoke Grenade";
+	ImageHighResolution = Balance.ImageHighResolution;
+})
+local Torch = ItemLibrary_upvr.ViewModels.Torch
+add_cosmetic_upvr("Skin", "Common", "Torch", Torch.Image, 3, nil, nil, nil, {
+	ItemName = "Molotov";
+	ImageHighResolution = Torch.ImageHighResolution;
+})
+local Machete = ItemLibrary_upvr.ViewModels.Machete
+add_cosmetic_upvr("Skin", "Common", "Machete", Machete.Image, 3, nil, nil, nil, {
+	ItemName = "Knife";
+	ImageHighResolution = Machete.ImageHighResolution;
+})
+local Pumpkin_Claws = ItemLibrary_upvr.ViewModels["Pumpkin Claws"]
+add_cosmetic_upvr("Skin", "Common", "Pumpkin Claws", Pumpkin_Claws.Image, 3, nil, nil, nil, {
+	ItemName = "Fists";
+	ImageHighResolution = Pumpkin_Claws.ImageHighResolution;
+})
+local Eyething_Sniper = ItemLibrary_upvr.ViewModels["Eyething Sniper"]
+add_cosmetic_upvr("Skin", "Common", "Eyething Sniper", Eyething_Sniper.Image, 3, nil, nil, nil, {
+	ItemName = "Sniper";
+	ImageHighResolution = Eyething_Sniper.ImageHighResolution;
+})
+local Pumpkin_Handgun = ItemLibrary_upvr.ViewModels["Pumpkin Handgun"]
+add_cosmetic_upvr("Skin", "Common", "Pumpkin Handgun", Pumpkin_Handgun.Image, 3, nil, nil, nil, {
+	ItemName = "Handgun";
+	ImageHighResolution = Pumpkin_Handgun.ImageHighResolution;
+})
+local Spectral_Burst = ItemLibrary_upvr.ViewModels["Spectral Burst"]
+add_cosmetic_upvr("Skin", "Common", "Spectral Burst", Spectral_Burst.Image, 3, nil, nil, nil, {
+	ItemName = "Burst Rifle";
+	ImageHighResolution = Spectral_Burst.ImageHighResolution;
+})
+local Pumpkin_Minigun = ItemLibrary_upvr.ViewModels["Pumpkin Minigun"]
+add_cosmetic_upvr("Skin", "Common", "Pumpkin Minigun", Pumpkin_Minigun.Image, 3, nil, nil, nil, {
+	ItemName = "Minigun";
+	ImageHighResolution = Pumpkin_Minigun.ImageHighResolution;
+})
+local Skullbang = ItemLibrary_upvr.ViewModels.Skullbang
+add_cosmetic_upvr("Skin", "Common", "Skullbang", Skullbang.Image, 3, nil, nil, nil, {
+	ItemName = "Flashbang";
+	ImageHighResolution = Skullbang.ImageHighResolution;
+})
+local Trick_or_Treat = ItemLibrary_upvr.ViewModels["Trick or Treat"]
+add_cosmetic_upvr("Skin", "Common", "Trick or Treat", Trick_or_Treat.Image, 3, nil, nil, nil, {
+	ItemName = "Subspace Tripmine";
+	ImageHighResolution = Trick_or_Treat.ImageHighResolution;
+})
+local Door = ItemLibrary_upvr.ViewModels.Door
+add_cosmetic_upvr("Skin", "Common", "Door", Door.Image, 3, nil, nil, nil, {
+	ItemName = "Riot Shield";
+	ImageHighResolution = Door.ImageHighResolution;
+})
+local Lovely_Spray = ItemLibrary_upvr.ViewModels["Lovely Spray"]
+add_cosmetic_upvr("Skin", "Common", "Lovely Spray", Lovely_Spray.Image, 3, nil, nil, nil, {
+	ItemName = "Spray";
+	ImageHighResolution = Lovely_Spray.ImageHighResolution;
+})
+local Wrapped_Shotgun = ItemLibrary_upvr.ViewModels["Wrapped Shotgun"]
+add_cosmetic_upvr("Skin", "Common", "Wrapped Shotgun", Wrapped_Shotgun.Image, 3, nil, nil, nil, {
+	ItemName = "Shotgun";
+	ImageHighResolution = Wrapped_Shotgun.ImageHighResolution;
+})
+local Wrapped_Shorty = ItemLibrary_upvr.ViewModels["Wrapped Shorty"]
+add_cosmetic_upvr("Skin", "Common", "Wrapped Shorty", Wrapped_Shorty.Image, 3, nil, nil, nil, {
+	ItemName = "Shorty";
+	ImageHighResolution = Wrapped_Shorty.ImageHighResolution;
+})
+local Wrapped_Flare_Gun = ItemLibrary_upvr.ViewModels["Wrapped Flare Gun"]
+add_cosmetic_upvr("Skin", "Common", "Wrapped Flare Gun", Wrapped_Flare_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Flare Gun";
+	ImageHighResolution = Wrapped_Flare_Gun.ImageHighResolution;
+})
+local Wrapped_Minigun = ItemLibrary_upvr.ViewModels["Wrapped Minigun"]
+add_cosmetic_upvr("Skin", "Common", "Wrapped Minigun", Wrapped_Minigun.Image, 3, nil, nil, nil, {
+	ItemName = "Minigun";
+	ImageHighResolution = Wrapped_Minigun.ImageHighResolution;
+})
+local Wrapped_Freeze_Ray = ItemLibrary_upvr.ViewModels["Wrapped Freeze Ray"]
+add_cosmetic_upvr("Skin", "Common", "Wrapped Freeze Ray", Wrapped_Freeze_Ray.Image, 3, nil, nil, nil, {
+	ItemName = "Freeze Ray";
+	ImageHighResolution = Wrapped_Freeze_Ray.ImageHighResolution;
+})
+local Mammoth_Horn = ItemLibrary_upvr.ViewModels["Mammoth Horn"]
+add_cosmetic_upvr("Skin", "Common", "Mammoth Horn", Mammoth_Horn.Image, 3, nil, nil, nil, {
+	ItemName = "War Horn";
+	ImageHighResolution = Mammoth_Horn.ImageHighResolution;
+})
+local Festive_Fists = ItemLibrary_upvr.ViewModels["Festive Fists"]
+add_cosmetic_upvr("Skin", "Common", "Festive Fists", Festive_Fists.Image, 3, nil, nil, nil, {
+	ItemName = "Fists";
+	ImageHighResolution = Festive_Fists.ImageHighResolution;
+})
+local Midnight_Festive_Exogun = ItemLibrary_upvr.ViewModels["Midnight Festive Exogun"]
+add_cosmetic_upvr("Skin", "Common", "Midnight Festive Exogun", Midnight_Festive_Exogun.Image, 3, nil, nil, nil, {
+	ItemName = "Exogun";
+	ImageHighResolution = Midnight_Festive_Exogun.ImageHighResolution;
+})
+local Sled = ItemLibrary_upvr.ViewModels.Sled
+add_cosmetic_upvr("Skin", "Common", "Sled", Sled.Image, 3, nil, nil, nil, {
+	ItemName = "Riot Shield";
+	ImageHighResolution = Sled.ImageHighResolution;
+})
+local Nordic_Axe = ItemLibrary_upvr.ViewModels["Nordic Axe"]
+add_cosmetic_upvr("Skin", "Common", "Nordic Axe", Nordic_Axe.Image, 3, nil, nil, nil, {
+	ItemName = "Battle Axe";
+	ImageHighResolution = Nordic_Axe.ImageHighResolution;
+})
+local Suspicious_Gift = ItemLibrary_upvr.ViewModels["Suspicious Gift"]
+add_cosmetic_upvr("Skin", "Common", "Suspicious Gift", Suspicious_Gift.Image, 3, nil, nil, nil, {
+	ItemName = "Satchel";
+	ImageHighResolution = Suspicious_Gift.ImageHighResolution;
+})
+local Pine_Burst = ItemLibrary_upvr.ViewModels["Pine Burst"]
+add_cosmetic_upvr("Skin", "Common", "Pine Burst", Pine_Burst.Image, 3, nil, nil, nil, {
+	ItemName = "Burst Rifle";
+	ImageHighResolution = Pine_Burst.ImageHighResolution;
+})
+local Pine_Uzi = ItemLibrary_upvr.ViewModels["Pine Uzi"]
+add_cosmetic_upvr("Skin", "Common", "Pine Uzi", Pine_Uzi.Image, 3, nil, nil, nil, {
+	ItemName = "Uzi";
+	ImageHighResolution = Pine_Uzi.ImageHighResolution;
+})
+local Pine_Spray = ItemLibrary_upvr.ViewModels["Pine Spray"]
+add_cosmetic_upvr("Skin", "Common", "Pine Spray", Pine_Spray.Image, 3, nil, nil, nil, {
+	ItemName = "Spray";
+	ImageHighResolution = Pine_Spray.ImageHighResolution;
+})
+local Elf_s_Gunblade = ItemLibrary_upvr.ViewModels["Elf's Gunblade"]
+add_cosmetic_upvr("Skin", "Common", "Elf's Gunblade", Elf_s_Gunblade.Image, 3, nil, nil, nil, {
+	ItemName = "Gunblade";
+	ImageHighResolution = Elf_s_Gunblade.ImageHighResolution;
+})
+local Phoenix_Rifle = ItemLibrary_upvr.ViewModels["Phoenix Rifle"]
+add_cosmetic_upvr("Skin", "Common", "Phoenix Rifle", Phoenix_Rifle.Image, 3, nil, nil, nil, {
+	ItemName = "Assault Rifle";
+	ImageHighResolution = Phoenix_Rifle.ImageHighResolution;
+})
+local Trampoline = ItemLibrary_upvr.ViewModels.Trampoline
+add_cosmetic_upvr("Skin", "Common", "Trampoline", Trampoline.Image, 3, nil, nil, nil, {
+	ItemName = "Jump Pad";
+	ImageHighResolution = Trampoline.ImageHighResolution;
+})
+local Ban_Axe = ItemLibrary_upvr.ViewModels["Ban Axe"]
+add_cosmetic_upvr("Skin", "Common", "Ban Axe", Ban_Axe.Image, 3, nil, nil, nil, {
+	ItemName = "Battle Axe";
+	ImageHighResolution = Ban_Axe.ImageHighResolution;
+})
+local Cactus_Shotgun = ItemLibrary_upvr.ViewModels["Cactus Shotgun"]
+add_cosmetic_upvr("Skin", "Common", "Cactus Shotgun", Cactus_Shotgun.Image, 3, nil, nil, nil, {
+	ItemName = "Shotgun";
+	ImageHighResolution = Cactus_Shotgun.ImageHighResolution;
+})
+local Crude_Gunblade = ItemLibrary_upvr.ViewModels["Crude Gunblade"]
+add_cosmetic_upvr("Skin", "Common", "Crude Gunblade", Crude_Gunblade.Image, 3, nil, nil, nil, {
+	ItemName = "Gunblade";
+	ImageHighResolution = Crude_Gunblade.ImageHighResolution;
+})
+local DIY_Tripmine = ItemLibrary_upvr.ViewModels["DIY Tripmine"]
+add_cosmetic_upvr("Skin", "Common", "DIY Tripmine", DIY_Tripmine.Image, 3, nil, nil, nil, {
+	ItemName = "Subspace Tripmine";
+	ImageHighResolution = DIY_Tripmine.ImageHighResolution;
+})
+local Dynamite = ItemLibrary_upvr.ViewModels.Dynamite
+add_cosmetic_upvr("Skin", "Common", "Dynamite", Dynamite.Image, 3, nil, nil, nil, {
+	ItemName = "Grenade";
+	ImageHighResolution = Dynamite.ImageHighResolution;
+})
+local Gumball_Handgun = ItemLibrary_upvr.ViewModels["Gumball Handgun"]
+add_cosmetic_upvr("Skin", "Common", "Gumball Handgun", Gumball_Handgun.Image, 3, nil, nil, nil, {
+	ItemName = "Handgun";
+	ImageHighResolution = Gumball_Handgun.ImageHighResolution;
+})
+local Ketchup_Gun = ItemLibrary_upvr.ViewModels["Ketchup Gun"]
+add_cosmetic_upvr("Skin", "Common", "Ketchup Gun", Ketchup_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Paintball Gun";
+	ImageHighResolution = Ketchup_Gun.ImageHighResolution;
+})
+local Lightbulb = ItemLibrary_upvr.ViewModels.Lightbulb
+add_cosmetic_upvr("Skin", "Common", "Lightbulb", Lightbulb.Image, 3, nil, nil, nil, {
+	ItemName = "Flashbang";
+	ImageHighResolution = Lightbulb.ImageHighResolution;
+})
+local Megaphone = ItemLibrary_upvr.ViewModels.Megaphone
+add_cosmetic_upvr("Skin", "Common", "Megaphone", Megaphone.Image, 3, nil, nil, nil, {
+	ItemName = "War Horn";
+	ImageHighResolution = Megaphone.ImageHighResolution;
+})
+local Nail_Gun = ItemLibrary_upvr.ViewModels["Nail Gun"]
+add_cosmetic_upvr("Skin", "Common", "Nail Gun", Nail_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Spray";
+	ImageHighResolution = Nail_Gun.ImageHighResolution;
+})
+local Notebook_Satchel = ItemLibrary_upvr.ViewModels["Notebook Satchel"]
+add_cosmetic_upvr("Skin", "Common", "Notebook Satchel", Notebook_Satchel.Image, 3, nil, nil, nil, {
+	ItemName = "Satchel";
+	ImageHighResolution = Notebook_Satchel.ImageHighResolution;
+})
+local Paper_Planes = ItemLibrary_upvr.ViewModels["Paper Planes"]
+add_cosmetic_upvr("Skin", "Common", "Paper Planes", Paper_Planes.Image, 3, nil, nil, nil, {
+	ItemName = "Daggers";
+	ImageHighResolution = Paper_Planes.ImageHighResolution;
+})
+local Pencil_Launcher = ItemLibrary_upvr.ViewModels["Pencil Launcher"]
+add_cosmetic_upvr("Skin", "Common", "Pencil Launcher", Pencil_Launcher.Image, 3, nil, "Included in the RPG Bundle", nil, {
+	ItemName = "RPG";
+	ImageHighResolution = Pencil_Launcher.ImageHighResolution;
+})
+local Bag_o__Money = ItemLibrary_upvr.ViewModels["Bag o' Money"]
+add_cosmetic_upvr("Skin", "Common", "Bag o' Money", Bag_o__Money.Image, 3, nil, nil, nil, {
+	ItemName = "Satchel";
+	ImageHighResolution = Bag_o__Money.ImageHighResolution;
+})
+local Shurikens = ItemLibrary_upvr.ViewModels.Shurikens
+add_cosmetic_upvr("Skin", "Common", "Shurikens", Shurikens.Image, 3, nil, nil, nil, {
+	ItemName = "Daggers";
+	ImageHighResolution = Shurikens.ImageHighResolution;
+})
+local Glorious_Assault_Rifle = ItemLibrary_upvr.ViewModels["Glorious Assault Rifle"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Assault Rifle", Glorious_Assault_Rifle.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Assault Rifle";
+	ImageHighResolution = Glorious_Assault_Rifle.ImageHighResolution;
+})
+local Glorious_Battle_Axe = ItemLibrary_upvr.ViewModels["Glorious Battle Axe"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Battle Axe", Glorious_Battle_Axe.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Battle Axe";
+	ImageHighResolution = Glorious_Battle_Axe.ImageHighResolution;
+})
+local Glorious_Bow = ItemLibrary_upvr.ViewModels["Glorious Bow"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Bow", Glorious_Bow.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Bow";
+	ImageHighResolution = Glorious_Bow.ImageHighResolution;
+})
+local Glorious_Burst_Rifle = ItemLibrary_upvr.ViewModels["Glorious Burst Rifle"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Burst Rifle", Glorious_Burst_Rifle.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Burst Rifle";
+	ImageHighResolution = Glorious_Burst_Rifle.ImageHighResolution;
+})
+local Glorious_Chainsaw = ItemLibrary_upvr.ViewModels["Glorious Chainsaw"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Chainsaw", Glorious_Chainsaw.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Chainsaw";
+	ImageHighResolution = Glorious_Chainsaw.ImageHighResolution;
+})
+local Glorious_Crossbow = ItemLibrary_upvr.ViewModels["Glorious Crossbow"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Crossbow", Glorious_Crossbow.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Crossbow";
+	ImageHighResolution = Glorious_Crossbow.ImageHighResolution;
+})
+local Glorious_Daggers = ItemLibrary_upvr.ViewModels["Glorious Daggers"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Daggers", Glorious_Daggers.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Daggers";
+	ImageHighResolution = Glorious_Daggers.ImageHighResolution;
+})
+local Glorious_Energy_Pistols = ItemLibrary_upvr.ViewModels["Glorious Energy Pistols"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Energy Pistols", Glorious_Energy_Pistols.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Energy Pistols";
+	ImageHighResolution = Glorious_Energy_Pistols.ImageHighResolution;
+})
+local Glorious_Energy_Rifle = ItemLibrary_upvr.ViewModels["Glorious Energy Rifle"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Energy Rifle", Glorious_Energy_Rifle.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Energy Rifle";
+	ImageHighResolution = Glorious_Energy_Rifle.ImageHighResolution;
+})
+local Glorious_Exogun = ItemLibrary_upvr.ViewModels["Glorious Exogun"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Exogun", Glorious_Exogun.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Exogun";
+	ImageHighResolution = Glorious_Exogun.ImageHighResolution;
+})
+local Glorious_Fists = ItemLibrary_upvr.ViewModels["Glorious Fists"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Fists", Glorious_Fists.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Fists";
+	ImageHighResolution = Glorious_Fists.ImageHighResolution;
+})
+local Glorious_Flamethrower = ItemLibrary_upvr.ViewModels["Glorious Flamethrower"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Flamethrower", Glorious_Flamethrower.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Flamethrower";
+	ImageHighResolution = Glorious_Flamethrower.ImageHighResolution;
+})
+local Glorious_Flare_Gun = ItemLibrary_upvr.ViewModels["Glorious Flare Gun"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Flare Gun", Glorious_Flare_Gun.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Flare Gun";
+	ImageHighResolution = Glorious_Flare_Gun.ImageHighResolution;
+})
+local Glorious_Flashbang = ItemLibrary_upvr.ViewModels["Glorious Flashbang"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Flashbang", Glorious_Flashbang.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Flashbang";
+	ImageHighResolution = Glorious_Flashbang.ImageHighResolution;
+})
+local Glorious_Freeze_Ray = ItemLibrary_upvr.ViewModels["Glorious Freeze Ray"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Freeze Ray", Glorious_Freeze_Ray.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Freeze Ray";
+	ImageHighResolution = Glorious_Freeze_Ray.ImageHighResolution;
+})
+local Glorious_Grenade = ItemLibrary_upvr.ViewModels["Glorious Grenade"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Grenade", Glorious_Grenade.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Grenade";
+	ImageHighResolution = Glorious_Grenade.ImageHighResolution;
+})
+local Glorious_Grenade_Launcher = ItemLibrary_upvr.ViewModels["Glorious Grenade Launcher"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Grenade Launcher", Glorious_Grenade_Launcher.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Grenade Launcher";
+	ImageHighResolution = Glorious_Grenade_Launcher.ImageHighResolution;
+})
+local Glorious_Gunblade = ItemLibrary_upvr.ViewModels["Glorious Gunblade"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Gunblade", Glorious_Gunblade.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Gunblade";
+	ImageHighResolution = Glorious_Gunblade.ImageHighResolution;
+})
+local Glorious_Handgun = ItemLibrary_upvr.ViewModels["Glorious Handgun"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Handgun", Glorious_Handgun.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Handgun";
+	ImageHighResolution = Glorious_Handgun.ImageHighResolution;
+})
+local Glorious_Jump_Pad = ItemLibrary_upvr.ViewModels["Glorious Jump Pad"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Jump Pad", Glorious_Jump_Pad.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Jump Pad";
+	ImageHighResolution = Glorious_Jump_Pad.ImageHighResolution;
+})
+local Glorious_Katana = ItemLibrary_upvr.ViewModels["Glorious Katana"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Katana", Glorious_Katana.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Katana";
+	ImageHighResolution = Glorious_Katana.ImageHighResolution;
+})
+local Glorious_Knife = ItemLibrary_upvr.ViewModels["Glorious Knife"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Knife", Glorious_Knife.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Knife";
+	ImageHighResolution = Glorious_Knife.ImageHighResolution;
+})
+local Glorious_Medkit = ItemLibrary_upvr.ViewModels["Glorious Medkit"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Medkit", Glorious_Medkit.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Medkit";
+	ImageHighResolution = Glorious_Medkit.ImageHighResolution;
+})
+local Glorious_Minigun = ItemLibrary_upvr.ViewModels["Glorious Minigun"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Minigun", Glorious_Minigun.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Minigun";
+	ImageHighResolution = Glorious_Minigun.ImageHighResolution;
+})
+local Glorious_Molotov = ItemLibrary_upvr.ViewModels["Glorious Molotov"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Molotov", Glorious_Molotov.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Molotov";
+	ImageHighResolution = Glorious_Molotov.ImageHighResolution;
+})
+local Glorious_Paintball_Gun = ItemLibrary_upvr.ViewModels["Glorious Paintball Gun"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Paintball Gun", Glorious_Paintball_Gun.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Paintball Gun";
+	ImageHighResolution = Glorious_Paintball_Gun.ImageHighResolution;
+})
+local Glorious_RPG = ItemLibrary_upvr.ViewModels["Glorious RPG"]
+add_cosmetic_upvr("Skin", "Common", "Glorious RPG", Glorious_RPG.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "RPG";
+	ImageHighResolution = Glorious_RPG.ImageHighResolution;
+})
+local Glorious_Revolver = ItemLibrary_upvr.ViewModels["Glorious Revolver"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Revolver", Glorious_Revolver.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Revolver";
+	ImageHighResolution = Glorious_Revolver.ImageHighResolution;
+})
+local Glorious_Riot_Shield = ItemLibrary_upvr.ViewModels["Glorious Riot Shield"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Riot Shield", Glorious_Riot_Shield.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Riot Shield";
+	ImageHighResolution = Glorious_Riot_Shield.ImageHighResolution;
+})
+local Glorious_Satchel = ItemLibrary_upvr.ViewModels["Glorious Satchel"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Satchel", Glorious_Satchel.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Satchel";
+	ImageHighResolution = Glorious_Satchel.ImageHighResolution;
+})
+local Glorious_Scythe = ItemLibrary_upvr.ViewModels["Glorious Scythe"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Scythe", Glorious_Scythe.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Scythe";
+	ImageHighResolution = Glorious_Scythe.ImageHighResolution;
+})
+local Glorious_Shorty = ItemLibrary_upvr.ViewModels["Glorious Shorty"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Shorty", Glorious_Shorty.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Shorty";
+	ImageHighResolution = Glorious_Shorty.ImageHighResolution;
+})
+local Glorious_Shotgun = ItemLibrary_upvr.ViewModels["Glorious Shotgun"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Shotgun", Glorious_Shotgun.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Shotgun";
+	ImageHighResolution = Glorious_Shotgun.ImageHighResolution;
+})
+local Glorious_Slingshot = ItemLibrary_upvr.ViewModels["Glorious Slingshot"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Slingshot", Glorious_Slingshot.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Slingshot";
+	ImageHighResolution = Glorious_Slingshot.ImageHighResolution;
+})
+local Glorious_Smoke_Grenade = ItemLibrary_upvr.ViewModels["Glorious Smoke Grenade"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Smoke Grenade", Glorious_Smoke_Grenade.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Smoke Grenade";
+	ImageHighResolution = Glorious_Smoke_Grenade.ImageHighResolution;
+})
+local Glorious_Sniper = ItemLibrary_upvr.ViewModels["Glorious Sniper"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Sniper", Glorious_Sniper.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Sniper";
+	ImageHighResolution = Glorious_Sniper.ImageHighResolution;
+})
+local Glorious_Spray = ItemLibrary_upvr.ViewModels["Glorious Spray"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Spray", Glorious_Spray.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Spray";
+	ImageHighResolution = Glorious_Spray.ImageHighResolution;
+})
+local Glorious_Subspace_Tripmine = ItemLibrary_upvr.ViewModels["Glorious Subspace Tripmine"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Subspace Tripmine", Glorious_Subspace_Tripmine.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Subspace Tripmine";
+	ImageHighResolution = Glorious_Subspace_Tripmine.ImageHighResolution;
+})
+local Glorious_Trowel = ItemLibrary_upvr.ViewModels["Glorious Trowel"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Trowel", Glorious_Trowel.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Trowel";
+	ImageHighResolution = Glorious_Trowel.ImageHighResolution;
+})
+local Glorious_Uzi = ItemLibrary_upvr.ViewModels["Glorious Uzi"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Uzi", Glorious_Uzi.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Uzi";
+	ImageHighResolution = Glorious_Uzi.ImageHighResolution;
+})
+local Glorious_War_Horn = ItemLibrary_upvr.ViewModels["Glorious War Horn"]
+add_cosmetic_upvr("Skin", "Common", "Glorious War Horn", Glorious_War_Horn.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "War Horn";
+	ImageHighResolution = Glorious_War_Horn.ImageHighResolution;
+})
+local Glorious_Distortion = ItemLibrary_upvr.ViewModels["Glorious Distortion"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Distortion", Glorious_Distortion.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Distortion";
+	ImageHighResolution = Glorious_Distortion.ImageHighResolution;
+})
+local Glorious_Warper = ItemLibrary_upvr.ViewModels["Glorious Warper"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Warper", Glorious_Warper.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Warper";
+	ImageHighResolution = Glorious_Warper.ImageHighResolution;
+})
+local Glorious_Warpstone = ItemLibrary_upvr.ViewModels["Glorious Warpstone"]
+add_cosmetic_upvr("Skin", "Common", "Glorious Warpstone", Glorious_Warpstone.Image, 3, nil, "Purchased from the Ranked Shop", nil, {
+	ItemName = "Warpstone";
+	ImageHighResolution = Glorious_Warpstone.ImageHighResolution;
+})
+local Warp_Handgun = ItemLibrary_upvr.ViewModels["Warp Handgun"]
+add_cosmetic_upvr("Skin", "Common", "Warp Handgun", Warp_Handgun.Image, 3, nil, nil, nil, {
+	ItemName = "Handgun";
+	ImageHighResolution = Warp_Handgun.ImageHighResolution;
+})
+local Slime_Gun = ItemLibrary_upvr.ViewModels["Slime Gun"]
+add_cosmetic_upvr("Skin", "Rare", "Slime Gun", Slime_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Paintball Gun";
+	ImageHighResolution = Slime_Gun.ImageHighResolution;
+})
+local Blobsaw = ItemLibrary_upvr.ViewModels.Blobsaw
+add_cosmetic_upvr("Skin", "Rare", "Blobsaw", Blobsaw.Image, 3, nil, nil, nil, {
+	ItemName = "Chainsaw";
+	ImageHighResolution = Blobsaw.ImageHighResolution;
+})
+local Plastic_Shovel = ItemLibrary_upvr.ViewModels["Plastic Shovel"]
+add_cosmetic_upvr("Skin", "Rare", "Plastic Shovel", Plastic_Shovel.Image, 3, nil, nil, nil, {
+	ItemName = "Trowel";
+	ImageHighResolution = Plastic_Shovel.ImageHighResolution;
+})
+local Wondergun = ItemLibrary_upvr.ViewModels.Wondergun
+add_cosmetic_upvr("Skin", "Rare", "Wondergun", Wondergun.Image, 3, nil, "Included in the Exogun Bundle", nil, {
+	ItemName = "Exogun";
+	ImageHighResolution = Wondergun.ImageHighResolution;
+})
+local Boxing_Gloves = ItemLibrary_upvr.ViewModels["Boxing Gloves"]
+add_cosmetic_upvr("Skin", "Rare", "Boxing Gloves", Boxing_Gloves.Image, 3, nil, nil, nil, {
+	ItemName = "Fists";
+	ImageHighResolution = Boxing_Gloves.ImageHighResolution;
+})
+local AK_47 = ItemLibrary_upvr.ViewModels["AK-47"]
+add_cosmetic_upvr("Skin", "Rare", "AK-47", AK_47.Image, 3, nil, nil, nil, {
+	ItemName = "Assault Rifle";
+	ImageHighResolution = AK_47.ImageHighResolution;
+})
+local Briefcase = ItemLibrary_upvr.ViewModels.Briefcase
+add_cosmetic_upvr("Skin", "Rare", "Briefcase", Briefcase.Image, 3, nil, "Included in the Medkit Bundle", nil, {
+	ItemName = "Medkit";
+	ImageHighResolution = Briefcase.ImageHighResolution;
+})
+local Scythe_of_Death = ItemLibrary_upvr.ViewModels["Scythe of Death"]
+add_cosmetic_upvr("Skin", "Rare", "Scythe of Death", Scythe_of_Death.Image, 3, nil, nil, nil, {
+	ItemName = "Scythe";
+	ImageHighResolution = Scythe_of_Death.ImageHighResolution;
+})
+local Blaster = ItemLibrary_upvr.ViewModels.Blaster
+add_cosmetic_upvr("Skin", "Rare", "Blaster", Blaster.Image, 3, nil, nil, nil, {
+	ItemName = "Handgun";
+	ImageHighResolution = Blaster.ImageHighResolution;
+})
+local Water_Uzi = ItemLibrary_upvr.ViewModels["Water Uzi"]
+add_cosmetic_upvr("Skin", "Rare", "Water Uzi", Water_Uzi.Image, 3, nil, nil, nil, {
+	ItemName = "Uzi";
+	ImageHighResolution = Water_Uzi.ImageHighResolution;
+})
+local Desert_Eagle = ItemLibrary_upvr.ViewModels["Desert Eagle"]
+add_cosmetic_upvr("Skin", "Rare", "Desert Eagle", Desert_Eagle.Image, 3, nil, nil, nil, {
+	ItemName = "Revolver";
+	ImageHighResolution = Desert_Eagle.ImageHighResolution;
+})
+local Dynamite_Gun = ItemLibrary_upvr.ViewModels["Dynamite Gun"]
+add_cosmetic_upvr("Skin", "Rare", "Dynamite Gun", Dynamite_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Flare Gun";
+	ImageHighResolution = Dynamite_Gun.ImageHighResolution;
+})
+local Raven_Bow = ItemLibrary_upvr.ViewModels["Raven Bow"]
+add_cosmetic_upvr("Skin", "Rare", "Raven Bow", Raven_Bow.Image, 3, nil, nil, nil, {
+	ItemName = "Bow";
+	ImageHighResolution = Raven_Bow.ImageHighResolution;
+})
+local Anchor = ItemLibrary_upvr.ViewModels.Anchor
+add_cosmetic_upvr("Skin", "Rare", "Anchor", Anchor.Image, 3, nil, nil, nil, {
+	ItemName = "Scythe";
+	ImageHighResolution = Anchor.ImageHighResolution;
+})
+local Water_Balloon = ItemLibrary_upvr.ViewModels["Water Balloon"]
+add_cosmetic_upvr("Skin", "Rare", "Water Balloon", Water_Balloon.Image, 3, nil, nil, nil, {
+	ItemName = "Grenade";
+	ImageHighResolution = Water_Balloon.ImageHighResolution;
+})
+local Garden_Shovel = ItemLibrary_upvr.ViewModels["Garden Shovel"]
+add_cosmetic_upvr("Skin", "Rare", "Garden Shovel", Garden_Shovel.Image, 3, nil, nil, nil, {
+	ItemName = "Trowel";
+	ImageHighResolution = Garden_Shovel.ImageHighResolution;
+})
+local Uranium_Launcher = ItemLibrary_upvr.ViewModels["Uranium Launcher"]
+add_cosmetic_upvr("Skin", "Rare", "Uranium Launcher", Uranium_Launcher.Image, 3, nil, nil, nil, {
+	ItemName = "Grenade Launcher";
+	ImageHighResolution = Uranium_Launcher.ImageHighResolution;
+})
+local Ray_Gun = ItemLibrary_upvr.ViewModels["Ray Gun"]
+add_cosmetic_upvr("Skin", "Rare", "Ray Gun", Ray_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Exogun";
+	ImageHighResolution = Ray_Gun.ImageHighResolution;
+})
+local Spring = ItemLibrary_upvr.ViewModels.Spring
+add_cosmetic_upvr("Skin", "Rare", "Spring", Spring.Image, 3, nil, nil, nil, {
+	ItemName = "Subspace Tripmine";
+	ImageHighResolution = Spring.ImageHighResolution;
+})
+local Bubble_Ray = ItemLibrary_upvr.ViewModels["Bubble Ray"]
+add_cosmetic_upvr("Skin", "Rare", "Bubble Ray", Bubble_Ray.Image, 3, nil, nil, nil, {
+	ItemName = "Freeze Ray";
+	ImageHighResolution = Bubble_Ray.ImageHighResolution;
+})
+local Aqua_Burst = ItemLibrary_upvr.ViewModels["Aqua Burst"]
+add_cosmetic_upvr("Skin", "Rare", "Aqua Burst", Aqua_Burst.Image, 3, nil, nil, nil, {
+	ItemName = "Burst Rifle";
+	ImageHighResolution = Aqua_Burst.ImageHighResolution;
+})
+local Lightning_Bolt = ItemLibrary_upvr.ViewModels["Lightning Bolt"]
+add_cosmetic_upvr("Skin", "Rare", "Lightning Bolt", Lightning_Bolt.Image, 3, nil, nil, nil, {
+	ItemName = "Katana";
+	ImageHighResolution = Lightning_Bolt.ImageHighResolution;
+})
+local Bat_Scythe = ItemLibrary_upvr.ViewModels["Bat Scythe"]
+add_cosmetic_upvr("Skin", "Rare", "Bat Scythe", Bat_Scythe.Image, 3, nil, nil, nil, {
+	ItemName = "Scythe";
+	ImageHighResolution = Bat_Scythe.ImageHighResolution;
+})
+local Bat_Bow = ItemLibrary_upvr.ViewModels["Bat Bow"]
+add_cosmetic_upvr("Skin", "Rare", "Bat Bow", Bat_Bow.Image, 3, nil, nil, nil, {
+	ItemName = "Bow";
+	ImageHighResolution = Bat_Bow.ImageHighResolution;
+})
+local Devil_s_Trident = ItemLibrary_upvr.ViewModels["Devil's Trident"]
+add_cosmetic_upvr("Skin", "Rare", "Devil's Trident", Devil_s_Trident.Image, 3, nil, nil, nil, {
+	ItemName = "Katana";
+	ImageHighResolution = Devil_s_Trident.ImageHighResolution;
+})
+local Boneshot = ItemLibrary_upvr.ViewModels.Boneshot
+add_cosmetic_upvr("Skin", "Rare", "Boneshot", Boneshot.Image, 3, nil, nil, nil, {
+	ItemName = "Slingshot";
+	ImageHighResolution = Boneshot.ImageHighResolution;
+})
+local Exogourd = ItemLibrary_upvr.ViewModels.Exogourd
+add_cosmetic_upvr("Skin", "Rare", "Exogourd", Exogourd.Image, 3, nil, nil, nil, {
+	ItemName = "Exogun";
+	ImageHighResolution = Exogourd.ImageHighResolution;
+})
+local Pumpkin_Carver = ItemLibrary_upvr.ViewModels["Pumpkin Carver"]
+add_cosmetic_upvr("Skin", "Rare", "Pumpkin Carver", Pumpkin_Carver.Image, 3, nil, nil, nil, {
+	ItemName = "Trowel";
+	ImageHighResolution = Pumpkin_Carver.ImageHighResolution;
+})
+local Demon_Shorty = ItemLibrary_upvr.ViewModels["Demon Shorty"]
+add_cosmetic_upvr("Skin", "Rare", "Demon Shorty", Demon_Shorty.Image, 3, nil, nil, nil, {
+	ItemName = "Shorty";
+	ImageHighResolution = Demon_Shorty.ImageHighResolution;
+})
+local Broomstick = ItemLibrary_upvr.ViewModels.Broomstick
+add_cosmetic_upvr("Skin", "Rare", "Broomstick", Broomstick.Image, 3, nil, nil, nil, {
+	ItemName = "Shotgun";
+	ImageHighResolution = Broomstick.ImageHighResolution;
+})
+local Demon_Uzi = ItemLibrary_upvr.ViewModels["Demon Uzi"]
+add_cosmetic_upvr("Skin", "Rare", "Demon Uzi", Demon_Uzi.Image, 3, nil, nil, nil, {
+	ItemName = "Uzi";
+	ImageHighResolution = Demon_Uzi.ImageHighResolution;
+})
+local Brain_Gun = ItemLibrary_upvr.ViewModels["Brain Gun"]
+add_cosmetic_upvr("Skin", "Rare", "Brain Gun", Brain_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Paintball Gun";
+	ImageHighResolution = Brain_Gun.ImageHighResolution;
+})
+local Jack_O_Thrower = ItemLibrary_upvr.ViewModels["Jack O'Thrower"]
+add_cosmetic_upvr("Skin", "Rare", "Jack O'Thrower", Jack_O_Thrower.Image, 3, nil, nil, nil, {
+	ItemName = "Flamethrower";
+	ImageHighResolution = Jack_O_Thrower.ImageHighResolution;
+})
+local Boneclaw_Revolver = ItemLibrary_upvr.ViewModels["Boneclaw Revolver"]
+add_cosmetic_upvr("Skin", "Rare", "Boneclaw Revolver", Boneclaw_Revolver.Image, 3, nil, nil, nil, {
+	ItemName = "Revolver";
+	ImageHighResolution = Boneclaw_Revolver.ImageHighResolution;
+})
+local Boneclaw_Rifle = ItemLibrary_upvr.ViewModels["Boneclaw Rifle"]
+add_cosmetic_upvr("Skin", "Rare", "Boneclaw Rifle", Boneclaw_Rifle.Image, 3, nil, nil, nil, {
+	ItemName = "Assault Rifle";
+	ImageHighResolution = Boneclaw_Rifle.ImageHighResolution;
+})
+local Hacker_Rifle = ItemLibrary_upvr.ViewModels["Hacker Rifle"]
+add_cosmetic_upvr("Skin", "Rare", "Hacker Rifle", Hacker_Rifle.Image, 3, nil, nil, nil, {
+	ItemName = "Energy Rifle";
+	ImageHighResolution = Hacker_Rifle.ImageHighResolution;
+})
+local Hacker_Pistols = ItemLibrary_upvr.ViewModels["Hacker Pistols"]
+add_cosmetic_upvr("Skin", "Rare", "Hacker Pistols", Hacker_Pistols.Image, 3, nil, nil, nil, {
+	ItemName = "Energy Pistols";
+	ImageHighResolution = Hacker_Pistols.ImageHighResolution;
+})
+local Trumpet = ItemLibrary_upvr.ViewModels.Trumpet
+add_cosmetic_upvr("Skin", "Rare", "Trumpet", Trumpet.Image, 3, nil, nil, nil, {
+	ItemName = "War Horn";
+	ImageHighResolution = Trumpet.ImageHighResolution;
+})
+local Advanced_Satchel = ItemLibrary_upvr.ViewModels["Advanced Satchel"]
+add_cosmetic_upvr("Skin", "Rare", "Advanced Satchel", Advanced_Satchel.Image, 3, nil, nil, nil, {
+	ItemName = "Satchel";
+	ImageHighResolution = Advanced_Satchel.ImageHighResolution;
+})
+local Aces = ItemLibrary_upvr.ViewModels.Aces
+add_cosmetic_upvr("Skin", "Rare", "Aces", Aces.Image, 3, nil, nil, nil, {
+	ItemName = "Daggers";
+	ImageHighResolution = Aces.ImageHighResolution;
+})
+local Apex_Pistols = ItemLibrary_upvr.ViewModels["Apex Pistols"]
+add_cosmetic_upvr("Skin", "Rare", "Apex Pistols", Apex_Pistols.Image, 3, nil, "Included in the Energy Bundle", nil, {
+	ItemName = "Energy Pistols";
+	ImageHighResolution = Apex_Pistols.ImageHighResolution;
+})
+local Apex_Rifle = ItemLibrary_upvr.ViewModels["Apex Rifle"]
+add_cosmetic_upvr("Skin", "Rare", "Apex Rifle", Apex_Rifle.Image, 3, nil, "Included in the Energy Bundle", nil, {
+	ItemName = "Energy Rifle";
+	ImageHighResolution = Apex_Rifle.ImageHighResolution;
+})
+local Gingerbread_Handgun = ItemLibrary_upvr.ViewModels["Gingerbread Handgun"]
+add_cosmetic_upvr("Skin", "Rare", "Gingerbread Handgun", Gingerbread_Handgun.Image, 3, nil, nil, nil, {
+	ItemName = "Handgun";
+	ImageHighResolution = Gingerbread_Handgun.ImageHighResolution;
+})
+local Gingerbread_Sniper = ItemLibrary_upvr.ViewModels["Gingerbread Sniper"]
+add_cosmetic_upvr("Skin", "Rare", "Gingerbread Sniper", Gingerbread_Sniper.Image, 3, nil, nil, nil, {
+	ItemName = "Sniper";
+	ImageHighResolution = Gingerbread_Sniper.ImageHighResolution;
+})
+local Shining_Star = ItemLibrary_upvr.ViewModels["Shining Star"]
+add_cosmetic_upvr("Skin", "Rare", "Shining Star", Shining_Star.Image, 3, nil, nil, nil, {
+	ItemName = "Flashbang";
+	ImageHighResolution = Shining_Star.ImageHighResolution;
+})
+local Snowglobe = ItemLibrary_upvr.ViewModels.Snowglobe
+add_cosmetic_upvr("Skin", "Rare", "Snowglobe", Snowglobe.Image, 3, nil, nil, nil, {
+	ItemName = "Smoke Grenade";
+	ImageHighResolution = Snowglobe.ImageHighResolution;
+})
+local Jingle_Grenade = ItemLibrary_upvr.ViewModels["Jingle Grenade"]
+add_cosmetic_upvr("Skin", "Rare", "Jingle Grenade", Jingle_Grenade.Image, 3, nil, nil, nil, {
+	ItemName = "Grenade";
+	ImageHighResolution = Jingle_Grenade.ImageHighResolution;
+})
+local Reindeer_Slingshot = ItemLibrary_upvr.ViewModels["Reindeer Slingshot"]
+add_cosmetic_upvr("Skin", "Rare", "Reindeer Slingshot", Reindeer_Slingshot.Image, 3, nil, nil, nil, {
+	ItemName = "Slingshot";
+	ImageHighResolution = Reindeer_Slingshot.ImageHighResolution;
+})
+local Snow_Shovel = ItemLibrary_upvr.ViewModels["Snow Shovel"]
+add_cosmetic_upvr("Skin", "Rare", "Snow Shovel", Snow_Shovel.Image, 3, nil, nil, nil, {
+	ItemName = "Trowel";
+	ImageHighResolution = Snow_Shovel.ImageHighResolution;
+})
+local Snowball_Gun = ItemLibrary_upvr.ViewModels["Snowball Gun"]
+add_cosmetic_upvr("Skin", "Rare", "Snowball Gun", Snowball_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Paintball Gun";
+	ImageHighResolution = Snowball_Gun.ImageHighResolution;
+})
+local Cookies = ItemLibrary_upvr.ViewModels.Cookies
+add_cosmetic_upvr("Skin", "Rare", "Cookies", Cookies.Image, 3, nil, nil, nil, {
+	ItemName = "Daggers";
+	ImageHighResolution = Cookies.ImageHighResolution;
+})
+local Frostbite_Bow = ItemLibrary_upvr.ViewModels["Frostbite Bow"]
+add_cosmetic_upvr("Skin", "Rare", "Frostbite Bow", Frostbite_Bow.Image, 3, nil, nil, nil, {
+	ItemName = "Bow";
+	ImageHighResolution = Frostbite_Bow.ImageHighResolution;
+})
+local Frostbite_Crossbow = ItemLibrary_upvr.ViewModels["Frostbite Crossbow"]
+add_cosmetic_upvr("Skin", "Rare", "Frostbite Crossbow", Frostbite_Crossbow.Image, 3, nil, nil, nil, {
+	ItemName = "Crossbow";
+	ImageHighResolution = Frostbite_Crossbow.ImageHighResolution;
+})
+local _025_Energy_Pistols = ItemLibrary_upvr.ViewModels["2025 Energy Pistols"]
+add_cosmetic_upvr("Skin", "Rare", "2025 Energy Pistols", _025_Energy_Pistols.Image, 3, nil, nil, nil, {
+	ItemName = "Energy Pistols";
+	ImageHighResolution = _025_Energy_Pistols.ImageHighResolution;
+})
+local _025_Energy_Rifle = ItemLibrary_upvr.ViewModels["2025 Energy Rifle"]
+add_cosmetic_upvr("Skin", "Rare", "2025 Energy Rifle", _025_Energy_Rifle.Image, 3, nil, nil, nil, {
+	ItemName = "Energy Rifle";
+	ImageHighResolution = _025_Energy_Rifle.ImageHighResolution;
+})
+local _025_Katana = ItemLibrary_upvr.ViewModels["2025 Katana"]
+add_cosmetic_upvr("Skin", "Rare", "2025 Katana", _025_Katana.Image, 3, nil, nil, nil, {
+	ItemName = "Katana";
+	ImageHighResolution = _025_Katana.ImageHighResolution;
+})
+local Snowblower = ItemLibrary_upvr.ViewModels.Snowblower
+add_cosmetic_upvr("Skin", "Rare", "Snowblower", Snowblower.Image, 3, nil, nil, nil, {
+	ItemName = "Flamethrower";
+	ImageHighResolution = Snowblower.ImageHighResolution;
+})
+local Cryo_Scythe = ItemLibrary_upvr.ViewModels["Cryo Scythe"]
+add_cosmetic_upvr("Skin", "Rare", "Cryo Scythe", Cryo_Scythe.Image, 3, nil, nil, nil, {
+	ItemName = "Scythe";
+	ImageHighResolution = Cryo_Scythe.ImageHighResolution;
+})
+local Snowball_Launcher = ItemLibrary_upvr.ViewModels["Snowball Launcher"]
+add_cosmetic_upvr("Skin", "Rare", "Snowball Launcher", Snowball_Launcher.Image, 3, nil, nil, nil, {
+	ItemName = "Grenade Launcher";
+	ImageHighResolution = Snowball_Launcher.ImageHighResolution;
+})
+local Bounce_House = ItemLibrary_upvr.ViewModels["Bounce House"]
+add_cosmetic_upvr("Skin", "Rare", "Bounce House", Bounce_House.Image, 3, nil, nil, nil, {
+	ItemName = "Jump Pad";
+	ImageHighResolution = Bounce_House.ImageHighResolution;
+})
+local Dream_Bow = ItemLibrary_upvr.ViewModels["Dream Bow"]
+add_cosmetic_upvr("Skin", "Rare", "Dream Bow", Dream_Bow.Image, 3, nil, nil, nil, {
+	ItemName = "Bow";
+	ImageHighResolution = Dream_Bow.ImageHighResolution;
+})
+local Energy_Shield = ItemLibrary_upvr.ViewModels["Energy Shield"]
+add_cosmetic_upvr("Skin", "Rare", "Energy Shield", Energy_Shield.Image, 3, nil, nil, nil, {
+	ItemName = "Riot Shield";
+	ImageHighResolution = Energy_Shield.ImageHighResolution;
+})
+local Fists_of_Hurt = ItemLibrary_upvr.ViewModels["Fists of Hurt"]
+add_cosmetic_upvr("Skin", "Rare", "Fists of Hurt", Fists_of_Hurt.Image, 3, nil, nil, nil, {
+	ItemName = "Fists";
+	ImageHighResolution = Fists_of_Hurt.ImageHighResolution;
+})
+local Gearnade_Launcher = ItemLibrary_upvr.ViewModels["Gearnade Launcher"]
+add_cosmetic_upvr("Skin", "Rare", "Gearnade Launcher", Gearnade_Launcher.Image, 3, nil, nil, nil, {
+	ItemName = "Grenade Launcher";
+	ImageHighResolution = Gearnade_Launcher.ImageHighResolution;
+})
+local Glitterthrower = ItemLibrary_upvr.ViewModels.Glitterthrower
+add_cosmetic_upvr("Skin", "Rare", "Glitterthrower", Glitterthrower.Image, 3, nil, nil, nil, {
+	ItemName = "Flamethrower";
+	ImageHighResolution = Glitterthrower.ImageHighResolution;
+})
+local Gum_Ray = ItemLibrary_upvr.ViewModels["Gum Ray"]
+add_cosmetic_upvr("Skin", "Rare", "Gum Ray", Gum_Ray.Image, 3, nil, nil, nil, {
+	ItemName = "Freeze Ray";
+	ImageHighResolution = Gum_Ray.ImageHighResolution;
+})
+local Harpoon_Crossbow = ItemLibrary_upvr.ViewModels["Harpoon Crossbow"]
+add_cosmetic_upvr("Skin", "Rare", "Harpoon Crossbow", Harpoon_Crossbow.Image, 3, nil, nil, nil, {
+	ItemName = "Crossbow";
+	ImageHighResolution = Harpoon_Crossbow.ImageHighResolution;
+})
+local Hourglass = ItemLibrary_upvr.ViewModels.Hourglass
+add_cosmetic_upvr("Skin", "Rare", "Hourglass", Hourglass.Image, 3, nil, nil, nil, {
+	ItemName = "Smoke Grenade";
+	ImageHighResolution = Hourglass.ImageHighResolution;
+})
+local Hydro_Rifle = ItemLibrary_upvr.ViewModels["Hydro Rifle"]
+add_cosmetic_upvr("Skin", "Rare", "Hydro Rifle", Hydro_Rifle.Image, 3, nil, nil, nil, {
+	ItemName = "Energy Rifle";
+	ImageHighResolution = Hydro_Rifle.ImageHighResolution;
+})
+local Lava_Lamp = ItemLibrary_upvr.ViewModels["Lava Lamp"]
+add_cosmetic_upvr("Skin", "Rare", "Lava Lamp", Lava_Lamp.Image, 3, nil, nil, nil, {
+	ItemName = "Molotov";
+	ImageHighResolution = Lava_Lamp.ImageHighResolution;
+})
+local Paintbrush = ItemLibrary_upvr.ViewModels.Paintbrush
+add_cosmetic_upvr("Skin", "Rare", "Paintbrush", Paintbrush.Image, 3, nil, nil, nil, {
+	ItemName = "Trowel";
+	ImageHighResolution = Paintbrush.ImageHighResolution;
+})
+local Sakura_Scythe = ItemLibrary_upvr.ViewModels["Sakura Scythe"]
+add_cosmetic_upvr("Skin", "Rare", "Sakura Scythe", Sakura_Scythe.Image, 3, nil, nil, nil, {
+	ItemName = "Scythe";
+	ImageHighResolution = Sakura_Scythe.ImageHighResolution;
+})
+local Squid_Launcher = ItemLibrary_upvr.ViewModels["Squid Launcher"]
+add_cosmetic_upvr("Skin", "Rare", "Squid Launcher", Squid_Launcher.Image, 3, nil, nil, nil, {
+	ItemName = "RPG";
+	ImageHighResolution = Squid_Launcher.ImageHighResolution;
+})
+local Stellar_Katana = ItemLibrary_upvr.ViewModels["Stellar Katana"]
+add_cosmetic_upvr("Skin", "Rare", "Stellar Katana", Stellar_Katana.Image, 3, nil, nil, nil, {
+	ItemName = "Katana";
+	ImageHighResolution = Stellar_Katana.ImageHighResolution;
+})
+local Air_Horn = ItemLibrary_upvr.ViewModels["Air Horn"]
+add_cosmetic_upvr("Skin", "Rare", "Air Horn", Air_Horn.Image, 3, nil, nil, nil, {
+	ItemName = "War Horn";
+	ImageHighResolution = Air_Horn.ImageHighResolution;
+})
+local Masterpiece = ItemLibrary_upvr.ViewModels.Masterpiece
+add_cosmetic_upvr("Skin", "Rare", "Masterpiece", Masterpiece.Image, 3, nil, nil, nil, {
+	ItemName = "Riot Shield";
+	ImageHighResolution = Masterpiece.ImageHighResolution;
+})
+local Cerulean_Axe = ItemLibrary_upvr.ViewModels["Cerulean Axe"]
+add_cosmetic_upvr("Skin", "Rare", "Cerulean Axe", Cerulean_Axe.Image, 3, nil, nil, nil, {
+	ItemName = "Battle Axe";
+	ImageHighResolution = Cerulean_Axe.ImageHighResolution;
+})
+local Hydro_Pistols = ItemLibrary_upvr.ViewModels["Hydro Pistols"]
+add_cosmetic_upvr("Skin", "Rare", "Hydro Pistols", Hydro_Pistols.Image, 3, nil, nil, nil, {
+	ItemName = "Energy Pistols";
+	ImageHighResolution = Hydro_Pistols.ImageHighResolution;
+})
+local Shady_Chicken_Sandwich = ItemLibrary_upvr.ViewModels["Shady Chicken Sandwich"]
+add_cosmetic_upvr("Skin", "Rare", "Shady Chicken Sandwich", Shady_Chicken_Sandwich.Image, 3, nil, nil, nil, {
+	ItemName = "Jump Pad";
+	ImageHighResolution = Shady_Chicken_Sandwich.ImageHighResolution;
+})
+local Violin_Crossbow = ItemLibrary_upvr.ViewModels["Violin Crossbow"]
+add_cosmetic_upvr("Skin", "Rare", "Violin Crossbow", Violin_Crossbow.Image, 3, nil, nil, nil, {
+	ItemName = "Crossbow";
+	ImageHighResolution = Violin_Crossbow.ImageHighResolution;
+})
+local Electropunk_Distortion = ItemLibrary_upvr.ViewModels["Electropunk Distortion"]
+add_cosmetic_upvr("Skin", "Rare", "Electropunk Distortion", Electropunk_Distortion.Image, 3, nil, "Earned from the Season Pass during Season 1", nil, {
+	ItemName = "Distortion";
+	ImageHighResolution = Electropunk_Distortion.ImageHighResolution;
+})
+local Electropunk_Warper = ItemLibrary_upvr.ViewModels["Electropunk Warper"]
+add_cosmetic_upvr("Skin", "Rare", "Electropunk Warper", Electropunk_Warper.Image, 3, nil, "Earned from the Season Pass during Season 1", nil, {
+	ItemName = "Warper";
+	ImageHighResolution = Electropunk_Warper.ImageHighResolution;
+})
+local Unstable_Warpstone = ItemLibrary_upvr.ViewModels["Unstable Warpstone"]
+add_cosmetic_upvr("Skin", "Rare", "Unstable Warpstone", Unstable_Warpstone.Image, 3, nil, "Earned from the Season Pass during Season 1", nil, {
+	ItemName = "Warpstone";
+	ImageHighResolution = Unstable_Warpstone.ImageHighResolution;
+})
+local Saber = ItemLibrary_upvr.ViewModels.Saber
+add_cosmetic_upvr("Skin", "Legendary", "Saber", Saber.Image, 3, nil, nil, nil, {
+	ItemName = "Katana";
+	ImageHighResolution = Saber.ImageHighResolution;
+})
+local Nuke_Launcher = ItemLibrary_upvr.ViewModels["Nuke Launcher"]
+add_cosmetic_upvr("Skin", "Legendary", "Nuke Launcher", Nuke_Launcher.Image, 3, nil, nil, nil, {
+	ItemName = "RPG";
+	ImageHighResolution = Nuke_Launcher.ImageHighResolution;
+})
+local Whoopee_Cushion = ItemLibrary_upvr.ViewModels["Whoopee Cushion"]
+add_cosmetic_upvr("Skin", "Legendary", "Whoopee Cushion", Whoopee_Cushion.Image, 3, nil, nil, nil, {
+	ItemName = "Grenade";
+	ImageHighResolution = Whoopee_Cushion.ImageHighResolution;
+})
+local Disco_Ball = ItemLibrary_upvr.ViewModels["Disco Ball"]
+add_cosmetic_upvr("Skin", "Legendary", "Disco Ball", Disco_Ball.Image, 3, nil, nil, nil, {
+	ItemName = "Flashbang";
+	ImageHighResolution = Disco_Ball.ImageHighResolution;
+})
+local Singularity = ItemLibrary_upvr.ViewModels.Singularity
+add_cosmetic_upvr("Skin", "Legendary", "Singularity", Singularity.Image, 3, nil, nil, nil, {
+	ItemName = "Exogun";
+	ImageHighResolution = Singularity.ImageHighResolution;
+})
+local Pixel_Sniper = ItemLibrary_upvr.ViewModels["Pixel Sniper"]
+add_cosmetic_upvr("Skin", "Legendary", "Pixel Sniper", Pixel_Sniper.Image, 3, nil, nil, nil, {
+	ItemName = "Sniper";
+	ImageHighResolution = Pixel_Sniper.ImageHighResolution;
+})
+local Don_t_Press = ItemLibrary_upvr.ViewModels["Don't Press"]
+add_cosmetic_upvr("Skin", "Legendary", "Don't Press", Don_t_Press.Image, 3, nil, nil, nil, {
+	ItemName = "Subspace Tripmine";
+	ImageHighResolution = Don_t_Press.ImageHighResolution;
+})
+local Lasergun_3000 = ItemLibrary_upvr.ViewModels["Lasergun 3000"]
+add_cosmetic_upvr("Skin", "Legendary", "Lasergun 3000", Lasergun_3000.Image, 3, nil, nil, nil, {
+	ItemName = "Minigun";
+	ImageHighResolution = Lasergun_3000.ImageHighResolution;
+})
+local Firework_Gun = ItemLibrary_upvr.ViewModels["Firework Gun"]
+add_cosmetic_upvr("Skin", "Legendary", "Firework Gun", Firework_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Flare Gun";
+	ImageHighResolution = Firework_Gun.ImageHighResolution;
+})
+local Pixel_Flamethrower = ItemLibrary_upvr.ViewModels["Pixel Flamethrower"]
+add_cosmetic_upvr("Skin", "Legendary", "Pixel Flamethrower", Pixel_Flamethrower.Image, 3, nil, nil, nil, {
+	ItemName = "Flamethrower";
+	ImageHighResolution = Pixel_Flamethrower.ImageHighResolution;
+})
+local Swashbuckler = ItemLibrary_upvr.ViewModels.Swashbuckler
+add_cosmetic_upvr("Skin", "Legendary", "Swashbuckler", Swashbuckler.Image, 3, nil, nil, nil, {
+	ItemName = "Grenade Launcher";
+	ImageHighResolution = Swashbuckler.ImageHighResolution;
+})
+local Electro_Rifle = ItemLibrary_upvr.ViewModels["Electro Rifle"]
+add_cosmetic_upvr("Skin", "Legendary", "Electro Rifle", Electro_Rifle.Image, 3, nil, nil, nil, {
+	ItemName = "Burst Rifle";
+	ImageHighResolution = Electro_Rifle.ImageHighResolution;
+})
+local Balloon_Shotgun = ItemLibrary_upvr.ViewModels["Balloon Shotgun"]
+add_cosmetic_upvr("Skin", "Legendary", "Balloon Shotgun", Balloon_Shotgun.Image, 3, nil, nil, nil, {
+	ItemName = "Shotgun";
+	ImageHighResolution = Balloon_Shotgun.ImageHighResolution;
+})
+local Emoji_Cloud = ItemLibrary_upvr.ViewModels["Emoji Cloud"]
+add_cosmetic_upvr("Skin", "Legendary", "Emoji Cloud", Emoji_Cloud.Image, 3, nil, nil, nil, {
+	ItemName = "Smoke Grenade";
+	ImageHighResolution = Emoji_Cloud.ImageHighResolution;
+})
+local Sandwich = ItemLibrary_upvr.ViewModels.Sandwich
+add_cosmetic_upvr("Skin", "Legendary", "Sandwich", Sandwich.Image, 3, nil, nil, nil, {
+	ItemName = "Medkit";
+	ImageHighResolution = Sandwich.ImageHighResolution;
+})
+local Temporal_Ray = ItemLibrary_upvr.ViewModels["Temporal Ray"]
+add_cosmetic_upvr("Skin", "Legendary", "Temporal Ray", Temporal_Ray.Image, 3, nil, nil, nil, {
+	ItemName = "Freeze Ray";
+	ImageHighResolution = Temporal_Ray.ImageHighResolution;
+})
+local Electro_Uzi = ItemLibrary_upvr.ViewModels["Electro Uzi"]
+add_cosmetic_upvr("Skin", "Legendary", "Electro Uzi", Electro_Uzi.Image, 3, nil, nil, nil, {
+	ItemName = "Uzi";
+	ImageHighResolution = Electro_Uzi.ImageHighResolution;
+})
+local Hand_Gun = ItemLibrary_upvr.ViewModels["Hand Gun"]
+add_cosmetic_upvr("Skin", "Legendary", "Hand Gun", Hand_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Handgun";
+	ImageHighResolution = Hand_Gun.ImageHighResolution;
+})
+local Sheriff = ItemLibrary_upvr.ViewModels.Sheriff
+add_cosmetic_upvr("Skin", "Legendary", "Sheriff", Sheriff.Image, 3, nil, nil, nil, {
+	ItemName = "Revolver";
+	ImageHighResolution = Sheriff.ImageHighResolution;
+})
+local Karambit = ItemLibrary_upvr.ViewModels.Karambit
+add_cosmetic_upvr("Skin", "Legendary", "Karambit", Karambit.Image, 3, nil, nil, nil, {
+	ItemName = "Knife";
+	ImageHighResolution = Karambit.ImageHighResolution;
+})
+local Spaceship_Launcher = ItemLibrary_upvr.ViewModels["Spaceship Launcher"]
+add_cosmetic_upvr("Skin", "Legendary", "Spaceship Launcher", Spaceship_Launcher.Image, 3, nil, nil, nil, {
+	ItemName = "RPG";
+	ImageHighResolution = Spaceship_Launcher.ImageHighResolution;
+})
+local Handsaws = ItemLibrary_upvr.ViewModels.Handsaws
+add_cosmetic_upvr("Skin", "Legendary", "Handsaws", Handsaws.Image, 3, nil, nil, nil, {
+	ItemName = "Chainsaw";
+	ImageHighResolution = Handsaws.ImageHighResolution;
+})
+local Camera = ItemLibrary_upvr.ViewModels.Camera
+add_cosmetic_upvr("Skin", "Legendary", "Camera", Camera.Image, 3, nil, nil, nil, {
+	ItemName = "Flashbang";
+	ImageHighResolution = Camera.ImageHighResolution;
+})
+local Boba_Gun = ItemLibrary_upvr.ViewModels["Boba Gun"]
+add_cosmetic_upvr("Skin", "Legendary", "Boba Gun", Boba_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Paintball Gun";
+	ImageHighResolution = Boba_Gun.ImageHighResolution;
+})
+local Hyper_Sniper = ItemLibrary_upvr.ViewModels["Hyper Sniper"]
+add_cosmetic_upvr("Skin", "Legendary", "Hyper Sniper", Hyper_Sniper.Image, 3, nil, nil, nil, {
+	ItemName = "Sniper";
+	ImageHighResolution = Hyper_Sniper.ImageHighResolution;
+})
+local Hyper_Shotgun = ItemLibrary_upvr.ViewModels["Hyper Shotgun"]
+add_cosmetic_upvr("Skin", "Legendary", "Hyper Shotgun", Hyper_Shotgun.Image, 3, nil, nil, nil, {
+	ItemName = "Shotgun";
+	ImageHighResolution = Hyper_Shotgun.ImageHighResolution;
+})
+local Laptop = ItemLibrary_upvr.ViewModels.Laptop
+add_cosmetic_upvr("Skin", "Legendary", "Laptop", Laptop.Image, 3, nil, nil, nil, {
+	ItemName = "Medkit";
+	ImageHighResolution = Laptop.ImageHighResolution;
+})
+local Pixel_Minigun = ItemLibrary_upvr.ViewModels["Pixel Minigun"]
+add_cosmetic_upvr("Skin", "Legendary", "Pixel Minigun", Pixel_Minigun.Image, 3, nil, nil, nil, {
+	ItemName = "Minigun";
+	ImageHighResolution = Pixel_Minigun.ImageHighResolution;
+})
+local AUG = ItemLibrary_upvr.ViewModels.AUG
+add_cosmetic_upvr("Skin", "Legendary", "AUG", AUG.Image, 3, nil, nil, nil, {
+	ItemName = "Assault Rifle";
+	ImageHighResolution = AUG.ImageHighResolution;
+})
+local Pixel_Burst = ItemLibrary_upvr.ViewModels["Pixel Burst"]
+add_cosmetic_upvr("Skin", "Legendary", "Pixel Burst", Pixel_Burst.Image, 3, nil, "Included in the Pixel Bundle", nil, {
+	ItemName = "Burst Rifle";
+	ImageHighResolution = Pixel_Burst.ImageHighResolution;
+})
+local Pixel_Handgun = ItemLibrary_upvr.ViewModels["Pixel Handgun"]
+add_cosmetic_upvr("Skin", "Legendary", "Pixel Handgun", Pixel_Handgun.Image, 3, nil, "Included in the Pixel Bundle", nil, {
+	ItemName = "Handgun";
+	ImageHighResolution = Pixel_Handgun.ImageHighResolution;
+})
+local Pixel_Katana = ItemLibrary_upvr.ViewModels["Pixel Katana"]
+add_cosmetic_upvr("Skin", "Legendary", "Pixel Katana", Pixel_Katana.Image, 3, nil, "Included in the Pixel Bundle", nil, {
+	ItemName = "Katana";
+	ImageHighResolution = Pixel_Katana.ImageHighResolution;
+})
+local Pixel_Flashbang = ItemLibrary_upvr.ViewModels["Pixel Flashbang"]
+add_cosmetic_upvr("Skin", "Legendary", "Pixel Flashbang", Pixel_Flashbang.Image, 3, nil, "Included in the Pixel Bundle", nil, {
+	ItemName = "Flashbang";
+	ImageHighResolution = Pixel_Flashbang.ImageHighResolution;
+})
+local Eyeball = ItemLibrary_upvr.ViewModels.Eyeball
+add_cosmetic_upvr("Skin", "Legendary", "Eyeball", Eyeball.Image, 3, nil, nil, nil, {
+	ItemName = "Smoke Grenade";
+	ImageHighResolution = Eyeball.ImageHighResolution;
+})
+local Spider_Ray = ItemLibrary_upvr.ViewModels["Spider Ray"]
+add_cosmetic_upvr("Skin", "Legendary", "Spider Ray", Spider_Ray.Image, 3, nil, nil, nil, {
+	ItemName = "Freeze Ray";
+	ImageHighResolution = Spider_Ray.ImageHighResolution;
+})
+local Bucket_of_Candy = ItemLibrary_upvr.ViewModels["Bucket of Candy"]
+add_cosmetic_upvr("Skin", "Legendary", "Bucket of Candy", Bucket_of_Candy.Image, 3, nil, nil, nil, {
+	ItemName = "Medkit";
+	ImageHighResolution = Bucket_of_Candy.ImageHighResolution;
+})
+local Pumpkin_Launcher = ItemLibrary_upvr.ViewModels["Pumpkin Launcher"]
+add_cosmetic_upvr("Skin", "Legendary", "Pumpkin Launcher", Pumpkin_Launcher.Image, 3, nil, nil, nil, {
+	ItemName = "RPG";
+	ImageHighResolution = Pumpkin_Launcher.ImageHighResolution;
+})
+local Vexed_Flare_Gun = ItemLibrary_upvr.ViewModels["Vexed Flare Gun"]
+add_cosmetic_upvr("Skin", "Legendary", "Vexed Flare Gun", Vexed_Flare_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Flare Gun";
+	ImageHighResolution = Vexed_Flare_Gun.ImageHighResolution;
+})
+local Vexed_Candle = ItemLibrary_upvr.ViewModels["Vexed Candle"]
+add_cosmetic_upvr("Skin", "Legendary", "Vexed Candle", Vexed_Candle.Image, 3, nil, nil, nil, {
+	ItemName = "Molotov";
+	ImageHighResolution = Vexed_Candle.ImageHighResolution;
+})
+local Soul_Grenade = ItemLibrary_upvr.ViewModels["Soul Grenade"]
+add_cosmetic_upvr("Skin", "Legendary", "Soul Grenade", Soul_Grenade.Image, 3, nil, nil, nil, {
+	ItemName = "Grenade";
+	ImageHighResolution = Soul_Grenade.ImageHighResolution;
+})
+local Skull_Launcher = ItemLibrary_upvr.ViewModels["Skull Launcher"]
+add_cosmetic_upvr("Skin", "Legendary", "Skull Launcher", Skull_Launcher.Image, 3, nil, nil, nil, {
+	ItemName = "Grenade Launcher";
+	ImageHighResolution = Skull_Launcher.ImageHighResolution;
+})
+local Buzzsaw = ItemLibrary_upvr.ViewModels.Buzzsaw
+add_cosmetic_upvr("Skin", "Legendary", "Buzzsaw", Buzzsaw.Image, 3, nil, nil, nil, {
+	ItemName = "Chainsaw";
+	ImageHighResolution = Buzzsaw.ImageHighResolution;
+})
+local Pixel_Crossbow = ItemLibrary_upvr.ViewModels["Pixel Crossbow"]
+add_cosmetic_upvr("Skin", "Legendary", "Pixel Crossbow", Pixel_Crossbow.Image, 3, nil, nil, nil, {
+	ItemName = "Crossbow";
+	ImageHighResolution = Pixel_Crossbow.ImageHighResolution;
+})
+local Hyper_Gunblade = ItemLibrary_upvr.ViewModels["Hyper Gunblade"]
+add_cosmetic_upvr("Skin", "Legendary", "Hyper Gunblade", Hyper_Gunblade.Image, 3, nil, nil, nil, {
+	ItemName = "Gunblade";
+	ImageHighResolution = Hyper_Gunblade.ImageHighResolution;
+})
+local The_Shred = ItemLibrary_upvr.ViewModels["The Shred"]
+add_cosmetic_upvr("Skin", "Legendary", "The Shred", The_Shred.Image, 3, nil, nil, nil, {
+	ItemName = "Battle Axe";
+	ImageHighResolution = The_Shred.ImageHighResolution;
+})
+local Gingerbread_AUG = ItemLibrary_upvr.ViewModels["Gingerbread AUG"]
+add_cosmetic_upvr("Skin", "Legendary", "Gingerbread AUG", Gingerbread_AUG.Image, 3, nil, nil, nil, {
+	ItemName = "Assault Rifle";
+	ImageHighResolution = Gingerbread_AUG.ImageHighResolution;
+})
+local Peppermint_Sheriff = ItemLibrary_upvr.ViewModels["Peppermint Sheriff"]
+add_cosmetic_upvr("Skin", "Legendary", "Peppermint Sheriff", Peppermint_Sheriff.Image, 3, nil, nil, nil, {
+	ItemName = "Revolver";
+	ImageHighResolution = Peppermint_Sheriff.ImageHighResolution;
+})
+local Firework_Launcher = ItemLibrary_upvr.ViewModels["Firework Launcher"]
+add_cosmetic_upvr("Skin", "Legendary", "Firework Launcher", Firework_Launcher.Image, 3, nil, nil, nil, {
+	ItemName = "RPG";
+	ImageHighResolution = Firework_Launcher.ImageHighResolution;
+})
+local Festive_Buzzsaw = ItemLibrary_upvr.ViewModels["Festive Buzzsaw"]
+add_cosmetic_upvr("Skin", "Legendary", "Festive Buzzsaw", Festive_Buzzsaw.Image, 3, nil, nil, nil, {
+	ItemName = "Chainsaw";
+	ImageHighResolution = Festive_Buzzsaw.ImageHighResolution;
+})
+local Milk___Cookies = ItemLibrary_upvr.ViewModels["Milk & Cookies"]
+add_cosmetic_upvr("Skin", "Legendary", "Milk & Cookies", Milk___Cookies.Image, 3, nil, nil, nil, {
+	ItemName = "Medkit";
+	ImageHighResolution = Milk___Cookies.ImageHighResolution;
+})
+local Hot_Coals = ItemLibrary_upvr.ViewModels["Hot Coals"]
+add_cosmetic_upvr("Skin", "Legendary", "Hot Coals", Hot_Coals.Image, 3, nil, nil, nil, {
+	ItemName = "Molotov";
+	ImageHighResolution = Hot_Coals.ImageHighResolution;
+})
+local Dev_in_the_Box = ItemLibrary_upvr.ViewModels["Dev-in-the-Box"]
+add_cosmetic_upvr("Skin", "Legendary", "Dev-in-the-Box", Dev_in_the_Box.Image, 3, nil, nil, nil, {
+	ItemName = "Subspace Tripmine";
+	ImageHighResolution = Dev_in_the_Box.ImageHighResolution;
+})
+local Candy_Cane = ItemLibrary_upvr.ViewModels["Candy Cane"]
+add_cosmetic_upvr("Skin", "Legendary", "Candy Cane", Candy_Cane.Image, 3, nil, nil, nil, {
+	ItemName = "Knife";
+	ImageHighResolution = Candy_Cane.ImageHighResolution;
+})
+local Balloon_Shorty = ItemLibrary_upvr.ViewModels["Balloon Shorty"]
+add_cosmetic_upvr("Skin", "Legendary", "Balloon Shorty", Balloon_Shorty.Image, 3, nil, nil, nil, {
+	ItemName = "Shorty";
+	ImageHighResolution = Balloon_Shorty.ImageHighResolution;
+})
+local Void_Pistols = ItemLibrary_upvr.ViewModels["Void Pistols"]
+add_cosmetic_upvr("Skin", "Legendary", "Void Pistols", Void_Pistols.Image, 3, nil, nil, nil, {
+	ItemName = "Energy Pistols";
+	ImageHighResolution = Void_Pistols.ImageHighResolution;
+})
+local Money_Gun = ItemLibrary_upvr.ViewModels["Money Gun"]
+add_cosmetic_upvr("Skin", "Legendary", "Money Gun", Money_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Uzi";
+	ImageHighResolution = Money_Gun.ImageHighResolution;
+})
+local Medkitty = ItemLibrary_upvr.ViewModels.Medkitty
+add_cosmetic_upvr("Skin", "Legendary", "Medkitty", Medkitty.Image, 3, nil, nil, nil, {
+	ItemName = "Medkit";
+	ImageHighResolution = Medkitty.ImageHighResolution;
+})
+local Balisong = ItemLibrary_upvr.ViewModels.Balisong
+add_cosmetic_upvr("Skin", "Legendary", "Balisong", Balisong.Image, 3, nil, nil, nil, {
+	ItemName = "Knife";
+	ImageHighResolution = Balisong.ImageHighResolution;
+})
+local Event_Horizon = ItemLibrary_upvr.ViewModels["Event Horizon"]
+add_cosmetic_upvr("Skin", "Legendary", "Event Horizon", Event_Horizon.Image, 3, nil, nil, nil, {
+	ItemName = "Sniper";
+	ImageHighResolution = Event_Horizon.ImageHighResolution;
+})
+local Banana_Flare = ItemLibrary_upvr.ViewModels["Banana Flare"]
+add_cosmetic_upvr("Skin", "Legendary", "Banana Flare", Banana_Flare.Image, 3, nil, nil, nil, {
+	ItemName = "Flare Gun";
+	ImageHighResolution = Banana_Flare.ImageHighResolution;
+})
+local Fighter_Jet = ItemLibrary_upvr.ViewModels["Fighter Jet"]
+add_cosmetic_upvr("Skin", "Legendary", "Fighter Jet", Fighter_Jet.Image, 3, nil, nil, nil, {
+	ItemName = "Minigun";
+	ImageHighResolution = Fighter_Jet.ImageHighResolution;
+})
+local Harp = ItemLibrary_upvr.ViewModels.Harp
+add_cosmetic_upvr("Skin", "Legendary", "Harp", Harp.Image, 3, nil, nil, nil, {
+	ItemName = "Slingshot";
+	ImageHighResolution = Harp.ImageHighResolution;
+})
+local Repulsor = ItemLibrary_upvr.ViewModels.Repulsor
+add_cosmetic_upvr("Skin", "Legendary", "Repulsor", Repulsor.Image, 3, nil, nil, nil, {
+	ItemName = "Exogun";
+	ImageHighResolution = Repulsor.ImageHighResolution;
+})
+local Tommy_Gun = ItemLibrary_upvr.ViewModels["Tommy Gun"]
+add_cosmetic_upvr("Skin", "Legendary", "Tommy Gun", Tommy_Gun.Image, 3, nil, nil, nil, {
+	ItemName = "Assault Rifle";
+	ImageHighResolution = Tommy_Gun.ImageHighResolution;
+})
+local FAMAS = ItemLibrary_upvr.ViewModels.FAMAS
+add_cosmetic_upvr("Skin", "Legendary", "FAMAS", FAMAS.Image, 3, nil, nil, nil, {
+	ItemName = "Burst Rifle";
+	ImageHighResolution = FAMAS.ImageHighResolution;
+})
+local Peppergun = ItemLibrary_upvr.ViewModels.Peppergun
+add_cosmetic_upvr("Skin", "Legendary", "Peppergun", Peppergun.Image, 3, nil, nil, nil, {
+	ItemName = "Revolver";
+	ImageHighResolution = Peppergun.ImageHighResolution;
+})
+local Mega_Drill = ItemLibrary_upvr.ViewModels["Mega Drill"]
+add_cosmetic_upvr("Skin", "Legendary", "Mega Drill", Mega_Drill.Image, 3, nil, nil, nil, {
+	ItemName = "Chainsaw";
+	ImageHighResolution = Mega_Drill.ImageHighResolution;
+})
+local Spray_Bottle = ItemLibrary_upvr.ViewModels["Spray Bottle"]
+add_cosmetic_upvr("Skin", "Legendary", "Spray Bottle", Spray_Bottle.Image, 3, nil, nil, nil, {
+	ItemName = "Spray";
+	ImageHighResolution = Spray_Bottle.ImageHighResolution;
+})
+local Void_Rifle = ItemLibrary_upvr.ViewModels["Void Rifle"]
+add_cosmetic_upvr("Skin", "Legendary", "Void Rifle", Void_Rifle.Image, 3, nil, nil, nil, {
+	ItemName = "Energy Rifle";
+	ImageHighResolution = Void_Rifle.ImageHighResolution;
+})
+local Gunsaw = ItemLibrary_upvr.ViewModels.Gunsaw
+add_cosmetic_upvr("Skin", "Legendary", "Gunsaw", Gunsaw.Image, 3, nil, nil, nil, {
+	ItemName = "Gunblade";
+	ImageHighResolution = Gunsaw.ImageHighResolution;
+})
+local RPKEY = ItemLibrary_upvr.ViewModels.RPKEY
+add_cosmetic_upvr("Skin", "Mythical", "RPKEY", RPKEY.Image, 3, nil, "Used to be included in the Legendary Key Bundle", nil, {
+	ItemName = "RPG";
+	ImageHighResolution = RPKEY.ImageHighResolution;
+})
+local Keythe = ItemLibrary_upvr.ViewModels.Keythe
+add_cosmetic_upvr("Skin", "Mythical", "Keythe", Keythe.Image, 3, nil, "Used to be included in the Legendary Key Bundle", nil, {
+	ItemName = "Scythe";
+	ImageHighResolution = Keythe.ImageHighResolution;
+})
+local Keyper = ItemLibrary_upvr.ViewModels.Keyper
+add_cosmetic_upvr("Skin", "Mythical", "Keyper", Keyper.Image, 3, nil, "Used to be included in the Legendary Key Bundle", nil, {
+	ItemName = "Sniper";
+	ImageHighResolution = Keyper.ImageHighResolution;
+})
+local AKEY_47 = ItemLibrary_upvr.ViewModels["AKEY-47"]
+add_cosmetic_upvr("Skin", "Mythical", "AKEY-47", AKEY_47.Image, 3, nil, "Used to be included in the Legendary Key Bundle", nil, {
+	ItemName = "Assault Rifle";
+	ImageHighResolution = AKEY_47.ImageHighResolution;
+})
+local Crystal_Daggers = ItemLibrary_upvr.ViewModels["Crystal Daggers"]
+add_cosmetic_upvr("Skin", "Mythical", "Crystal Daggers", Crystal_Daggers.Image, 3, nil, "Used to be included in the Legendary Crystal Bundle", nil, {
+	ItemName = "Daggers";
+	ImageHighResolution = Crystal_Daggers.ImageHighResolution;
+})
+local Keytana = ItemLibrary_upvr.ViewModels.Keytana
+add_cosmetic_upvr("Skin", "Mythical", "Keytana", Keytana.Image, 3, nil, "Used to be included in the Legendary Key Bundle", nil, {
+	ItemName = "Katana";
+	ImageHighResolution = Keytana.ImageHighResolution;
+})
+local Keyvolver = ItemLibrary_upvr.ViewModels.Keyvolver
+add_cosmetic_upvr("Skin", "Mythical", "Keyvolver", Keyvolver.Image, 3, nil, "Used to be included in the Ultra Key Bundle", nil, {
+	ItemName = "Revolver";
+	ImageHighResolution = Keyvolver.ImageHighResolution;
+})
+local Shotkey = ItemLibrary_upvr.ViewModels.Shotkey
+add_cosmetic_upvr("Skin", "Mythical", "Shotkey", Shotkey.Image, 3, nil, "Used to be included in the Legendary Key Bundle", nil, {
+	ItemName = "Shotgun";
+	ImageHighResolution = Shotkey.ImageHighResolution;
+})
+local Keyzi = ItemLibrary_upvr.ViewModels.Keyzi
+add_cosmetic_upvr("Skin", "Mythical", "Keyzi", Keyzi.Image, 3, nil, "Used to be included in the Ultra Key Bundle", nil, {
+	ItemName = "Uzi";
+	ImageHighResolution = Keyzi.ImageHighResolution;
+})
+local Key_Bow = ItemLibrary_upvr.ViewModels["Key Bow"]
+add_cosmetic_upvr("Skin", "Mythical", "Key Bow", Key_Bow.Image, 3, nil, "Included in the Legendary Key Bundle", nil, {
+	ItemName = "Bow";
+	ImageHighResolution = Key_Bow.ImageHighResolution;
+})
+local Keynade = ItemLibrary_upvr.ViewModels.Keynade
+add_cosmetic_upvr("Skin", "Mythical", "Keynade", Keynade.Image, 3, nil, "Included in the Ultra Key Bundle", nil, {
+	ItemName = "Grenade";
+	ImageHighResolution = Keynade.ImageHighResolution;
+})
+local Arch_Katana = ItemLibrary_upvr.ViewModels["Arch Katana"]
+add_cosmetic_upvr("Skin", "Mythical", "Arch Katana", Arch_Katana.Image, 3, nil, "Given to the Top 200 players from Ranked Season 0", nil, {
+	ItemName = "Katana";
+	ImageHighResolution = Arch_Katana.ImageHighResolution;
+})
+local Bug_Net = ItemLibrary_upvr.ViewModels["Bug Net"]
+add_cosmetic_upvr("Skin", "Unobtainable", "Bug Net", Bug_Net.Image, 3, true, "Given to the best bug hunters, thank you for helping us improve the game (RIVALS)", nil, {
+	ItemName = "Scythe";
+	ImageHighResolution = Bug_Net.ImageHighResolution;
+})
+local Stealth_Handgun = ItemLibrary_upvr.ViewModels["Stealth Handgun"]
+add_cosmetic_upvr("Skin", "Unobtainable", "Stealth Handgun", Stealth_Handgun.Image, 3, true, "sneaky beaky like", nil, {
+	ItemName = "Handgun";
+	ImageHighResolution = Stealth_Handgun.ImageHighResolution;
+})
+local Armature_001 = ItemLibrary_upvr.ViewModels["Armature.001"]
+add_cosmetic_upvr("Skin", "Unobtainable", "Armature.001", Armature_001.Image, 3, true, "if this is leaked neko will be waterboarded and hit by a car 628 times", nil, {
+	ItemName = "Knife";
+	ImageHighResolution = Armature_001.ImageHighResolution;
+})
+local MISSING_SKIN = ItemLibrary_upvr.ViewModels.MISSING_SKIN
+add_cosmetic_upvr("Skin", "Unobtainable", "MISSING_SKIN", MISSING_SKIN.Image, 3, true, "Note to self", nil, {
+	ItemName = "Assault Rifle";
+	ImageHighResolution = MISSING_SKIN.ImageHighResolution;
+})
+local MaterialService_upvr = game:GetService("MaterialService")
+local function add_wrap(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) -- Line 505
+	--[[ Upvalues[2]:
+		[1]: MaterialService_upvr (readonly)
+		[2]: add_cosmetic_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local tbl_13 = {
+		WrapGroups = {};
+	}
+	local tbl_11 = {}
+	tbl_11[1] = arg3
+	tbl_11[2] = arg4
+	tbl_11[3] = arg5
+	for _, v_5 in pairs(tbl_11) do
+		local unpacked_value_1, unpacked_value_2, unpacked_value_3, unpacked_value_4, unpacked_value_5, unpacked_value_6, unpacked_value_7 = table.unpack(v_5)
+		local var653
+		if typeof(unpacked_value_1) ~= "string" then
+			var653 = false
+		else
+			var653 = true
+		end
+		if var653 then
+			local SOME = MaterialService_upvr.Wraps:WaitForChild(unpacked_value_1)
+		end
+		local tbl_9 = {}
+		if not SOME or not SOME.BaseMaterial or var653 or not unpacked_value_1 then
+		end
+		tbl_9.Material = nil
+		if not var653 or not unpacked_value_1 then
+		end
+		tbl_9.MaterialVariant = ""
+		tbl_9.Color = unpacked_value_2 or nil
+		tbl_9.Transparency = unpacked_value_3 or nil
+		tbl_9.Reflectance = unpacked_value_4 or nil
+		tbl_9.Textures = unpacked_value_5 or nil
+		tbl_9.CallbackName = unpacked_value_6
+		tbl_9.ObjectName = unpacked_value_7
+		table.insert(tbl_13.WrapGroups, tbl_9)
+	end
+	add_cosmetic_upvr("Wrap", arg1, arg2, nil, nil, arg6, arg7, arg8, tbl_13)
+end
+add_wrap("Unique", "Community", {Enum.Material.Glass, Color3.fromRGB(124, 17, 255), 0, 0.1, nil}, {Enum.Material.Glass, Color3.fromRGB(255, 213, 0), 0, 0.1, nil}, {nil, Color3.fromRGB(112, 181, 255), nil, nil, nil}, nil, "Earned by redeeming codes")
+add_wrap("Unique", "1B Visits", {Enum.Material.Glass, Color3.fromRGB(48, 38, 0), 0, 0.4, "1BVisits"}, {Enum.Material.Glass, Color3.fromRGB(127, 100, 0), 0, 0.4, "1BVisits"}, {Enum.Material.Neon, Color3.fromRGB(173, 155, 123), 0, 0, nil}, nil, "Earned by redeeming a code when the game (RIVALS) reached 1,000,000,000 visits")
+add_wrap("Unique", "Cream", {nil, Color3.fromRGB(255, 209, 157), 0, 0, nil}, {nil, Color3.fromRGB(62, 55, 48), 0, 0, nil}, nil, nil, "Earned by inviting friends to the game (RIVALS)")
+add_wrap("Unique", "Danger", {Enum.Material.Neon, Color3.fromRGB(168, 0, 0), 0, 0, "Danger1"}, {Enum.Material.Neon, Color3.fromRGB(17, 17, 17), 0, 0, "Danger2"}, {Enum.Material.Neon, Color3.fromRGB(161, 47, 47), 0, 0, nil}, nil, "Earned by completing a special challenge during the Roblox 2024 Winter Spotlight")
+add_wrap("Unique", "Glacier", {"Glacier", Color3.fromRGB(175, 221, 255), 0, 0, nil}, {"Glacier", Color3.fromRGB(231, 231, 236), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(130, 157, 166), 0, 0, nil}, nil, "Earned from the 2024 Festive Event Advent Calendar")
+add_wrap("Unique", "Pine", {Enum.Material.SmoothPlastic, Color3.fromRGB(58, 115, 55), 0, 0, "Pine"}, {"Pine", Color3.fromRGB(72, 51, 40), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(158, 162, 121), 0, 0, nil}, nil, "Earned from the 2024 Festive Event Advent Calendar")
+add_wrap("Unique", "Glamour", {Enum.Material.SmoothPlastic, Color3.fromRGB(86, 36, 36), 0, 0, "Glamour"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(117, 0, 0), 0, 0.1, nil}, {Enum.Material.Neon, Color3.fromRGB(170, 128, 99), 0, 0, nil}, nil, "Earned by watching a quick video ad in the Shop")
+add_wrap("Unique", "Sensite", {"Developore", Color3.fromRGB(255, 180, 30), 0, 0, nil}, {"Developore", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(255, 172, 99), nil, nil, nil})
+add_wrap("Unique", "Nosnite", {"Developore", Color3.fromRGB(180, 128, 255), 0, 0, nil}, {"Developore", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(136, 114, 202), nil, nil, nil})
+add_wrap("Unique", "Nekore", {"Developore", Color3.fromRGB(6, 100, 150), 0, 0, nil}, {"Developore", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(102, 144, 236), nil, nil, nil})
+add_wrap("Unique", "Shadore", {"Developore", Color3.fromRGB(203, 51, 51), 0, 0, nil}, {"Developore", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(248, 108, 108), nil, nil, nil})
+add_wrap("Unique", "Brianore", {"Developore", Color3.fromRGB(101, 255, 93), 0, 0, nil}, {"Developore", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(157, 248, 163), nil, nil, nil})
+add_wrap("Unique", "Boomore", {"Developore", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"Developore", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(175, 175, 175), nil, nil, nil})
+add_wrap("Unique", "Beggar", {Enum.Material.Pebble, Color3.fromRGB(255, 176, 0), 0.05, 0, "dude"}, {Enum.Material.CorrodedMetal, Color3.fromRGB(255, 176, 0), 0.1, 0, "bruh"}, {Enum.Material.Neon, Color3.fromRGB(9, 137, 207), 0, 1000, "epic"}, nil, "Beggars can't be choosers")
+add_wrap("Common", "Red", {nil, Color3.fromRGB(255, 50, 50), 0, 0, nil})
+add_wrap("Common", "Orange", {nil, Color3.fromRGB(255, 110, 0), 0, 0, nil})
+add_wrap("Common", "Yellow", {nil, Color3.fromRGB(255, 215, 0), 0, 0, nil})
+add_wrap("Common", "Green", {nil, Color3.fromRGB(100, 255, 50), 0, 0, nil})
+add_wrap("Common", "Blue", {nil, Color3.fromRGB(0, 150, 255), 0, 0, nil})
+add_wrap("Common", "Purple", {nil, Color3.fromRGB(136, 0, 255), 0, 0, nil})
+add_wrap("Common", "Pink", {nil, Color3.fromRGB(255, 60, 236), 0, 0, nil})
+add_wrap("Common", "Salmon", {nil, Color3.fromRGB(255, 107, 107), 0, 0, nil})
+add_wrap("Common", "Brown", {nil, Color3.fromRGB(91, 54, 35), 0, 0, nil})
+add_wrap("Common", "Lemon", {nil, Color3.fromRGB(255, 230, 105), 0, 0, nil})
+add_wrap("Common", "Mint", {nil, Color3.fromRGB(167, 255, 135), 0, 0, nil})
+add_wrap("Common", "Sky", {nil, Color3.fromRGB(135, 207, 255), 0, 0, nil})
+add_wrap("Common", "Olive", {nil, Color3.fromRGB(75, 79, 55), 0, 0, nil})
+add_wrap("Common", "Blush", {nil, Color3.fromRGB(255, 164, 255), 0, 0, nil})
+add_wrap("Common", "Maroon", {nil, Color3.fromRGB(117, 33, 69), 0, 0, nil})
+add_wrap("Common", "Beige", {nil, Color3.fromRGB(184, 156, 110), 0, 0, nil})
+add_wrap("Common", "Navy", {nil, Color3.fromRGB(0, 18, 76), 0, 0, nil})
+add_wrap("Common", "Teal", {nil, Color3.fromRGB(0, 255, 225), 0, 0, nil})
+add_wrap("Common", "Highlighter", {nil, Color3.fromRGB(192, 255, 57), 0, 0, nil})
+add_wrap("Common", "Crimson", {nil, Color3.fromRGB(75, 14, 14), 0, 0, nil})
+add_wrap("Common", "Cool", {nil, Color3.fromRGB(97, 200, 255), 0, 0, nil})
+add_wrap("Common", "Gunmetal", {Enum.Material.SmoothPlastic, Color3.fromRGB(40, 40, 40), 0, 0.05, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 1, "Gunmetal"}, {Enum.Material.Neon, Color3.fromRGB(182, 116, 99), 0, 0, nil})
+add_wrap("Common", "Venom", {Enum.Material.Neon, Color3.fromRGB(136, 0, 255), 0, 0, "Venom"}, {Enum.Material.Metal, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(102, 0, 191), 0.15, 0, nil})
+add_wrap("Common", "MaGGenta", {Enum.Material.SmoothPlastic, Color3.fromRGB(206, 206, 206), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(115, 40, 255), 0, 0, nil})
+add_wrap("Common", "Bluesteel", {"Bluesteel", Color3.fromRGB(38, 96, 150), 0, 0, nil}, {Enum.Material.Metal, Color3.fromRGB(159, 161, 172), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(37, 73, 173), 0, 0, nil})
+add_wrap("Common", "Cheese", {"Cheese", Color3.fromRGB(255, 221, 48), 0, 0, nil}, {"Cheesecloth", Color3.fromRGB(248, 221, 194), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(172, 118, 0), 0, 0, nil})
+add_wrap("Common", "Stained", {"Stained", Color3.fromRGB(82, 126, 175), 0, 0, nil}, {"Stained", Color3.fromRGB(120, 183, 255), 0, 0, nil})
+add_wrap("Common", "Lumber", {"Lumber1", Color3.fromRGB(124, 92, 70), 0, 0, nil}, {"Lumber2", Color3.fromRGB(105, 64, 40), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(198, 135, 114), 0, 0, nil})
+add_wrap("Common", "Ornate", {Enum.Material.SmoothPlastic, Color3.fromRGB(27, 42, 53), 0, 0, nil}, {Enum.Material.Metal, Color3.fromRGB(226, 155, 64), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(255, 53, 53), 0, 0, nil})
+add_wrap("Common", "Mustard", {nil, Color3.fromRGB(136, 102, 0), 0, 0, nil})
+add_wrap("Common", "Violet", {nil, Color3.fromRGB(85, 43, 255), 0, 0, nil})
+add_wrap("Common", "Jean", {nil, Color3.fromRGB(0, 76, 255), 0, 0, nil})
+add_wrap("Common", "Copper", {Enum.Material.Glass, Color3.fromRGB(213, 115, 61), 0, 0.3, nil}, {Enum.Material.Glass, Color3.fromRGB(170, 85, 0), 0, 0.3, nil}, {Enum.Material.Neon, Color3.fromRGB(186, 143, 135), 0, 0, nil})
+add_wrap("Common", "Machine", {"BrushedMetal", Color3.fromRGB(202, 203, 209), 0, 0, nil}, {"BrushedMetal", Color3.fromRGB(202, 203, 209), 0, 0, nil}, {"BrushedMetal", Color3.fromRGB(202, 203, 209), 0, 0, nil})
+add_wrap("Common", "Titanium", {Enum.Material.Glass, Color3.fromRGB(205, 205, 205), 0, 0.3, nil}, {Enum.Material.Glass, Color3.fromRGB(248, 248, 248), 0, 0.3, nil}, {Enum.Material.Neon, Color3.fromRGB(171, 171, 171), 0, 0, nil})
+add_wrap("Common", "Tungsten", {Enum.Material.Glass, Color3.fromRGB(66, 67, 76), 0, 0.3, nil}, {Enum.Material.Glass, Color3.fromRGB(91, 93, 105), 0, 0.3, nil}, {Enum.Material.Neon, Color3.fromRGB(133, 141, 192), 0, 0, nil})
+add_wrap("Common", "Haunted", {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0, 0.4, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 255, 238), 0.5, 0.2, nil}, {Enum.Material.Neon, Color3.fromRGB(110, 253, 255), 0, 0, nil})
+add_wrap("Common", "Vexed", {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0, 0.4, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(105, 46, 255), 0.5, 0.2, nil}, {Enum.Material.Neon, Color3.fromRGB(153, 133, 255), 0, 0, nil})
+add_wrap("Common", "Cursed", {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0, 0.4, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 0, 0), 0.5, 0.2, nil}, {Enum.Material.Neon, Color3.fromRGB(255, 142, 142), 0, 0, nil})
+add_wrap("Common", "Frigid", {nil, nil, nil, nil, "Frigid"}, {nil, nil, nil, nil, "Frigid"})
+add_wrap("Common", "Midnight", {"PBRSimpleMetallic", Color3.fromRGB(7, 25, 67), 0, 0, nil}, {"PBRSimpleMetallic", Color3.fromRGB(77, 77, 77), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(82, 122, 255), 0, 0, nil})
+add_wrap("Common", "Slush", {Enum.Material.Neon, Color3.fromRGB(136, 168, 161), 0, 0, "Slush1"}, {Enum.Material.Neon, Color3.fromRGB(128, 145, 158), 0, 0, "Slush2"}, {Enum.Material.Neon, Color3.fromRGB(100, 155, 163), 0, 0, nil})
+add_wrap("Common", "Lavish Crystal", {"LavishCrystal", Color3.fromRGB(183, 149, 255), 0, 0, nil}, {"LavishCrystal", Color3.fromRGB(219, 196, 236), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(142, 128, 166), 0, 0, nil})
+add_wrap("Common", "Noir", {Enum.Material.Neon, Color3.fromRGB(165, 165, 165), 0, 0, "Noir1"}, {Enum.Material.Neon, Color3.fromRGB(17, 17, 17), 0, 0, "Noir2"}, {Enum.Material.Neon, Color3.fromRGB(157, 157, 157), 0, 0, nil})
+add_wrap("Common", "Normal", {Enum.Material.Neon, Color3.fromRGB(138, 0, 148), 0, 0, "Normal1"}, {Enum.Material.Neon, Color3.fromRGB(0, 32, 96), 0, 0, "Normal2"}, {Enum.Material.Neon, Color3.fromRGB(158, 58, 58), 0, 0, nil})
+add_wrap("Common", "Rust", {Enum.Material.CorrodedMetal, nil, 0, 0, nil}, {Enum.Material.CorrodedMetal, nil, 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(159, 159, 159), 0, 0.1, nil})
+add_wrap("Common", "Tawny", {Enum.Material.Neon, Color3.fromRGB(255, 233, 111), 0, 0, "Tawny1"}, {Enum.Material.Neon, Color3.fromRGB(68, 44, 7), 0, 0, "Tawny2"}, {Enum.Material.Neon, Color3.fromRGB(167, 118, 78), 0, 0, nil})
+add_wrap("Common", "Olo", {nil, Color3.fromRGB(0, 254, 202), 0, 0, nil})
+add_wrap("Common", "Glorious", {"CandyGlossy"}, {"CandyGlossy"}, nil, nil, "Purchased from the Ranked Shop")
+add_wrap("Common", "Spiral", {"Spiral1", Color3.fromRGB(180, 128, 255), 0, 0.3, "Spiral1"}, {"Spiral2", Color3.fromRGB(17, 17, 17), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(110, 79, 177), 0, 0, "Spiral3"})
+add_wrap("Common", "Pink Lemonade", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 96, 152), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 212, 57), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 212, 57), 0, 0, nil}, nil, "Earned from the Season Pass during Season 1")
+add_wrap("Common", "Playful", {Enum.Material.SmoothPlastic, Color3.fromRGB(20, 67, 176), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(234, 121, 23), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(234, 121, 23), 0, 0, nil}, nil, "Earned from the Season Pass during Season 1")
+add_wrap("Common", "Lapis", {Enum.Material.SmoothPlastic, Color3.fromRGB(65, 73, 114), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(106, 255, 203), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(106, 255, 203), 0, 0, nil}, nil, "Earned from the Season Pass during Season 1")
+add_wrap("Rare", "Gold", {Enum.Material.Glass, Color3.fromRGB(255, 170, 24), 0, 0.4, nil}, {Enum.Material.Glass, Color3.fromRGB(255, 170, 24), 0, 0.4, nil}, {nil, Color3.fromRGB(255, 165, 120), nil, nil, nil}, nil, "Earned from weapon contracts", "Earned from a weapon contract for this weapon")
+add_wrap("Rare", "Forest Camo", {"Forest Camo", Color3.fromRGB(237, 234, 234), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0, 0, nil}, {nil, Color3.fromRGB(140, 255, 98), nil, nil, nil})
+add_wrap("Rare", "Honeycomb", {"Honeycomb", Color3.fromRGB(255, 201, 74), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(170, 121, 72), 0, 0, nil})
+add_wrap("Rare", "Patriot", {"Patriot", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0, 0, nil}, {nil, Color3.fromRGB(168, 168, 168), nil, nil, nil})
+add_wrap("Rare", "Clouds", {"Clouds", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 98, 148), 0, 0, nil}, {nil, Color3.fromRGB(123, 150, 163), nil, nil, nil})
+add_wrap("Rare", "Swirls", {"Swirls", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0, 0, nil}, {nil, Color3.fromRGB(167, 167, 167), nil, nil, nil})
+add_wrap("Rare", "Brain", {"Brain", Color3.fromRGB(255, 152, 220), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(255, 106, 228), nil, nil, nil})
+add_wrap("Rare", "Arctic Camo", {"Arctic Camo", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0, 0, nil}, {nil, Color3.fromRGB(154, 175, 194), nil, nil, nil})
+add_wrap("Rare", "Carpet", {"Carpet", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(139, 139, 255), nil, nil, nil})
+add_wrap("Rare", "Circuit", {"Circuit", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(105, 206, 105), nil, nil, nil})
+add_wrap("Rare", "Desert Camo", {"Desert Camo", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0, 0, nil}, {nil, Color3.fromRGB(163, 141, 116), nil, nil, nil})
+add_wrap("Rare", "Digital Camo", {"Digital Camo", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0, 0, nil}, {nil, Color3.fromRGB(161, 161, 161), nil, nil, nil})
+add_wrap("Rare", "Frosted", {"Frosted", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(161, 239, 255), 0, 0.4, nil}, {nil, Color3.fromRGB(128, 163, 175), nil, nil, nil})
+add_wrap("Rare", "Mainframe", {"Mainframe", Color3.fromRGB(255, 102, 204), 0, 0, nil}, {"Mainframe", Color3.fromRGB(7, 14, 29), 0, 0, nil}, {nil, Color3.fromRGB(231, 135, 255), nil, nil, nil})
+add_wrap("Rare", "Ocean Camo", {"Ocean Camo", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0, 0, nil}, {nil, Color3.fromRGB(108, 130, 255), nil, nil, nil})
+add_wrap("Rare", "PB & J", {"PB & J", Color3.fromRGB(212, 144, 189), 0, 0, nil}, {"PB & J", Color3.fromRGB(212, 144, 189), 0, 0, nil}, {nil, Color3.fromRGB(143, 120, 255), nil, nil, nil})
+add_wrap("Rare", "Reptile", {"Reptile", Color3.fromRGB(103, 127, 51), 0, 0, nil}, {"Reptile", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(146, 255, 106), nil, nil, nil})
+add_wrap("Rare", "Rug", {"Rug", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(157, 157, 157), 0, 0, nil}, {nil, Color3.fromRGB(163, 163, 163), nil, nil, nil})
+add_wrap("Rare", "Steel", {"Steel", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(54, 54, 54), 0, 0.4, nil}, {nil, Color3.fromRGB(159, 159, 159), nil, nil, nil})
+add_wrap("Rare", "Street Camo", {"Street Camo", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0, 0, nil}, {nil, Color3.fromRGB(180, 172, 112), nil, nil, nil})
+add_wrap("Rare", "Urban Camo", {"Urban Camo", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0, 0, nil}, {nil, Color3.fromRGB(255, 131, 131), nil, nil, nil})
+add_wrap("Rare", "Medium stone grey", {Enum.Material.SmoothPlastic, Color3.fromRGB(163, 162, 165), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(163, 162, 165), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(163, 162, 165), 0, 0, nil})
+add_wrap("Rare", "Studs", {nil, nil, 0, 0, "Studs"}, {nil, nil, 0, 0, "Studs"})
+add_wrap("Rare", "Inlets", {nil, nil, 0, 0, "Inlets"}, {nil, nil, 0, 0, "Inlets"})
+add_wrap("Rare", "Universal", {nil, nil, 0, 0, "Universal"}, {nil, nil, 0, 0, "Universal"})
+add_wrap("Rare", "Surge", {nil, Color3.fromRGB(109, 25, 47), 0, 0, nil}, {nil, Color3.fromRGB(23, 59, 111), 0, 0, nil})
+add_wrap("Rare", "Vile", {nil, Color3.fromRGB(75, 35, 136), 0, 0, nil}, {nil, Color3.fromRGB(101, 147, 49), 0, 0, nil})
+add_wrap("Rare", "OranGG", {nil, Color3.fromRGB(206, 206, 206), 0, 0, nil}, {nil, Color3.fromRGB(255, 106, 0), 0, 0, nil})
+add_wrap("Rare", "Maize", {nil, Color3.fromRGB(0, 39, 76), 0, 0, nil}, {nil, Color3.fromRGB(255, 203, 5), 0, 0, nil})
+add_wrap("Rare", "Spartan", {nil, Color3.fromRGB(24, 69, 59), 0, 0, nil}, {nil, Color3.fromRGB(255, 255, 255), 0, 0, nil})
+add_wrap("Rare", "Crossed", {"Crossed", Color3.fromRGB(0, 153, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(0, 32, 54), 0, 0, nil}, {nil, Color3.fromRGB(76, 94, 255), nil, nil, nil})
+add_wrap("Rare", "Celtic", {Enum.Material.SmoothPlastic, Color3.fromRGB(27, 39, 22), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(175, 142, 86), 0, 0, "Celtic"}, {Enum.Material.Neon, Color3.fromRGB(175, 142, 86), 0, 0, nil})
+add_wrap("Rare", "Dawn", {Enum.Material.Neon, Color3.fromRGB(255, 204, 0), 0, 0, "Dawn1"}, {Enum.Material.Neon, Color3.fromRGB(28, 52, 117), 0, 0, "Dawn2"}, {Enum.Material.Neon, Color3.fromRGB(161, 122, 90), 0, 0, nil})
+add_wrap("Rare", "Termination", {Enum.Material.Metal, Color3.fromRGB(117, 0, 0), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(255, 255, 255), 0, 0.05, nil}, {Enum.Material.Neon, Color3.fromRGB(170, 57, 57), 0, 0, nil})
+add_wrap("Rare", "Fiery", {Enum.Material.Neon, Color3.fromRGB(159, 29, 29), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(163, 145, 91), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(185, 34, 34), 0, 0, nil})
+add_wrap("Rare", "Portal", {Enum.Material.Neon, Color3.fromRGB(255, 102, 204), 0, 0, "Portal"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 152, 220), 0, 0.4, nil}, {Enum.Material.Neon, Color3.fromRGB(255, 152, 220), 0, 0, nil})
+add_wrap("Rare", "Voltaic", {"Voltaic", Color3.fromRGB(226, 155, 64), 0, 0, nil}, {Enum.Material.Metal, Color3.fromRGB(226, 155, 64), 0, 0, nil}, {Enum.Material.ForceField, Color3.fromRGB(226, 155, 64), 0, 0, nil})
+add_wrap("Rare", "Carmine", {Enum.Material.Glass, Color3.fromRGB(117, 0, 0), 0.15, 0, nil}, {"Carmine", Color3.fromRGB(86, 36, 36), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(189, 0, 0), 0, 0, nil})
+add_wrap("Rare", "Money", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0, "Money"}, {Enum.Material.Plastic, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(102, 255, 99), 0, 0, nil})
+add_wrap("Rare", "Eco", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(0, 163, 0), 0, 0, "Eco"}, {Enum.Material.Neon, Color3.fromRGB(0, 163, 0), 0, 0, nil})
+add_wrap("Rare", "Igneous", {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0.05, nil}, {Enum.Material.Neon, Color3.fromRGB(255, 176, 111), 0, 0, "Igneous"}, {Enum.Material.Neon, Color3.fromRGB(168, 145, 93), 0, 0, nil})
+add_wrap("Rare", "Spellslinger", {Enum.Material.Neon, Color3.fromRGB(255, 255, 255), 0, 0, "Spellsling"}, {"Spellslinger", Color3.fromRGB(12, 156, 127), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(101, 182, 159), 0, 0, nil})
+add_wrap("Rare", "White", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0, nil}, {nil, Color3.fromRGB(255, 255, 255), nil, nil, nil}, nil, "Earned by reaching Level 50 on a weapon", "Earned by reaching Level 50 on this weapon")
+add_wrap("Rare", "Black", {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(0, 0, 0), nil, nil, nil}, nil, "Earned by reaching Level 99 on a weapon", "Earned by reaching Level 99 on this weapon")
+add_wrap("Rare", "Nova", {"Nova", Color3.fromRGB(19, 255, 224), 0, 0, nil}, {"Nova", Color3.fromRGB(0, 120, 94), 0, 0, nil}, {nil, Color3.fromRGB(89, 255, 191), nil, nil, nil}, nil, "Rare drop from Daily Tasks")
+add_wrap("Rare", "Fire", {Enum.Material.Neon, Color3.fromRGB(102, 77, 0), 0, 0, "Fire"}, {Enum.Material.Glass, Color3.fromRGB(255, 100, 0), 0, 0.1, nil}, {nil, Color3.fromRGB(255, 106, 69), nil, nil, nil}, nil, "Earned by winning 10 duels in a row")
+add_wrap("Rare", "Trophy", {Enum.Material.Neon, Color3.fromRGB(168, 158, 66), 0, 0, "Trophy"}, {Enum.Material.Glass, Color3.fromRGB(252, 255, 96), 0, 0.1, nil}, {nil, Color3.fromRGB(252, 255, 96), nil, nil, nil}, nil, "Earned by winning 25 duels")
+add_wrap("Rare", "Experience", {Enum.Material.Neon, Color3.fromRGB(94, 145, 157), 0, 0, "Experience"}, {Enum.Material.Glass, Color3.fromRGB(30, 150, 255), 0, 0.1, nil}, {nil, Color3.fromRGB(106, 166, 191), nil, nil, nil}, nil, "Earned every 10 career levels")
+add_wrap("Rare", "Rage", {"Rage", Color3.fromRGB(255, 121, 248), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(38, 14, 27), 0, 0, nil}, {nil, Color3.fromRGB(190, 72, 72), nil, nil, nil})
+add_wrap("Rare", "Scales", {"Scales", Color3.fromRGB(255, 202, 128), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(47, 28, 7), 0, 0, nil}, {nil, Color3.fromRGB(255, 143, 121), nil, nil, nil})
+add_wrap("Rare", "Obsidian", {"Arabesque", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(25, 24, 36), 0, 0, nil}, {nil, Color3.fromRGB(143, 120, 255), nil, nil, nil})
+add_wrap("Rare", "Toy", {Enum.Material.SmoothPlastic, Color3.fromRGB(55, 134, 37), 0, 0.1, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(55, 134, 37), 0, 0.1, nil}, {Enum.Material.Glass, Color3.fromRGB(55, 134, 37), 0, 0.1, nil})
+add_wrap("Rare", "Well Done", {"A5", Color3.fromRGB(72, 56, 40), 0, 0, nil}, {Enum.Material.Concrete, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(255, 163, 140), nil, nil, nil})
+add_wrap("Rare", "Dunes", {"Dunes", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"Dunes", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(171, 157, 125), nil, nil, nil})
+add_wrap("Rare", "Glisten", {"Glisten", Color3.fromRGB(4, 175, 236), 0, 0, nil}, {"Glisten", Color3.fromRGB(0, 88, 120), 0, 0, nil}, {nil, Color3.fromRGB(126, 154, 255), nil, nil, nil})
+add_wrap("Rare", "Glossy", {"Glossy", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"Glossy", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {nil, Color3.fromRGB(255, 169, 218), nil, nil, nil})
+add_wrap("Rare", "Storm", {"Storm", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {"Storm", Color3.fromRGB(44, 41, 70), 0, 0, nil}, {nil, Color3.fromRGB(150, 140, 255), nil, nil, nil})
+add_wrap("Rare", "Bunsen", {"Bunsen", Color3.fromRGB(33, 84, 185), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(5, 22, 59), 0, 0, nil}, {nil, Color3.fromRGB(17, 61, 255), nil, nil, nil})
+add_wrap("Rare", "Black Granite", {"Black Granite", Color3.fromRGB(223, 223, 222), 0, 0, nil}, {"Black Granite", Color3.fromRGB(91, 93, 105), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0.75, 0, nil})
+add_wrap("Rare", "Cerulean", {"Resolute", Color3.fromRGB(0, 255, 255), 0, 0, nil}, {"Resolute", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(61, 255, 110), 0, 0, nil})
+add_wrap("Rare", "Clamshell", {"Clamshell", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 226, 212), 0, 0.3, nil}, {Enum.Material.Neon, Color3.fromRGB(233, 182, 213), 0, 0, nil})
+add_wrap("Rare", "Cool Crochet", {"Crochet", Color3.fromRGB(117, 127, 106), 0, 0, nil}, {"Crochet", Color3.fromRGB(116, 134, 157), 0, 0, nil}, {"Crochet", Color3.fromRGB(116, 134, 157), 0, 0, nil})
+add_wrap("Rare", "Cork", {"Cork", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {"Cork", Color3.fromRGB(163, 162, 165), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(203, 171, 149), 0, 0, nil})
+add_wrap("Rare", "Hammered Copper", {"Hammered", Color3.fromRGB(140, 96, 64), 0, 0, nil}, {"Hammered", Color3.fromRGB(140, 96, 64), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(204, 117, 95), 0, 0, nil})
+add_wrap("Rare", "Hypnotic", {"Hypnotic 1", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {"Hypnotic 2", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(223, 143, 255), 0, 0, nil})
+add_wrap("Rare", "Leafy Grass", {"Leafy Grass", Color3.fromRGB(223, 223, 222), 0, 0, nil}, {"Leafy Grass", Color3.fromRGB(163, 162, 165), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(132, 197, 104), 0, 0, nil})
+add_wrap("Rare", "Liquid Chrome", {"Liquid Chrome", Color3.fromRGB(193, 193, 193), 0, 0, nil}, {"Liquid Chrome", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(155, 158, 193), 0, 0, nil})
+add_wrap("Rare", "Mahogany", {"Mahogany Wood", Color3.fromRGB(194, 124, 74), 0, 0, nil}, {"Mahogany Wood", Color3.fromRGB(117, 62, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(199, 141, 107), 0, 0, nil})
+add_wrap("Rare", "Neo", {"Neo", Color3.fromRGB(4, 175, 236), 0, 0, nil}, {"Neo", Color3.fromRGB(61, 21, 133), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(82, 124, 174), 0, 0, nil})
+add_wrap("Rare", "Pink Crochet", {"Crochet", Color3.fromRGB(255, 152, 220), 0, 0, nil}, {"Crochet", Color3.fromRGB(172, 103, 149), 0, 0, nil}, {"Crochet", Color3.fromRGB(255, 152, 220), 0, 0, nil})
+add_wrap("Rare", "Pink Glitter", {"Pink Glitter", Color3.fromRGB(255, 152, 220), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 152, 220), 0, 0.3, nil}, {Enum.Material.Neon, Color3.fromRGB(183, 113, 197), 0, 0, nil})
+add_wrap("Rare", "Studded", {"Studded", nil, 0, 0, nil}, {"Studded", nil, 0, 0, nil})
+add_wrap("Rare", "Tempest", {Enum.Material.Neon, Color3.fromRGB(248, 248, 248), 0, 0, "Tempest1"}, {Enum.Material.Neon, Color3.fromRGB(167, 167, 167), 0, 0, "Tempest2"}, {Enum.Material.Neon, Color3.fromRGB(163, 138, 149), 0, 0, nil})
+add_wrap("Rare", "Yang", {"Yin Yang", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(17, 17, 17), 0, 0, nil})
+add_wrap("Rare", "Yin", {"Yin Yang", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(255, 255, 255), 0, 0, nil})
+add_wrap("Rare", "Ancient", {"Ancient2", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"Ancient1", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(164, 189, 71), 0, 0, nil})
+add_wrap("Rare", "Grass", {Enum.Material.SmoothPlastic, Color3.fromRGB(205, 205, 205), 0, 0, nil}, {"Grass1", Color3.fromRGB(223, 223, 222), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(138, 171, 133), 0, 0, nil})
+add_wrap("Rare", "Rustic", {"RusticWood", Color3.fromRGB(124, 92, 70), 0, 0, nil}, {"BrushedMetal", Color3.fromRGB(202, 203, 209), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(221, 177, 145), 0, 0, nil})
+add_wrap("Rare", "Chrome Webs", {"Chrome Webs", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {"Chrome Webs", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, nil})
+add_wrap("Rare", "Green Goo", {Enum.Material.Neon, Color3.fromRGB(83, 161, 82), 0, 0, "GooWelds"}, {Enum.Material.Plastic, Color3.fromRGB(76, 46, 29), 0, 0, "GooStudsG"}, {Enum.Material.Neon, Color3.fromRGB(83, 161, 82), 0, 0, "GooWelds"})
+add_wrap("Rare", "Purple Goo", {Enum.Material.Neon, Color3.fromRGB(88, 54, 163), 0, 0, "GooWelds"}, {Enum.Material.Plastic, Color3.fromRGB(27, 42, 53), 0, 0, "GooStudsP"}, {Enum.Material.Neon, Color3.fromRGB(88, 54, 163), 0, 0, "GooWelds"})
+add_wrap("Rare", "Werewolf Fur", {"Werewolf Fur", Color3.fromRGB(111, 85, 34), 0, 0, nil}, {"Werewolf Fur", Color3.fromRGB(74, 56, 23), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(170, 75, 75), 0, 0, nil})
+add_wrap("Rare", "Snowfall", {Enum.Material.Neon, Color3.fromRGB(255, 255, 255), 0, 0, "Snowfall"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(159, 159, 159), 0, 0, nil})
+add_wrap("Rare", "Ugly Sweater", {"UglySweater", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"UglySweater2", Color3.fromRGB(39, 70, 45), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(149, 167, 148), 0, 0, nil})
+add_wrap("Rare", "Jolly Wrapping", {"WrappingPaper", Color3.fromRGB(20, 135, 77), 0, 0, "JollyWrapping"}, {"WrappingPearlescent", Color3.fromRGB(247, 42, 55), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(247, 71, 74), 0, 0, nil})
+add_wrap("Rare", "Forest Wrapping", {"WrappingPaper", Color3.fromRGB(59, 93, 57), 0, 0, nil}, {"WrappingPearlescent2", Color3.fromRGB(252, 252, 252), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(129, 172, 122), 0, 0, nil})
+add_wrap("Rare", "Peppermint Wrapping", {"WrappingPaper", Color3.fromRGB(202, 56, 59), 0, 0, nil}, {"WrappingPearlescent2", Color3.fromRGB(252, 252, 252), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(185, 95, 95), 0, 0, nil})
+add_wrap("Rare", "Winter Wrapping", {"WrappingPaper", Color3.fromRGB(22, 78, 130), 0, 0, "WinterWrapping"}, {"WrappingPearlescent", Color3.fromRGB(252, 252, 252), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(135, 146, 177), 0, 0, nil})
+add_wrap("Rare", "Mocha Wrapping", {"WrappingPaper", Color3.fromRGB(206, 176, 158), 0, 0, nil}, {"WrappingPearlescent", Color3.fromRGB(116, 93, 87), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(179, 157, 135), 0, 0, nil})
+add_wrap("Rare", "Minty Wrapping", {"WrappingPaper", Color3.fromRGB(38, 150, 126), 0, 0, "MintyWrapping"}, {"WrappingPearlescent", Color3.fromRGB(32, 144, 116), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(103, 179, 160), 0, 0, nil})
+add_wrap("Rare", "Frosty Wrapping", {"WrappingPaper", Color3.fromRGB(194, 194, 194), 0, 0, "FrostyWrapping"}, {"WrappingPearlescent", Color3.fromRGB(217, 239, 255), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(179, 179, 179), 0, 0, nil})
+add_wrap("Rare", "Creme Wrapping", {"WrappingPaper", Color3.fromRGB(150, 47, 69), 0, 0, "CremeWrapping"}, {"WrappingPearlescent", Color3.fromRGB(184, 58, 85), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(184, 101, 119), 0, 0, nil})
+add_wrap("Rare", "Blush Wrapping", {"WrappingPaper", Color3.fromRGB(247, 175, 218), 0, 0, "BlushWrapping"}, {"WrappingPearlescent", Color3.fromRGB(230, 140, 152), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(230, 140, 152), 0, 0, nil})
+add_wrap("Rare", "Cashmere Wrapping", {"WrappingPaper", Color3.fromRGB(186, 135, 112), 0, 0, nil}, {"WrappingPearlescent", Color3.fromRGB(255, 158, 128), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(255, 149, 128), 0, 0, nil})
+add_wrap("Rare", "Carbon Wrapping", {"WrappingPaper", Color3.fromRGB(56, 58, 59), 0, 0, "CarbonWrapping"}, {"WrappingPearlescent", Color3.fromRGB(83, 97, 103), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(151, 157, 179), 0, 0, nil})
+add_wrap("Rare", "Caned Wrapping", {"WrappingPaper", Color3.fromRGB(181, 47, 65), 0, 0, "CanedWrapping"}, {"WrappingPearlescent", Color3.fromRGB(150, 39, 56), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(171, 84, 98), 0, 0, nil})
+add_wrap("Rare", "Arbiter", {Enum.Material.SmoothPlastic, Color3.fromRGB(36, 56, 70), 0, 0, "Arbiter"}, {"Arbiter", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(120, 135, 171), 0, 0, nil})
+add_wrap("Rare", "Antimatter", {Enum.Material.Neon, Color3.fromRGB(255, 0, 4), 0, 0, "Antimatter1"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(71, 0, 0), 0, 0, "Antimatter2"}, {Enum.Material.Neon, Color3.fromRGB(157, 0, 0), 0, 0, nil})
+add_wrap("Rare", "Crimson Art", {"CrimsonArt", Color3.fromRGB(213, 213, 213), 0, 0, "CrimsonArt1"}, {"CrimsonArt", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(159, 73, 73), 0, 0, nil})
+add_wrap("Rare", "Model", {"RBLXPckge", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(163, 162, 165), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(88, 111, 166), 0, 0, nil})
+add_wrap("Rare", "Plasma", {Enum.Material.Neon, Color3.fromRGB(163, 137, 176), 0, 0, "Plasma1"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(81, 0, 179), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(155, 130, 167), 0, 0, nil})
+add_wrap("Rare", "Purpleize", {"Purpleize", Color3.fromRGB(224, 178, 208), 0, 0, nil}, {"Purpleize", Color3.fromRGB(167, 94, 155), 0, 0.05, nil}, {Enum.Material.Neon, Color3.fromRGB(163, 122, 172), 0, 0, nil})
+add_wrap("Rare", "Regal", {"RegalFabric", Color3.fromRGB(186, 0, 0), 0, 0.3, nil}, {Enum.Material.Glass, Color3.fromRGB(243, 182, 0), 0, 0.6, "Regal"}, {Enum.Material.Neon, Color3.fromRGB(171, 125, 99), 0, 0, nil})
+add_wrap("Rare", "Sentinel", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0.5, "Sentinel"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0.5, nil}, {Enum.Material.Neon, Color3.fromRGB(168, 143, 124), 0, 0, nil})
+add_wrap("Rare", "Strobe", {Enum.Material.SmoothPlastic, Color3.fromRGB(17, 17, 17), 0, 0, "Strobe1"}, {Enum.Material.Neon, Color3.fromRGB(17, 17, 17), 0, 0, "Strobe2"}, {Enum.Material.Neon, Color3.fromRGB(111, 158, 166), 0, 0, nil})
+add_wrap("Rare", "TIX", {Enum.Material.SmoothPlastic, Color3.fromRGB(19, 21, 22), 0, 0, "TIXWRAP"}, {Enum.Material.Plastic, Color3.fromRGB(71, 44, 12), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(166, 146, 85), 0, 0, nil})
+add_wrap("Rare", "Tealur", {Enum.Material.Neon, Color3.fromRGB(73, 166, 138), 0, 0, "Tealur"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(23, 23, 23), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(70, 159, 131), 0, 0, nil})
+add_wrap("Rare", "Waste", {Enum.Material.Neon, Color3.fromRGB(0, 168, 67), 0, 0, "Waste1"}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "Waste2"}, {Enum.Material.Neon, Color3.fromRGB(58, 158, 58), 0, 0, nil})
+add_wrap("Rare", "Lovely Leopard", {Enum.Material.SmoothPlastic, Color3.fromRGB(248, 248, 248), 0, 0, "LovelyLeopard1"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(17, 17, 17), 0, 0, "LovelyLeopard2"}, {Enum.Material.Neon, Color3.fromRGB(161, 119, 162), 0, 0, nil})
+add_wrap("Rare", "Facility", {Enum.Material.SmoothPlastic, Color3.fromRGB(57, 58, 72), 0, 0, "Facility"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(159, 163, 191), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(57, 58, 72), 0, 0, nil}, nil, "Earned from the Season Pass during Season 1")
+add_wrap("Rare", "Peril", {"Peril", Color3.fromRGB(34, 255, 167), 0, 0, "Peril1"}, {"Peril", Color3.fromRGB(37, 158, 116), 0, 0, "Peril2"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(66, 255, 170), 0.33, 0.4, nil}, nil, "Earned from the Season Pass during Season 1")
+add_wrap("Rare", "Vigor", {"Vigor", Color3.fromRGB(255, 71, 135), 0, 0, "Vigor1"}, {"Vigor", Color3.fromRGB(231, 64, 123), 0, 0, "Vigor2"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 37, 95), 0.33, 0.4, nil}, nil, "Earned from the Season Pass during Season 1")
+add_wrap("Rare", "Bliss", {Enum.Material.Glass, Color3.fromRGB(164, 166, 255), 0, 0.3, nil}, {"Bliss", Color3.fromRGB(132, 119, 173), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(133, 126, 206), 0, 0, nil})
+add_wrap("Legendary", "Diamond", {"Diamond", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(255, 170, 24), 0, 0.4, nil}, {nil, Color3.fromRGB(255, 165, 120), nil, nil, nil}, nil, "Earned from weapon contracts", "Earned from a weapon contract for this weapon")
+add_wrap("Legendary", "Scorched", {"Scorched", Color3.fromRGB(171, 171, 171), 0, 0, nil}, {"Scorched", Color3.fromRGB(43, 43, 43), 0, 0, nil}, {nil, Color3.fromRGB(255, 79, 25), nil, nil, nil})
+add_wrap("Legendary", "Glass", {Enum.Material.Glass, Color3.fromRGB(255, 255, 255), 0.5, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(255, 255, 255), 0.5, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(255, 255, 255), 0.5, 0, nil})
+add_wrap("Legendary", "Malevolent", {"Malevolent", Color3.fromRGB(163, 162, 165), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(25, 15, 39), 0, 0, nil}, {nil, Color3.fromRGB(78, 43, 168), nil, nil, nil})
+add_wrap("Legendary", "Omnisand", {"Omnisand", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"Omnisand", Color3.fromRGB(81, 81, 81), 0, 0, nil}, {nil, Color3.fromRGB(166, 97, 48), nil, nil, nil})
+add_wrap("Legendary", "Quasar", {Enum.Material.Neon, Color3.fromRGB(255, 72, 0), 0, 0, "Quasar"}, {Enum.Material.Neon, Color3.fromRGB(255, 72, 0), 0, 0, "Quasar"}, {nil, Color3.fromRGB(255, 105, 94), nil, nil, nil})
+add_wrap("Legendary", "Slime", {"Slime", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {"Slime", Color3.fromRGB(70, 53, 0), 0, 0, nil}, {nil, Color3.fromRGB(76, 255, 48), nil, nil, nil})
+add_wrap("Legendary", "Water", {Enum.Material.Neon, Color3.fromRGB(170, 170, 170), 0, 0, "Water1"}, {Enum.Material.Neon, Color3.fromRGB(46, 89, 107), 0, 0, "Water2"}, {Enum.Material.Neon, Color3.fromRGB(77, 129, 175), 0, 0, nil})
+add_wrap("Legendary", "Black Opal", {Enum.Material.Neon, Color3.fromRGB(96, 241, 96), 0, 0, "BlackOpal"}, {"Black Opal", Color3.fromRGB(17, 17, 17), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(92, 163, 125), 0, 0, nil})
+add_wrap("Legendary", "Hesper", {"Hesper", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {"Hesper", Color3.fromRGB(11, 33, 48), 0, 0, nil}, {nil, Color3.fromRGB(255, 118, 76), nil, nil, nil})
+add_wrap("Legendary", "Sunset", {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(213, 115, 61), 0, 0, "Sunset"}, {Enum.Material.Neon, Color3.fromRGB(213, 115, 61), 0, 0, nil})
+add_wrap("Legendary", ".exe", {Enum.Material.Neon, Color3.fromRGB(138, 225, 118), 0, 0, ".exe"}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(138, 225, 118), 0, 0, nil})
+add_wrap("Legendary", "Disco", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0.5, "Disco"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0.5, nil}, {nil, Color3.fromRGB(255, 255, 255), nil, nil, nil}, nil, "Included in the Standard Weapons Bundle")
+add_wrap("Legendary", "Classic", {Enum.Material.Plastic, Color3.fromRGB(27, 42, 53), 0, 0, nil}, {Enum.Material.Plastic, Color3.fromRGB(27, 42, 53), 0, 0, nil}, {Enum.Material.Plastic, Color3.fromRGB(27, 42, 53), 0.5, 0, nil}, nil, "Included in the Classic Bundle")
+add_wrap("Legendary", "Magma", {Enum.Material.Neon, Color3.fromRGB(255, 141, 75), 0, 0, "Magma"}, {Enum.Material.Neon, Color3.fromRGB(255, 141, 75), 0, 0, "Magma"}, {nil, Color3.fromRGB(255, 141, 75), nil, nil, nil}, nil, "Included in the Heavy Duty Bundle")
+add_wrap("Legendary", "Nebula", {Enum.Material.Neon, Color3.fromRGB(137, 100, 248), 0, 0, "Nebula1"}, {Enum.Material.Neon, Color3.fromRGB(199, 171, 255), 0, 0, "Nebula2"}, {nil, Color3.fromRGB(133, 103, 255), nil, nil, nil}, nil, "Included in the Exogun Bundle")
+add_wrap("Legendary", "Aurum", {Enum.Material.Neon, Color3.fromRGB(176, 130, 74), 0, 0, "Aurum"}, {"Aurum", Color3.fromRGB(17, 17, 17), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(175, 128, 80), 0, 0, nil}, nil, "Included in the Medkit Bundle")
+add_wrap("Legendary", "Paint", {"Paint", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(212, 212, 212), 0, 0.1, nil}, {nil, Color3.fromRGB(212, 212, 212), nil, nil, nil}, nil, "Included in the Starter Bundle")
+add_wrap("Legendary", "Geometric", {"Geometric", nil, nil, nil, nil}, {"Geometric", nil, nil, nil, nil}, {"Geometric", nil, nil, nil, nil}, nil, "Included in the Pixel Bundle")
+add_wrap("Legendary", ".dll", {Enum.Material.Neon, Color3.fromRGB(108, 134, 223), 0, 0, ".dll"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0.05, nil}, {Enum.Material.Neon, Color3.fromRGB(97, 123, 184), 0, 0, nil}, nil, "Included in the Energy Bundle")
+add_wrap("Legendary", "Cardboard", {Enum.Material.SmoothPlastic, Color3.fromRGB(143, 121, 89), 0, 0, "Cardboard1"}, {Enum.Material.Plaster, Color3.fromRGB(117, 98, 72), 0, 0, "Cardboard2"}, {Enum.Material.Neon, Color3.fromRGB(161, 130, 109), 0, 0, nil}, nil, "Included in the RPG Bundle")
+add_wrap("Legendary", "Wealth", {"Wealth", Color3.fromRGB(0, 255, 0), 0, 0, nil}, {"Wealth", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(95, 252, 100), nil, nil, nil}, nil, "Used to be included in Key Bundles")
+add_wrap("Legendary", "Lucre", {"Wealth", Color3.fromRGB(255, 213, 0), 0, 0, nil}, {"Wealth", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(255, 140, 73), nil, nil, nil}, nil, "Used to be included in Key Bundles")
+add_wrap("Legendary", "Luxurious", {Enum.Material.Glass, Color3.fromRGB(255, 176, 0), 0, 0.6, "Luxurious"}, {Enum.Material.Glass, Color3.fromRGB(255, 176, 0), 0, 0.6, nil}, {Enum.Material.Neon, Color3.fromRGB(167, 156, 117), 0, 0, nil}, nil, "Included in Key Bundles")
+add_wrap("Legendary", "Supernova", {Enum.Material.Neon, Color3.fromRGB(255, 255, 255), 0, 0, "Supernova"}, {Enum.Material.Neon, Color3.fromRGB(255, 255, 255), 0, 0, "Supernova"}, {nil, Color3.fromRGB(84, 246, 255), nil, nil, nil}, nil, "Legendary drop from Daily Tasks")
+add_wrap("Legendary", "Groove", {"Groove", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"Groove", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(255, 99, 99), nil, nil, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Blaze", {Enum.Material.Neon, Color3.fromRGB(255, 0, 0), 0, 0, "Blaze1"}, {Enum.Material.Neon, Color3.fromRGB(154, 85, 32), 0, 0, "Blaze2"}, {nil, Color3.fromRGB(255, 106, 69), nil, nil, nil}, nil, "Earned by winning 100 duels in a row")
+add_wrap("Legendary", "Beach", {nil, Color3.fromRGB(42, 157, 143), 0, 0, nil}, {nil, Color3.fromRGB(233, 196, 106), 0, 0, nil}, {nil, Color3.fromRGB(119, 207, 255), nil, nil, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Malachite", {"Malachite", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(94, 255, 148), nil, nil, nil})
+add_wrap("Legendary", "Arabesque", {"Arabesque", Color3.fromRGB(98, 77, 0), 0, 0.2, nil}, {Enum.Material.Glass, Color3.fromRGB(98, 77, 0), 0, 0.4, nil}, {nil, Color3.fromRGB(170, 154, 115), nil, nil, nil})
+add_wrap("Legendary", "Webbed", {"Webbed", Color3.fromRGB(117, 0, 0), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(27, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(255, 69, 69), nil, nil, nil})
+add_wrap("Legendary", "Lightning", {Enum.Material.Neon, Color3.fromRGB(255, 125, 92), 0, 0, "Lightning"}, {Enum.Material.Glass, Color3.fromRGB(72, 34, 14), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(166, 123, 94), 0, 0, nil})
+add_wrap("Legendary", "Plastic", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0.5, 0.5, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0.5, 0.5, nil}, {nil, Color3.fromRGB(255, 255, 255), nil, nil, nil})
+add_wrap("Legendary", "Chrome", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 1, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 1, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 1, nil})
+add_wrap("Legendary", "A5", {"A5", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Concrete, Color3.fromRGB(255, 220, 192), 0, 0, nil}, {nil, Color3.fromRGB(255, 139, 139), nil, nil, nil})
+add_wrap("Legendary", "Amber", {"Amber", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"Amber", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(255, 158, 93), nil, nil, nil})
+add_wrap("Legendary", "Insidious", {"Insidious", Color3.fromRGB(190, 104, 98), 0, 0, nil}, {"Insidious", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(255, 111, 111), nil, nil, nil})
+add_wrap("Legendary", "Iridescent", {Enum.Material.Neon, Color3.fromRGB(166, 145, 211), 0, 0, "Iridescent1"}, {Enum.Material.Neon, Color3.fromRGB(166, 145, 211), 0, 0, "Iridescent2"}, {Enum.Material.Neon, Color3.fromRGB(156, 143, 163), 0, 0, nil})
+add_wrap("Legendary", "Moonstone", {"Moonstone", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"Moonstone", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {nil, Color3.fromRGB(146, 160, 190), nil, nil, nil})
+add_wrap("Legendary", "Bright", {Enum.Material.Neon, Color3.fromRGB(160, 160, 160), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(160, 160, 160), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(160, 160, 160), 0, 0, nil})
+add_wrap("Legendary", "Dark", {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, nil})
+add_wrap("Legendary", "Mischief", {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "Mischief"}, {Enum.Material.Glass, Color3.fromRGB(53, 39, 94), 0, 0, nil}, {nil, Color3.fromRGB(139, 131, 255), nil, nil, nil})
+add_wrap("Legendary", "Carbon Fiber", {"Carbon Fiber", Color3.fromRGB(17, 17, 17), 0, 0, nil}, {"Carbon Fiber", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, nil})
+add_wrap("Legendary", "Hyperdrive", {"Hyperdrive", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(143, 156, 173), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(159, 173, 192), 0, 0, nil})
+add_wrap("Legendary", "Insignia", {"Insignia", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {"Insignia", Color3.fromRGB(17, 17, 17), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(199, 172, 120), 0, 0, nil})
+add_wrap("Legendary", "Liquid Gold", {"Liquid Gold", Color3.fromRGB(180, 123, 0), 0, 0, nil}, {"Liquid Gold", Color3.fromRGB(255, 176, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(199, 172, 120), 0, 0, nil})
+add_wrap("Legendary", "Cardinal", {"Cardinal", Color3.fromRGB(255, 175, 175), 0, 0, nil}, {"Cardinal", Color3.fromRGB(17, 17, 17), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(227, 74, 76), 0, 0, nil})
+add_wrap("Legendary", "Starblaze", {"Starblaze 2", Color3.fromRGB(248, 248, 248), 0, 0, nil}, {"Starblaze 1", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(177, 35, 25), 0, 0, nil})
+add_wrap("Legendary", "Starfall", {"Hyperdrive", Color3.fromRGB(9, 137, 207), 0, 0, nil}, {"Starblaze 1", Color3.fromRGB(0, 255, 255), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(24, 74, 255), 0, 0, nil})
+add_wrap("Legendary", "Tiger", {"Tiger", Color3.fromRGB(255, 114, 14), 0, 0, nil}, {"Tiger", Color3.fromRGB(17, 17, 17), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(255, 86, 7), 0, 0, nil})
+add_wrap("Legendary", "Watermelon", {"Watermelon Red", Color3.fromRGB(255, 131, 131), 0, 0, nil}, {"Watermelon Green", Color3.fromRGB(204, 255, 204), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(163, 75, 75), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Damascus", {"Damascus", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(195, 195, 195), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Black Damascus", {"BlackDamascus", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Pixel Blight", {Enum.Material.Neon, nil, 0, 0, "PixelBlight", "PixelBlight"}, {Enum.Material.Neon, nil, 0, 0, "PixelBlight", "PixelBlight"}, {Enum.Material.Neon, nil, 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Empress", {Enum.Material.Neon, Color3.fromRGB(255, 255, 255), 0, 0, "Empress"}, {Enum.Material.Neon, Color3.fromRGB(255, 255, 255), 0, 0, "Empress"}, {Enum.Material.Neon, Color3.fromRGB(172, 150, 181), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Arena", {Enum.Material.SmoothPlastic, Color3.fromRGB(151, 153, 163), 0, 0, "ArenaTex"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(132, 134, 143), 0, 0, "ArenaTex"}, {Enum.Material.Neon, Color3.fromRGB(151, 153, 163), 0, 0, nil}, nil, "Purchased from the Shop")
+add_wrap("Legendary", "Simulation", {Enum.Material.Neon, Color3.fromRGB(30, 98, 153), 0, 0, "Simulation_1"}, {Enum.Material.Neon, Color3.fromRGB(16, 51, 81), 0, 0, "Simulation_2"}, {Enum.Material.Neon, Color3.fromRGB(80, 122, 170), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Sunset Sparkle", {Enum.Material.Neon, Color3.fromRGB(255, 137, 137), 0, 0, "SunsetSparkle1"}, {Enum.Material.Neon, Color3.fromRGB(88, 0, 117), 0, 0, "SunsetSparkle2"}, {Enum.Material.Neon, Color3.fromRGB(161, 122, 90), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Messis", {Enum.Material.SmoothPlastic, Color3.fromRGB(17, 17, 17), 0, 0, "Messis1"}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "Messis2"}, {Enum.Material.Neon, Color3.fromRGB(82, 159, 72), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Birthday Wrapping", {"WrappingPaper_01c", Color3.fromRGB(68, 117, 223), 0, 0, nil}, {"Pearlescent_01c", Color3.fromRGB(255, 173, 32), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(173, 150, 110), 0, 0, nil}, nil, "Purchased from the Shop during the RIVALS Birthday Party")
+add_wrap("Legendary", "RIVALS Wrapping", {"WrappingPaper_01c", Color3.fromRGB(255, 148, 26), 0, 0, "RivalsWrapping"}, {"Pearlescent_01d", Color3.fromRGB(161, 18, 166), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(145, 114, 172), 0, 0, nil}, nil, "Purchased from the Shop during the RIVALS Birthday Party")
+add_wrap("Legendary", "Shadow Ink", {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "ShadowInk1"}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "ShadowInk2"}, {Enum.Material.Neon, Color3.fromRGB(91, 76, 171), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Triplaser", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0.5, "Tripwire1"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(199, 199, 199), 0, 0.5, nil}, {Enum.Material.Neon, Color3.fromRGB(163, 73, 73), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Hologram Arena", {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0.7, 0, "HologramArena1"}, {Enum.Material.Glass, Color3.fromRGB(17, 17, 17), 0, 0, "HologramArena2"}, {Enum.Material.Neon, Color3.fromRGB(96, 155, 176), 0, 0, nil}, nil, "Purchased from the Shop")
+add_wrap("Legendary", "Honey", {"Honey", Color3.fromRGB(255, 159, 42), 0, 0, "Honey1"}, {Enum.Material.Glass, Color3.fromRGB(212, 119, 19), 0.25, 0, "Honey2"}, {Enum.Material.Neon, Color3.fromRGB(166, 110, 61), 0, 0, nil}, nil, "Purchased from the Shop")
+add_wrap("Legendary", "Resolute", {"Resolute", Color3.fromRGB(0, 16, 176), 0, 0, nil}, {"Resolute", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 255), 0, 0, nil})
+add_wrap("Legendary", "Thunderburst", {Enum.Material.Neon, Color3.fromRGB(253, 234, 141), 0, 0, "Thunderburst"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0.05, nil}, {Enum.Material.Neon, Color3.fromRGB(163, 160, 130), 0, 0, nil})
+add_wrap("Legendary", "Encrypt", {"Encrypt", Color3.fromRGB(0, 172, 57), 0, 0, nil}, {"Encrypt", Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(131, 255, 129), 0, 0, nil})
+add_wrap("Legendary", "Mummy", {Enum.Material.Neon, Color3.fromRGB(121, 171, 96), 0, 0, "Mummy"}, {Enum.Material.Neon, Color3.fromRGB(121, 171, 96), 0, 0, "MummyDark"}, {Enum.Material.Neon, Color3.fromRGB(121, 171, 96), 0, 0, nil})
+add_wrap("Legendary", "Scourge", {"Scourge", Color3.fromRGB(170, 85, 0), 0, 0, nil}, {"Scourge", Color3.fromRGB(17, 17, 17), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(168, 90, 0), 0, 0, nil})
+add_wrap("Legendary", "Frankenstein", {"Frankenstein", Color3.fromRGB(83, 135, 0), 0, 0, nil}, {"Frankenstein Metal", Color3.fromRGB(145, 161, 168), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(104, 163, 109), 0, 0, nil})
+add_wrap("Legendary", "Hallow", {nil, Color3.fromRGB(0, 0, 0), 0, 0.05, nil}, {nil, Color3.fromRGB(255, 119, 0), 0, 0.1, nil}, {Enum.Material.Neon, Color3.fromRGB(255, 119, 0), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Greenflame", {Enum.Material.Neon, Color3.fromRGB(0, 255, 0), 0, 0, "Greenflame1"}, {Enum.Material.Neon, Color3.fromRGB(117, 162, 48), 0, 0, "Greenflame2"}, {nil, Color3.fromRGB(122, 255, 14), nil, nil, nil}, nil, "Used to be included in Candy Bundles")
+add_wrap("Legendary", "Aurora", {Enum.Material.Neon, Color3.fromRGB(129, 255, 110), 0, 0, "Aurora"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(17, 17, 17), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(129, 255, 110), 0, 0, nil})
+add_wrap("Legendary", "Wintergreen", {"GlossyCandyCane2", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"GlossyGeneric", Color3.fromRGB(0, 134, 19), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(102, 167, 104), 0, 0, nil}, nil, "Used to be purchased from the Shop")
+add_wrap("Legendary", "Gingerbread", {"Gingerbread", Color3.fromRGB(225, 156, 107), 0, 0, "Gingerbread"}, {"Gingerbread", Color3.fromRGB(86, 66, 54), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(167, 153, 130), 0, 0, nil})
+add_wrap("Legendary", "Peppermint", {"GlossyCandyCane", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {"GlossyGeneric", Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(161, 52, 52), 0, 0, nil})
+add_wrap("Legendary", "Crystallized", {Enum.Material.Glass, Color3.fromRGB(18, 238, 212), 0.85, 0, "Crystallized"}, {Enum.Material.Glass, Color3.fromRGB(18, 238, 212), 0.85, 0, "Crystallized"}, {Enum.Material.Glass, Color3.fromRGB(175, 221, 255), 0.5, 0, nil}, nil, "Used to be included in Crystal Bundles")
+add_wrap("Legendary", "2025 Wrapping", {"WrappingPaper", Color3.fromRGB(59, 58, 57), 0, 0, "2025Wrapping"}, {"WrappingPearlescent", Color3.fromRGB(255, 191, 87), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(179, 173, 88), 0, 0, nil})
+add_wrap("Legendary", "Bombastic", {Enum.Material.Neon, Color3.fromRGB(220, 97, 40), 0, 0, "Bombastic1"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(53, 53, 53), 0, 0, "Bombastic2"}, {Enum.Material.Neon, Color3.fromRGB(161, 93, 47), 0, 0, nil})
+add_wrap("Legendary", "Candy Apple", {"CandyGlossy", Color3.fromRGB(23, 152, 0), 0, 0, "CandyGlossy"}, {"CandyGlossy", Color3.fromRGB(255, 128, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(133, 161, 68), 0, 0.1, nil})
+add_wrap("Legendary", "Dark Arena", {Enum.Material.SmoothPlastic, Color3.fromRGB(35, 35, 35), 0, 0, "DarkArena1"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0, "DarkArena2"}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 1, 0, "DarkArena3"})
+add_wrap("Legendary", "Green Sparkle", {Enum.Material.Neon, Color3.fromRGB(39, 70, 45), 0, 0, "GreenSparkle1"}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "GreenSparkle2"}, {Enum.Material.Neon, Color3.fromRGB(124, 161, 64), 0, 0, nil})
+add_wrap("Legendary", "Indigo Sparkle", {Enum.Material.Neon, Color3.fromRGB(104, 35, 207), 0, 0, "IndigoSparkle1"}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "IndigoSparkle2"}, {Enum.Material.Neon, Color3.fromRGB(78, 60, 177), 0, 0, nil})
+add_wrap("Legendary", "Mesh", {Enum.Material.ForceField, Color3.fromRGB(0, 0, 0), 0, 0, "DarkMesh"}, {Enum.Material.ForceField, Color3.fromRGB(0, 0, 0), 0, 0, "DarkMesh"}, {Enum.Material.ForceField, Color3.fromRGB(255, 255, 255), 0, 0, "LightMesh"})
+add_wrap("Legendary", "Rift", {Enum.Material.Neon, Color3.fromRGB(17, 17, 17), 0, 0, "Rift"}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(172, 99, 156), 0, 0, nil})
+add_wrap("Legendary", "Spectral", {Enum.Material.Neon, Color3.fromRGB(55, 255, 95), 0, 0, "Spectral"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(71, 255, 203), 0, 0.4, nil}, {Enum.Material.Neon, Color3.fromRGB(92, 158, 119), 0, 0, nil})
+add_wrap("Legendary", "Hologram", {Enum.Material.Neon, Color3.fromRGB(84, 138, 255), 0.6, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(84, 138, 255), 0.6, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(84, 138, 255), 0.6, 0, nil})
+add_wrap("Legendary", "Bubbles", {Enum.Material.ForceField, Color3.fromRGB(255, 255, 255), 0.9, 0, "Bubbles"}, {Enum.Material.ForceField, Color3.fromRGB(255, 255, 255), 0.9, 0, "Bubbles"}, {Enum.Material.ForceField, Color3.fromRGB(255, 255, 255), 0.9, 0, "Bubbles"}, nil, "Earned by gifting other players")
+add_wrap("Legendary", "Black Glass", {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0.6, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0.6, 0, nil}, {Enum.Material.Glass, Color3.fromRGB(0, 0, 0), 0.6, 0, nil}, nil, "Purchased from the Ranked Shop")
+add_wrap("Legendary", "Magnetite", {Enum.Material.Glass, Color3.fromRGB(130, 80, 255), 0, -2, "Magnetite"}, {Enum.Material.Glass, Color3.fromRGB(55, 33, 108), 0, -2, nil}, {Enum.Material.Neon, Color3.fromRGB(81, 21, 166), 0, 0, nil}, nil, "Earned from the Season Pass during Season 1")
+add_wrap("Legendary", "Devourer", {Enum.Material.SmoothPlastic, Color3.fromRGB(82, 84, 111), 0, 0, "Devourer1"}, {Enum.Material.Neon, Color3.fromRGB(159, 95, 175), 0, 0, "Devourer2"}, {Enum.Material.Neon, Color3.fromRGB(171, 108, 175), 0, 0, nil})
+add_wrap("Legendary", "Bee", {"Bee", Color3.fromRGB(255, 217, 103), 0, 0, "Bee1"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(42, 38, 16), 0, 0, nil}, {"BeeWing", Color3.fromRGB(152, 194, 219), 0.4, 0, nil})
+add_wrap("Legendary", "Mint Choco Chip", {Enum.Material.SmoothPlastic, Color3.fromRGB(225, 255, 164), 0, 0, "MintChocoChip1"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(48, 40, 31), 0, 0, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(225, 255, 164), 0, 0, nil})
+add_wrap("Mythical", "Dark Matter", {"CandyGlossy", Color3.fromRGB(129, 107, 255), 0, 0, "DarkMatter1", nil, "Dark Matter"}, {"CandyGlossy", Color3.fromRGB(129, 107, 255), 0, 0, "DarkMatter2", nil, "Dark Matter"}, {Enum.Material.Neon, Color3.fromRGB(142, 98, 238), 0, 0, "DarkMatter3", nil, "Dark Matter"}, nil, "Earned from weapon contracts", "Earned from a weapon contract for this weapon")
+add_wrap("Mythical", "Neon Lights", {Enum.Material.SmoothPlastic, Color3.fromRGB(42, 46, 49), 0, 0, "NeonLights1", nil, "Neon Lights"}, {Enum.Material.Neon, Color3.fromRGB(21, 0, 65), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(125, 111, 165), 0, 0, nil})
+add_wrap("Mythical", "Solar", {Enum.Material.SmoothPlastic, Color3.fromRGB(98, 15, 0), 0, 0, "Solar1", nil, "Solar"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(120, 52, 21), 0, 0, "Solar2", nil, "Solar"}, {Enum.Material.Neon, Color3.fromRGB(168, 116, 78), 0, 0, nil})
+add_wrap("Mythical", "Speed", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0, "Speed2", nil, "Speed"}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(161, 105, 73), 0, 0, nil})
+add_wrap("Mythical", "Celestial", {Enum.Material.Glass, Color3.fromRGB(0, 32, 96), 0.25, 0, "Celestial", nil, "Celestial"}, {Enum.Material.Metal, Color3.fromRGB(110, 116, 141), 0, 0, nil}, {Enum.Material.Neon, Color3.fromRGB(77, 114, 173), 0, 0, nil}, nil, "Earned by completing your Daily Tasks with a 7 day Task Streak")
+add_wrap("Mythical", "Encroached", {Enum.Material.Neon, Color3.fromRGB(96, 92, 209), 0, 0, "Encroached1", nil, "Encroached"}, {Enum.Material.Metal, Color3.fromRGB(91, 93, 163), 0, 0, "Encroached2"}, {Enum.Material.Neon, Color3.fromRGB(106, 101, 231), 0, 0, nil}, nil, "Included in the Season 1 Bundle")
+add_wrap("Mythical", "Fracture", {Enum.Material.Neon, Color3.fromRGB(105, 226, 161), 0, 0, "Fracture1", nil, "Fracture"}, {Enum.Material.Metal, Color3.fromRGB(0, 0, 0), 0, 0, "Fracture2"}, {Enum.Material.Neon, Color3.fromRGB(114, 255, 180), 0.5, 0, nil})
+add_wrap("Mythical", "Aegis", {"Aegis", Color3.fromRGB(134, 207, 255), 0, 0, "Aegis1", nil, "Aegis"}, {Enum.Material.Metal, Color3.fromRGB(239, 184, 56), 0, 0, "Aegis2"}, {Enum.Material.Neon, Color3.fromRGB(255, 160, 116), 0, 0, nil})
+add_wrap("Unobtainable", "MISSING_WRAP", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 0, 255), 0, 0, nil, nil, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(0, 0, 0), 0, 0, nil, nil, nil}, nil, true, "Note to self")
+add_wrap("Unobtainable", "Rivalry", {"RivalryMaterial", Color3.fromRGB(126, 52, 255), 0, 0, "Rivalry2", nil, "Rivalry"}, {"RivalryMaterial", Color3.fromRGB(126, 52, 255), 0, 0, "Rivalry2", nil, "Rivalry"}, {"RivalryMaterial", Color3.fromRGB(126, 52, 255), 0, 0, "Rivalry2", nil, "Rivalry"}, true, "Given to team members of the group (Nosniy Games)")
+add_wrap("Unobtainable", "Scribble", {"Scribble", Color3.fromRGB(255, 255, 255), 0, 0, nil, nil, nil}, {"Scribble", Color3.fromRGB(0, 0, 0), 0, 0, nil, nil, nil}, {Enum.Material.Neon, Color3.fromRGB(159, 161, 172), 0, 0, nil, nil, nil}, true, "Obtained by submitting a concept that makes it into the game (RIVALS)")
+add_wrap("Unobtainable", "Net", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 0.75, 0, "Net1", nil, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(165, 114, 55), 0, 0, "Net2", nil, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 255, 255), 1, 0, "Net3", nil, nil}, true, "Given to bug hunters, thank you for helping us improve the game (RIVALS)")
+add_wrap("Unobtainable", "Accretion", {Enum.Material.SmoothPlastic, Color3.fromRGB(149, 167, 248), 0, 0.4, nil, nil, nil}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "Accretion2", nil, nil}, {Enum.Material.Neon, Color3.fromRGB(0, 0, 0), 0, 0, "Accretion3", nil, nil}, true, "im like hey whats up hello")
+add_wrap("Unobtainable", "Eruption", {Enum.Material.Neon, Color3.fromRGB(255, 112, 69), 0, 0, "Eruption1", nil, nil}, {Enum.Material.Neon, Color3.fromRGB(218, 96, 9), 0, 0, "Eruption2", nil, nil}, {Enum.Material.Neon, Color3.fromRGB(168, 92, 69), 0, 0, nil, nil, nil}, true, "RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+add_wrap("Unobtainable", "Ultrablue", {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 213, 0), 0, 10, nil, nil, nil}, {Enum.Material.SmoothPlastic, Color3.fromRGB(255, 213, 0), 0, 10, nil, nil, nil}, {Enum.Material.Glass, Color3.fromRGB(255, 255, 255), 0.5, 0, nil, nil, nil}, true, "idk")
+local function _(arg1, arg2, arg3, arg4, arg5) -- Line 827, Named "add_charm"
+	--[[ Upvalues[1]:
+		[1]: add_cosmetic_upvr (readonly)
+	]]
+	add_cosmetic_upvr("Charm", arg1, arg2, nil, nil, arg3, arg4, arg5, {})
+end
+add_cosmetic_upvr("Charm", "Unique", "Day 1", nil, nil, nil, "Earned by redeeming a code when the game (RIVALS) released", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "100M Visits", nil, nil, nil, "Earned by redeeming a code when the game (RIVALS) reached 100,000,000 visits", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Nosniy Games", nil, nil, nil, "Join the group (Nosniy Games)", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Shooting Star", nil, nil, nil, "Favorite the game (RIVALS)", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "RIVALS", nil, nil, nil, "Like the game (RIVALS)", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Bell", nil, nil, nil, "Enable notifications for the game (RIVALS)", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Mini Present", nil, nil, nil, "Earned during the 2024 Festive Event", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "3D Glasses", nil, nil, nil, "Earned by watching a quick video ad in the Shop", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Bungeoppang", nil, nil, nil, "Earned by completing a special challenge during the release of the Bridge map", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Hunt Token", nil, nil, nil, "Earned by completing the Roblox 2025 The Hunt: Mega Edition", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Mega Token", nil, nil, nil, "Earned by finding the Mega Token in the Roblox 2025 The Hunt: Mega Edition", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "1st Birthday Cake", nil, nil, nil, "Earned by making it to the 1st birthday party for the game (RIVALS)", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "I Survived Season 0", nil, nil, nil, "Given to players affected by the 3,400+ ELO reset during Ranked Season 0", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Season 0", nil, nil, nil, "Earned by playing Ranked Season 0", nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Nosniy", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "SenseiWarrior", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "nekoanims", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Blizmid", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Bandites", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "CarbonMeister", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "DV", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "oPixel", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "TanqR", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "BobbVX", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "MiniBloxia", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "enriquebruv", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Chex", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "hoppy819", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Hoopie", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Kaye", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Karful", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Brian1KB", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "GreatGuyBoom", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "ShadowTrojan", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Khayri", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "8sty", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "Applino", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "viecti", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "SharkTactics", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "D_reamz", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "atorix", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "philhood", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Unique", "RIA25 Award", nil, nil, nil, "Earned by redeeming a code when the game (RIVALS) won the RIA25 Best Shooter Experience award", nil, {})
+add_cosmetic_upvr("Charm", "Common", "Hook", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Cookie", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Cupcake", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Ninja Star", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Lemon Slice", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Ship Wheel", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Star", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Heart", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Bowling Pin", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Life Buoy", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Cage", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Magnet", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Potted Cactus", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Potted Flower", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Fedora Stack", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Pawn", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Hammer", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Cog", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Dice", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Traffic Cone", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Bone", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Candy", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Candy Corn", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Cobweb", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Crystal", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Mini Candy Cane", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Ornament", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Mini Shining Star", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Snowflake", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Common", "Glory Coin", nil, nil, nil, "Purchased from the Ranked Shop", nil, {})
+add_cosmetic_upvr("Charm", "Common", "Runes", nil, nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Charm", "Common", "Rune Ring", nil, nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Charm", "Common", "Armchair", nil, nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Charm", "Common", "Table Lamp", nil, nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Blobfish", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Pufferfish", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Bitster", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Mystery Block", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Anvil", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Basketball", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Money Bag", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Rubber Duck", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "10 Gallon Hat", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "UFO", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Emoji: Weary", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Poop", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Rocket Ship", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Hotdog", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Moai", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Golf Ball", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Football", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Tennis Ball", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Rainbow", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Potion", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Caramel Apple", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Devious Pumpkin", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Gravestone", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Festive Light", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Hot Chocolate", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Stocking", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Mini Portal", nil, nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Charm", "Rare", "Mini Unstable Portal", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Mini Ban Hammer", nil, nil, nil, "Included in the Classic Bundle", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Mini Disco Ball", nil, nil, nil, "Included in the Standard Weapons Bundle", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Alien Head", nil, nil, nil, "Included in the Exogun Bundle", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "First Aid", nil, nil, nil, "Included in the Medkit Bundle", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Mini Key", nil, nil, nil, "Included in Key Bundles", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Emoji: Nauseated", nil, nil, nil, "Included in the Starter Bundle", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Explosion", nil, nil, nil, "Included in the Heavy Duty Bundle", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "EZ", nil, nil, nil, "Included in the Pixel Bundle", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Energy Cell", nil, nil, nil, "Included in the Energy Bundle", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Emoji: Nerd", nil, nil, nil, "Included in the RPG Bundle", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Skull", nil, nil, nil, "Used to be purchased from the Shop", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Cauldron", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Eyeclipse", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Frankenblob", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Skullgourd", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Dumbkin", nil, nil, nil, "Used to be included in Candy Bundles", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chillman", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Gingerbread Cat", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Wreath", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Jingle Bell", nil, nil, nil, "Used to be purchased from the Shop", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Mini Snowglobe", nil, nil, nil, "Used to be included in Crystal Bundles", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Bow", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Burst Rifle", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Chainsaw", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Daggers", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Energy Pistols", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Exogun", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Fists", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Flamethrower", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Grenade", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Grenade Launcher", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Handgun", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Flare Gun", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Jump Pad", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Katana", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Knife", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Medkit", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Minigun", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Molotov", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Paintball Gun", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi RPG", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Revolver", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Satchel", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Assault Rifle", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Scythe", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Shorty", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Shotgun", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Slingshot", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Smoke Grenade", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Subspace Tripmine", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Sniper", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Spray", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Trowel", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Uzi", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi War Horn", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Battle Axe", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Crossbow", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Riot Shield", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Freeze Ray", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Energy Rifle", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Gunblade", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Flashbang", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Distortion", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Warper", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Chibi Warpstone", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Arena Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Crossroads Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Backrooms Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Battleground Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Big Arena Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Big Backrooms Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Big Crossroads Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Big Graveyard Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Big Onyx Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Big Splash Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Bridge Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Construction Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Docks Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Graveyard Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Onyx Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Playground Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Shooting Range Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Splash Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Station Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Dimension Diorama", nil, nil, nil, nil, nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Emoji: Imp", nil, nil, nil, "Purchased from the Ranked Shop", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Keycard 3", nil, nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Charm", "Legendary", "Warp Disc", nil, nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Charm", "Unobtainable", "Coinbama", nil, nil, true, "Friends & Family", nil, {})
+add_cosmetic_upvr("Charm", "Unobtainable", "Alpha Coin", nil, nil, true, "Thanks for helping us test :3", nil, {})
+add_cosmetic_upvr("Charm", "Unobtainable", "MISSING_CHARM", nil, nil, true, "Note to self", nil, {})
+local function _(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 1038, Named "add_finisher"
+	--[[ Upvalues[1]:
+		[1]: add_cosmetic_upvr (readonly)
+	]]
+	add_cosmetic_upvr("Finisher", arg1, arg2, arg3, nil, arg4, arg5, arg6, {})
+end
+add_cosmetic_upvr("Finisher", "Unique", "Jolly Judgement", "rbxassetid://90321419599834", nil, nil, "Earned from the 2024 Festive Event's Advent Calendar", nil, {})
+add_cosmetic_upvr("Finisher", "Unique", "5B Visits", "rbxassetid://114699226490363", nil, nil, "Earned by redeeming a code when the game (RIVALS) reached 5,000,000,000 visits", nil, {})
+add_cosmetic_upvr("Finisher", "Unique", "Director's Cut", "rbxassetid://103223520666152", nil, nil, "Earned by watching a quick video ad in the Shop", nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Yoink", "rbxassetid://102829647142590", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Confetti", "rbxassetid://104741243211980", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Hacked", "rbxassetid://82426114825564", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Petrify", "rbxassetid://112332768984387", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Flop", "rbxassetid://96328091359909", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Toot", "rbxassetid://140560743648551", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Spooky Confetti", "rbxassetid://86811497624542", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Batsplosion", "rbxassetid://122057521256858", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Bite", "rbxassetid://82133383488216", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Festive Confetti", "rbxassetid://70544145329602", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Wrapped", "rbxassetid://72445331312364", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Delete", "rbxassetid://115854076287500", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Squawk", "rbxassetid://74088341062653", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Digitize", "rbxassetid://108813637747773", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Chalked", "rbxassetid://97485080586138", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Folded", "rbxassetid://77198370089806", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Very Tragic Banana Peel Accident", "rbxassetid://83991814770184", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "For Glory", "rbxassetid://118264756096342", nil, nil, "Purchased from the Ranked Shop", nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Warped Away", "rbxassetid://77918264482510", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Blip", "rbxassetid://94841086478106", nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Finisher", "Common", "Faceplant", "rbxassetid://88948574020907", nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Freeze", "rbxassetid://98529191510110", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "High Gravity", "rbxassetid://96732292347041", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Collapse", "rbxassetid://73392477829194", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Splatter", "rbxassetid://102973927915607", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Tremble", "rbxassetid://95468028863260", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Rush", "rbxassetid://126499829143959", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Midas Touch", "rbxassetid://114357416172786", nil, nil, "Earned from weapon contracts", "Earned from a weapon contract for this weapon", {})
+add_cosmetic_upvr("Finisher", "Rare", "Bonesplosion", "rbxassetid://130788066745511", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Lost Soul", "rbxassetid://118248684115036", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Reaper", "rbxassetid://127213865323328", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Frozen", "rbxassetid://134114034173010", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Gingerbreadify", "rbxassetid://139642060967648", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Flick", "rbxassetid://91644072854680", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Heavy Head", "rbxassetid://78860800597917", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Bad Mood", "rbxassetid://99622848264737", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Ascend", "rbxassetid://108671357927051", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Roadrunner", "rbxassetid://123109101762106", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Hooked", "rbxassetid://135161057713623", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Bogey", "rbxassetid://78461567525312", nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Finisher", "Rare", "Warp Sickness", "rbxassetid://95052578441962", nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "OOF", "rbxassetid://126776522933695", nil, nil, "Included in the Classic Bundle", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Ignite", "rbxassetid://134442726960420", nil, nil, "Included in the Heavy Duty Bundle", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Boogie", "rbxassetid://73791204303375", nil, nil, "Included in the Standard Weapons Bundle", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Low Gravity", "rbxassetid://82935062788662", nil, nil, "Included in the Exogun Bundle", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Stiff", "rbxassetid://115882469899440", nil, nil, "Included in the Starter Bundle", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Heartbeat", "rbxassetid://87519063117594", nil, nil, "Included in the Medkit Bundle", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Pixel Coins", "rbxassetid://92644850029616", nil, nil, "Included in the Pixel Bundle", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Beacon", "rbxassetid://98809320060817", nil, nil, "Included in the Energy Bundle", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Erased", "rbxassetid://88556189232995", nil, nil, "Included in the RPG Bundle", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Opulent", "rbxassetid://101696122903986", nil, nil, "Included in Key Bundles", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Orbital Strike", "rbxassetid://109881673283194", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Tough Crowd", "rbxassetid://114669648248372", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "BONK!", "rbxassetid://99051381910214", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Darkheart", "rbxassetid://108380782682249", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Balloons", "rbxassetid://136702616652550", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Electrocute", "rbxassetid://73752311595809", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Diamond Hands", "rbxassetid://82379000922589", nil, nil, "Earned from weapon contracts", "Earned from a weapon contract for this weapon", {})
+add_cosmetic_upvr("Finisher", "Legendary", "RIP", "rbxassetid://125413876114976", nil, nil, "Used to be purchased from the Shop", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Disintegrate", "rbxassetid://122124911858258", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Broom Ride", "rbxassetid://94004294239279", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Zombified", "rbxassetid://118642793984362", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "DRIP", "rbxassetid://72617401862034", nil, nil, "Used to be included in Candy Bundles", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Snowballed", "rbxassetid://134500016062172", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "David", "rbxassetid://118078924229498", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Giant Ice Spike", "rbxassetid://83215636937328", nil, nil, "Used to be included in Crystal Bundles", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Falling Icicles", "rbxassetid://110649955330233", nil, nil, "Used to be purchased from the Shop", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Chark Attack", "rbxassetid://129157579936707", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "GOOAAALLLL", "rbxassetid://84624379263977", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Crushed", "rbxassetid://106966455049956", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Clapped", "rbxassetid://123917282718123", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Enlightened", "rbxassetid://127327248433603", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Rainbow Barf", "rbxassetid://132045014783492", nil, nil, nil, nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Impaled", "rbxassetid://138149693939922", nil, nil, "Purchased from the Ranked Shop", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Spaghettified", "rbxassetid://77679769061256", nil, nil, "Included in the Season 1 Bundle", nil, {})
+add_cosmetic_upvr("Finisher", "Legendary", "Instability", "rbxassetid://106971261547575", nil, nil, "Earned from the Season Pass during Season 1", nil, {})
+add_cosmetic_upvr("Finisher", "Unobtainable", "Ragdoll", "rbxassetid://131997354939473", nil, true, "Used internally when no finisher is equipped", nil, {})
+add_cosmetic_upvr("Finisher", "Unobtainable", "Every Finisher Ever", "rbxassetid://131997354939473", nil, true, "play super golf", nil, {})
+add_cosmetic_upvr("Finisher", "Unobtainable", "Bubblegum", "rbxassetid://95870163076585", nil, true, "data mining detected, you will be banned shortly", nil, {})
+add_cosmetic_upvr("Finisher", "Unobtainable", "MISSING_FINISHER", "rbxassetid://112664260315062", nil, true, "Note to self", nil, {})
+local function _(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 1134, Named "add_emote"
+	--[[ Upvalues[1]:
+		[1]: add_cosmetic_upvr (readonly)
+	]]
+	local tbl_8 = {}
+	tbl_8.IsTaunt = arg3
+	tbl_8.IsTraversal = arg4
+	tbl_8.EmoteDescription = arg6
+	add_cosmetic_upvr("Emote", arg1, arg2, nil, nil, arg5, arg7 or "Can be purchased from the Daily Shop", nil, tbl_8)
+end
+add_cosmetic_upvr("Emote", "Common", "Shoulder Brush", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = true;
+	IsTraversal = nil;
+	EmoteDescription = "No big deal, man";
+})
+add_cosmetic_upvr("Emote", "Common", "Coo Coo", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = true;
+	IsTraversal = nil;
+	EmoteDescription = "Someone's tilted";
+})
+add_cosmetic_upvr("Emote", "Common", "Denial", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = true;
+	IsTraversal = nil;
+	EmoteDescription = "No, no, not me!";
+})
+add_cosmetic_upvr("Emote", "Common", "Facepalm", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = true;
+	IsTraversal = nil;
+	EmoteDescription = "Are you serious right now?";
+})
+add_cosmetic_upvr("Emote", "Common", "Kneel", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = true;
+	IsTraversal = nil;
+	EmoteDescription = "That was an honorable try";
+})
+add_cosmetic_upvr("Emote", "Common", "Agree", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = true;
+	IsTraversal = nil;
+	EmoteDescription = "Yeah! Yeah!";
+})
+local add_currency_reward
+local function INLINED_2() -- Internal function, doesn't exist in bytecode
+	add_currency_reward = game:GetService("Players").LocalPlayer.Name
+	return add_currency_reward
+end
+if not CONSTANTS_upvr.IS_CLIENT or not INLINED_2() then
+	add_currency_reward = "Server"
+end
+local tbl_3 = {}
+add_currency_reward = true
+tbl_3.IsTaunt = add_currency_reward
+add_currency_reward = nil
+tbl_3.IsTraversal = add_currency_reward
+tbl_3.EmoteDescription = "Think, "..add_currency_reward..'!'
+add_currency_reward = add_cosmetic_upvr
+add_currency_reward("Emote", "Common", "Think", nil, nil, nil, "Can be purchased from the Daily Shop", nil, tbl_3)
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Common", "Salty", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = true;
+	IsTraversal = nil;
+	EmoteDescription = "If you weren't salty already, now you are!";
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Rare", "Superhero", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = "Nobody panic! I'm here now";
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Rare", "Cream Cheese Honey", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = "It's cream cheese and honey sandwich time";
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Rare", "Smile", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = "What a joyful and whimsical day! =)";
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Rare", "Vegetable", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = nil;
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Rare", "Criss Cross", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = nil;
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Rare", "Side To Side", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = nil;
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Rare", "Off of You", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = nil;
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Rare", "Round & Round", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = nil;
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Rare", "Warpmaker", nil, nil, nil, "Earned from the Season Pass during Season 1", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = nil;
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Legendary", "Take The L", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = "I promise not to be toxic";
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Legendary", "Selfie", nil, nil, nil, "Can be purchased from the Daily Shop", nil, {
+	IsTaunt = true;
+	IsTraversal = nil;
+	EmoteDescription = "But first..";
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Legendary", "Flex", nil, nil, nil, "Purchased from the Ranked Shop", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = nil;
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Legendary", "ROFL", nil, nil, nil, "Earned from the Season Pass during Season 1", nil, {
+	IsTaunt = true;
+	IsTraversal = nil;
+	EmoteDescription = nil;
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Legendary", "Portal Glitch", nil, nil, nil, "Included in the Season 1 Bundle", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = nil;
+})
+add_currency_reward = "Emote"
+add_cosmetic_upvr(add_currency_reward, "Unobtainable", "MISSING_EMOTE", nil, nil, true, "Note to self", nil, {
+	IsTaunt = nil;
+	IsTraversal = nil;
+	EmoteDescription = "Note to self";
+})
+local function add_reward_upvr(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 1173, Named "add_reward"
+	--[[ Upvalues[1]:
+		[1]: module_3_upvr (readonly)
+	]]
+	local tbl_5 = {}
+	tbl_5.Name = arg2
+	tbl_5.Type = arg1
+	tbl_5.Image = arg5 or ""
+	tbl_5.ImageScale = arg6 or 1
+	tbl_5.DisplayName = arg3
+	tbl_5.DisplayNamePlural = arg4
+	local var1488 = arg7
+	if not var1488 then
+		var1488 = {}
+	end
+	for i_10, v_6 in pairs(var1488) do
+		tbl_5[i_10] = v_6
+	end
+	module_3_upvr.Rewards[arg2] = tbl_5
+end
+local function _(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 1191, Named "add_custom_reward"
+	--[[ Upvalues[1]:
+		[1]: add_reward_upvr (readonly)
+	]]
+	local tbl_10 = {}
+	tbl_10.PrioritizeNameOverQuantity = arg4
+	tbl_10.BubbleTitle = arg6
+	tbl_10.BubbleDescription = arg7
+	add_reward_upvr("Custom", arg1, arg2, arg3, arg5, nil, tbl_10)
+end
+add_currency_reward = {}
+add_currency_reward.PrioritizeNameOverQuantity = true
+add_currency_reward.BubbleTitle = "Prime Season Pass"
+add_currency_reward.BubbleDescription = "Upgrades your Season Pass!"
+add_reward_upvr("Custom", "Prime Season Pass", "Upgrade", "Upgrades", "rbxassetid://74965952714478", nil, add_currency_reward)
+add_currency_reward = {}
+add_currency_reward.PrioritizeNameOverQuantity = false
+add_currency_reward.BubbleTitle = "Pass XP"
+add_currency_reward.BubbleDescription = "Can level up your Season Pass!"
+add_reward_upvr("Custom", "Season Pass XP", "Pass XP", "Pass XP", "rbxassetid://139822751337484", nil, add_currency_reward)
+local CurrencyLibrary_upvr = require(ReplicatedStorage.Modules.CurrencyLibrary)
+function add_currency_reward(arg1, arg2, arg3) -- Line 1204
+	--[[ Upvalues[2]:
+		[1]: CurrencyLibrary_upvr (readonly)
+		[2]: add_reward_upvr (readonly)
+	]]
+	local var1494 = CurrencyLibrary_upvr.Info[arg2]
+	({
+		DataName = var1494.DataName;
+	}).BubbleDescription = arg3
+	local tbl_2 = {
+		DataName = var1494.DataName;
+	}
+	tbl_2.BubbleDescription = arg3
+	add_reward_upvr("Currency", arg1, var1494.DisplayName, var1494.DisplayNamePlural, var1494.Image, 1, tbl_2)
+end
+add_currency_reward("Key", "WeaponKeys", "Can unlock weapons!")
+add_currency_reward("Unlock Token", "UnlockTokens", "Can unlock weapons!")
+add_currency_reward("EventCurrency", "EventCurrency", "Only here for a limited time!")
+add_currency_reward("Glory", "Glory", "Earned by playing Ranked!")
+add_currency_reward("Skin Ticket", "SkinTickets", "Can purchase skin cases!")
+local function add_lootbox_upvr(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 1221, Named "add_lootbox"
+	--[[ Upvalues[3]:
+		[1]: add_reward_upvr (readonly)
+		[2]: module_3_upvr (readonly)
+		[3]: ItemLibrary_upvr (readonly)
+	]]
+	local tbl_6 = {}
+	tbl_6.SoundProfile = arg3
+	local var1503
+	local function INLINED_3() -- Internal function, doesn't exist in bytecode
+		var1503 = arg5
+		return var1503
+	end
+	if typeof(arg5) ~= "function" or not INLINED_3() then
+		function var1503() -- Line 1224
+			--[[ Upvalues[1]:
+				[1]: arg5 (readonly)
+			]]
+			return arg5
+		end
+	end
+	tbl_6.GetContents = var1503
+	var1503 = arg6 or "Contains special items!"
+	tbl_6.LootboxDescription = var1503
+	var1503 = add_reward_upvr
+	var1503("Lootbox", arg1, arg1, arg2, arg4, nil, tbl_6)
+	var1503 = table.insert
+	var1503(module_3_upvr.LootboxOrder, arg1)
+	var1503 = {}
+	for _, v_7 in pairs(tbl_6.GetContents()) do
+		assert(not var1503[v_7], v_7)
+		var1503[v_7] = true
+		if module_3_upvr.Cosmetics[v_7] then
+			module_3_upvr.Cosmetics[v_7].Description = "Unboxed from the "..arg1
+			module_3_upvr.CosmeticNameToLootbox[v_7] = arg1
+		elseif ItemLibrary_upvr.Items[v_7] then
+		elseif module_3_upvr.Rewards[v_7] then
+		else
+			assert(false, arg1..", "..v_7)
+		end
+	end
+end
+add_lootbox_upvr("Skin Case", "Skin Cases", "Case", "rbxassetid://18185475009", {"Sandwich", "Saber", "Nuke Launcher", "Whoopee Cushion", "Disco Ball", "Singularity", "Pixel Sniper", "Don't Press", "Lasergun 3000", "Firework Gun", "Pixel Flamethrower", "Swashbuckler", "Electro Rifle", "Balloon Shotgun", "Emoji Cloud", "Pixel Crossbow", "Hyper Gunblade", "The Shred", "Temporal Ray", "Slime Gun", "Blobsaw", "Plastic Shovel", "Boxing Gloves", "AK-47", "Scythe of Death", "Blaster", "Water Uzi", "Desert Eagle", "Hacker Rifle", "Hacker Pistols", "Aces", "Trumpet", "Advanced Satchel", "Compound Bow", "Not So Shorty", "Stick", "Chancla", "Coffee", "Door", "Lovely Spray", "Trampoline"})
+add_lootbox_upvr("Skin Case 2", "Skin Case 2s", "Case", "rbxassetid://18763894913", {"Hyper Sniper", "Hyper Shotgun", "AUG", "Hand Gun", "Sheriff", "Laptop", "Electro Uzi", "Karambit", "Spaceship Launcher", "Handsaws", "Camera", "Boba Gun", "Pixel Minigun", "Void Pistols", "Bounce House", "Aqua Burst", "Dynamite Gun", "Raven Bow", "Anchor", "Lightning Bolt", "Water Balloon", "Garden Shovel", "Uranium Launcher", "Ray Gun", "Bubble Ray", "Spring", "Energy Shield", "Harpoon Crossbow", "Hydro Rifle", "Lovely Shorty", "Lamethrower", "Brass Knuckles", "Balance", "Goalpost", "Torch", "Ban Axe", "Crude Gunblade", "Megaphone", "Nail Gun", "Notebook Satchel", "Paper Planes"})
+add_lootbox_upvr("Skin Case 3", "Skin Case 3s", "Case", "rbxassetid://109359591947074", {"Money Gun", "Medkitty", "Balisong", "Event Horizon", "Banana Flare", "Fighter Jet", "Harp", "Repulsor", "Tommy Gun", "FAMAS", "Peppergun", "Mega Drill", "Balloon Shorty", "Spray Bottle", "Void Rifle", "Gunsaw", "Dream Bow", "Fists of Hurt", "Gearnade Launcher", "Glitterthrower", "Gum Ray", "Hourglass", "Lava Lamp", "Paintbrush", "Sakura Scythe", "Squid Launcher", "Stellar Katana", "Cerulean Axe", "Air Horn", "Masterpiece", "Hydro Pistols", "Shady Chicken Sandwich", "Violin Crossbow", "Cactus Shotgun", "DIY Tripmine", "Dynamite", "Gumball Handgun", "Ketchup Gun", "Lightbulb", "Bag o' Money", "Shurikens"})
+add_lootbox_upvr("Wrap Box", "Wrap Boxes", "Box", "rbxassetid://18185503558", {"Solar", "Malachite", "Lightning", "Arabesque", "Webbed", "Plastic", "Chrome", "A5", "Amber", "Insidious", "Iridescent", "Moonstone", "Bright", "Dark", "Mischief", "Rage", "Obsidian", "Toy", "Scales", "Well Done", "Dunes", "Glisten", "Glossy", "Bunsen", "Storm", "Mustard", "Violet", "Jean"})
+add_lootbox_upvr("Wrap Box 2", "Wrap Box 2s", "Box", "rbxassetid://18763894596", {"Speed", "Hologram", "Thunderburst", "Encrypt", "Starblaze", "Carbon Fiber", "Hyperdrive", "Insignia", "Cardinal", "Starfall", "Resolute", "Liquid Gold", "Tiger", "Black Granite", "Cerulean", "Clamshell", "Cool Crochet", "Cork", "Hammered Copper", "Hypnotic", "Leafy Grass", "Liquid Chrome", "Mahogany", "Neo", "Pink Crochet", "Pink Glitter", "Studded", "Tempest", "Yang", "Yin", "Ancient", "Grass", "Rustic", "Copper", "Machine", "Titanium", "Tungsten"})
+add_lootbox_upvr("Wrap Box 3", "Wrap Box 3s", "Box", "rbxassetid://77468549139941", {"Neon Lights", "Mesh", "Bombastic", "Candy Apple", "Dark Arena", "Green Sparkle", "Indigo Sparkle", "Rift", "Spectral", "Lovely Leopard", "Arbiter", "Antimatter", "Crimson Art", "Model", "Plasma", "Waste", "Purpleize", "Regal", "Sentinel", "Strobe", "TIX", "Tealur", "Lavish Crystal", "Noir", "Normal", "Rust", "Tawny"})
+add_lootbox_upvr("Charm Capsule", "Charm Capsules", "Capsule", "rbxassetid://18212803422", {"Blobfish", "Pufferfish", "Bitster", "Mystery Block", "Anvil", "Basketball", "Money Bag", "Rubber Duck", "10 Gallon Hat", "UFO", "Emoji: Weary", "Poop", "Rocket Ship", "Hotdog", "Moai", "Golf Ball", "Football", "Tennis Ball", "Rainbow", "Potion", "Hook", "Cookie", "Cupcake", "Ninja Star", "Lemon Slice", "Ship Wheel", "Star", "Heart", "Bowling Pin", "Life Buoy", "Cage", "Magnet", "Potted Cactus", "Potted Flower", "Fedora Stack", "Pawn", "Hammer", "Cog", "Dice", "Traffic Cone"})
+add_lootbox_upvr("Finisher Pack", "Finisher Packs", "Pack", "rbxassetid://138623525652507", {"Orbital Strike", "Darkheart", "BONK!", "Tough Crowd", "Balloons", "Electrocute", "Collapse", "Splatter", "High Gravity", "Freeze", "Tremble", "Rush", "Confetti", "Petrify", "Hacked", "Flop", "Toot", "Yoink"})
+add_lootbox_upvr("Finisher Pack 2", "Finisher Pack 2s", "Pack", "rbxassetid://81943536585423", {"Chark Attack", "GOOAAALLLL", "Crushed", "Enlightened", "Clapped", "Rainbow Barf", "Flick", "Ascend", "Roadrunner", "Heavy Head", "Bad Mood", "Hooked", "Delete", "Squawk", "Digitize", "Chalked", "Folded", "Very Tragic Banana Peel Accident"})
+add_lootbox_upvr("Spooky Skin Case", "Spooky Skin Cases", "CaseSpooky", "rbxassetid://89050335387917", {"Pumpkin Launcher", "Skull Launcher", "Vexed Flare Gun", "Buzzsaw", "Bucket of Candy", "Spider Ray", "Vexed Candle", "Soul Grenade", "Eyeball", "Bat Scythe", "Bat Bow", "Boneclaw Rifle", "Boneclaw Revolver", "Jack O'Thrower", "Brain Gun", "Broomstick", "Boneshot", "Exogourd", "Demon Uzi", "Demon Shorty", "Devil's Trident", "Pumpkin Carver", "Eyething Sniper", "Spectral Burst", "Pumpkin Minigun", "Pumpkin Handgun", "Pumpkin Claws", "Machete", "Skullbang", "Trick or Treat"})
+add_lootbox_upvr("Haunted Chest", "Haunted Chests", "Chest", "rbxassetid://79519694224512", {"Disintegrate", "Broom Ride", "Zombified", "Mummy", "Scourge", "Frankenstein", "Frankenblob", "Skullgourd", "Eyeclipse", "Cauldron", "Reaper", "Bonesplosion", "Lost Soul", "Purple Goo", "Green Goo", "Chrome Webs", "Werewolf Fur", "Caramel Apple", "Devious Pumpkin", "Gravestone", "Spooky Confetti", "Batsplosion", "Bite", "Haunted", "Vexed", "Cursed", "Bone", "Candy", "Candy Corn", "Cobweb"})
+add_lootbox_upvr("Festive Skin Case", "Festive Skin Cases", "CaseFestive", "rbxassetid://122567993958308", {"Gingerbread AUG", "Firework Launcher", "Peppermint Sheriff", "Candy Cane", "Festive Buzzsaw", "Milk & Cookies", "Hot Coals", "Dev-in-the-Box", "Gingerbread Sniper", "Frostbite Crossbow", "Frostbite Bow", "Snowblower", "Snowball Gun", "2025 Energy Rifle", "Snowball Launcher", "Cookies", "Gingerbread Handgun", "Reindeer Slingshot", "2025 Energy Pistols", "Cryo Scythe", "2025 Katana", "Snow Shovel", "Shining Star", "Snowglobe", "Jingle Grenade", "Wrapped Minigun", "Wrapped Shotgun", "Pine Burst", "Elf's Gunblade", "Midnight Festive Exogun", "Pine Uzi", "Wrapped Shorty", "Pine Spray", "Wrapped Flare Gun", "Sled", "Nordic Axe", "Festive Fists", "Suspicious Gift", "Wrapped Freeze Ray", "Mammoth Horn"})
+add_lootbox_upvr("Jolly Chest", "Jolly Chests", "ChestFestive", "rbxassetid://125958746511820", {"Snowballed", "David", "Aurora", "Peppermint", "Gingerbread", "Gingerbread Cat", "Chillman", "Wreath", "Frozen", "Gingerbreadify", "Jolly Wrapping", "Snowfall", "Ugly Sweater", "Stocking", "Festive Light", "Hot Chocolate", "Festive Confetti", "Wrapped", "Midnight", "Slush", "Frigid", "Crystal", "Mini Candy Cane", "Snowflake", "Mini Shining Star", "Ornament"})
+add_lootbox_upvr("Festive Wrap Box", "Festive Wrap Boxes", "Box", "rbxassetid://85450469885400", {"2025 Wrapping", "Forest Wrapping", "Peppermint Wrapping", "Winter Wrapping", "Mocha Wrapping", "Minty Wrapping", "Frosty Wrapping", "Creme Wrapping", "Blush Wrapping", "Cashmere Wrapping", "Carbon Wrapping", "Caned Wrapping"})
+add_lootbox_upvr("Goodie Bag", "Goodie Bags", nil, "rbxassetid://97975295792185", {"Charm Capsule", "Wrap Box", "Wrap Box 2", "Wrap Box 3", "Finisher Pack", "Finisher Pack 2"})
+add_lootbox_upvr("Prime Goodie Bag", "Prime Goodie Bags", nil, "rbxassetid://123579272651325", {"Skin Ticket", "Charm Capsule", "Wrap Box", "Wrap Box 2", "Wrap Box 3", "Finisher Pack", "Finisher Pack 2"}, "Contains special items & skin tickets!")
+local ShopLibrary_upvr = require(ReplicatedStorage.Modules.ShopLibrary)
+;(function() -- Line 1364, Named "add_weapons"
+	--[[ Upvalues[5]:
+		[1]: ShopLibrary_upvr (readonly)
+		[2]: ItemLibrary_upvr (readonly)
+		[3]: add_reward_upvr (readonly)
+		[4]: Utility_upvr (readonly)
+		[5]: add_lootbox_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	for _, v_8 in pairs(ShopLibrary_upvr.OwnableWeapons) do
+		add_reward_upvr("Weapon", v_8, v_8, v_8, ItemLibrary_upvr.Items[v_8].Image, 3, {
+			ImageHighResolution = ItemLibrary_upvr.ViewModels[v_8].ImageHighResolution;
+		})
+	end
+	local function get_contents_upvr() -- Line 1373, Named "get_contents"
+		--[[ Upvalues[3]:
+			[1]: ShopLibrary_upvr (copied, readonly)
+			[2]: ItemLibrary_upvr (copied, readonly)
+			[3]: Utility_upvr (copied, readonly)
+		]]
+		local module_2 = {}
+		for _, v_9 in pairs(ShopLibrary_upvr:GetReleasedOwnableWeapons()) do
+			if ShopLibrary_upvr.Weapons[v_9].KeyPrice then
+				table.insert(module_2, v_9)
+			end
+		end
+		table.sort(module_2, function(arg1, arg2) -- Line 1384
+			--[[ Upvalues[2]:
+				[1]: ItemLibrary_upvr (copied, readonly)
+				[2]: Utility_upvr (copied, readonly)
+			]]
+			local Value = ItemLibrary_upvr.Statuses[ItemLibrary_upvr.Items[arg1].Status].Value
+			local var1554 = ItemLibrary_upvr.Statuses[ItemLibrary_upvr.Items[arg2].Status]
+			local Value_2 = var1554.Value
+			if Value ~= Value_2 then
+				if Value_2 >= Value then
+					var1554 = false
+				else
+					var1554 = true
+				end
+				return var1554
+			end
+			return Utility_upvr:StringLessThan(arg1, arg2)
+		end)
+		local module = {}
+		for _, v_10 in pairs(module_2) do
+			local var1560 = ItemLibrary_upvr.Items[v_10]
+			local var1561 = module[var1560.Status]
+			if not var1561 then
+				var1561 = {}
+			end
+			module[var1560.Status] = var1561
+			table.insert(module[var1560.Status], v_10)
+		end
+		return module_2, module
+	end
+	add_lootbox_upvr("Weapon Crate", "Weapon Crates", "Crate", "rbxassetid://134795947609872", function() -- Line 1407
+		--[[ Upvalues[1]:
+			[1]: get_contents_upvr (readonly)
+		]]
+		local get_contents_result1, _ = get_contents_upvr()
+		return get_contents_result1
+	end)
+	for i_15_upvr in pairs(ItemLibrary_upvr.Statuses) do
+		add_lootbox_upvr(i_15_upvr.." Weapon Crate", i_15_upvr.." Weapon Crates", "Crate", "rbxassetid://134795947609872", function() -- Line 1414
+			--[[ Upvalues[2]:
+				[1]: get_contents_upvr (readonly)
+				[2]: i_15_upvr (readonly)
+			]]
+			local _, get_contents_result2 = get_contents_upvr()
+			local var1571 = get_contents_result2[i_15_upvr]
+			if not var1571 then
+				var1571 = {}
+			end
+			return var1571
+		end)
+		local _
+	end
+end)()
+;(function() -- Line 1424, Named "alphabetize"
+	--[[ Upvalues[2]:
+		[1]: module_3_upvr (readonly)
+		[2]: Utility_upvr (readonly)
+	]]
+	for i_16 in pairs(module_3_upvr.Cosmetics) do
+		table.insert(module_3_upvr.CosmeticsAlphabetized, i_16)
+	end
+	table.sort(module_3_upvr.CosmeticsAlphabetized, function(arg1, arg2) -- Line 1429
+		--[[ Upvalues[1]:
+			[1]: Utility_upvr (copied, readonly)
+		]]
+		return Utility_upvr:StringLessThan(string.lower(arg1), string.lower(arg2))
+	end)
+	task.delay(5, function() -- Line 1433
+		--[[ Upvalues[1]:
+			[1]: module_3_upvr (copied, readonly)
+		]]
+		for i_17, v_11 in pairs(module_3_upvr.Cosmetics) do
+			if not v_11.Description then
+				warn("Missing description:", i_17)
+			end
+		end
+	end)
+end)()
+return module_3_upvr
+]=]
+
+local inf = {
+	skinInfo = {},
+	skinToOg = {}
+}
+
+local function getparts(str, pos)
+	local bef = string.sub(str, 1, pos)
+	local af = string.sub(str, pos+1, -1)
+	return bef, af
+end
+
+local ci = 0
+local function check(str)
+	local tofind = '"Skin"'
+	local b, afa = getparts(str, ci)
+	local ps = string.find(afa, tofind)
+	if ps then
+		ci = ps+#tofind+#b
+		local b, afa = getparts(str, ci)
+		local b2, afa2 = getparts(str, ci+string.find(afa, 'ItemName = ')+10)
+
+		local skin = string.split(string.split(afa, ', ')[2], '"')[2]
+		local ogItem = afa2:split'"'[2]
+
+		local ps = afa2:find('})')
+		b, afa2 = getparts(afa2, ps+2)
+		ci = 0
+		str = afa2
+
+		if skin and ogItem then
+			if not inf.skinInfo[ogItem] then
+				inf.skinInfo[ogItem] = {}
+			end
+
+			table.insert(inf.skinInfo[ogItem], skin)
+			inf.skinToOg[skin] = ogItem
+		end
+
+		return check(str)
+	end
+
+	return str
+end
+
+inf.addSkin = function(weapon,skin)
+	if not inf.skinInfo[weapon] then
+		inf.skinInfo[weapon] = {}
+	end
+
+	table.insert(inf.skinInfo[weapon], skin)
+	inf.skinToOg[skin] = weapon
+end
+
+check(str)
+return inf
